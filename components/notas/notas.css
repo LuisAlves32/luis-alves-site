@@ -1,0 +1,753 @@
+/* =============================================================================
+   SECOND OPINION · o blog · a geometria (blog/design-blog.md)
+   -----------------------------------------------------------------------------
+   Passe 1: ESQUELETO MUDO. Nenhuma animação aqui. As peças que se movem no Passe 3
+   (as linhas da cota, a régua da leitura, a cota da frase marcada) já nascem como
+   elementos próprios, cada um com o seu transform livre, para o movimento entrar
+   sem mexer no layout.
+
+   A COTA TÉCNICA (design-blog.md, 5.1): linhas de chamada em Lápis, linha de cota
+   em Tinta, os traços de chamada no ângulo da barra do L/, em Avanço. O texto é
+   HTML de verdade, com tamanho em rem; as linhas são elementos, nunca texto dentro
+   de SVG (lição do mock: texto em SVG encolhe junto e cai abaixo de 12px).
+   ========================================================================== */
+
+@layer components {
+  /* ---------- a capa ---------- */
+  .capa-cota {
+    --capa-numero: clamp(2.5rem, 12vw, 6.2rem);
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid var(--cor-lapis);
+    border-radius: 12px;
+    background: var(--cor-papel);
+    padding: 64px 20px 56px;
+  }
+  .capa-cota[data-tamanho='grande'] {
+    min-height: min(78svh, 680px);
+    --capa-numero: clamp(3rem, 14vw, 8.5rem);
+  }
+  .capa-cota[data-tamanho='cabecalho'] {
+    aspect-ratio: 4 / 3.4;
+  }
+  @media (min-width: 1024px) {
+    .capa-cota[data-tamanho='cabecalho'] {
+      aspect-ratio: 16 / 7;
+    }
+  }
+  .capa-cota[data-tamanho='previa'] {
+    aspect-ratio: 3 / 2;
+    padding: 40px 16px 32px;
+    --capa-numero: 2.4rem;
+  }
+
+  .capa-kicker {
+    position: absolute;
+    left: 20px;
+    top: 20px;
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--cor-tinta);
+    font-variant-numeric: tabular-nums;
+  }
+  .capa-kicker i {
+    font-style: normal;
+    color: var(--cor-avanco);
+    padding-inline: 0.45em;
+  }
+  .capa-rodape {
+    position: absolute;
+    left: 20px;
+    right: 20px;
+    bottom: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 4px 16px;
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--cor-grafite);
+  }
+  @media (min-width: 1024px) {
+    .capa-kicker { left: 28px; top: 24px; }
+    .capa-rodape { left: 28px; right: 28px; bottom: 20px; }
+  }
+
+  .capa-medida {
+    display: grid;
+    justify-items: center;
+    max-width: 100%;
+  }
+  .capa-numero {
+    margin: 0;
+    font-size: var(--capa-numero);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--cor-tinta);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .capa-rotulo {
+    margin: 16px 0 0;
+    max-width: min(80vw, 46ch);
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--cor-grafite);
+    text-align: center;
+    text-wrap: balance;
+  }
+
+  .cota-bloco {
+    display: grid;
+    justify-items: center;
+  }
+
+  /* O PAR: o número e a linha que o mede. A linha passa 48px de cada lado DO
+     NÚMERO (nunca do rótulo), por isso o par é um grid próprio. */
+  .cota-par {
+    display: grid;
+    justify-items: center;
+  }
+  /* A espera da câmera: só entre a primeira pintura e o JavaScript acordar (ver o script
+     no layout do grupo (site)). Opacidade, e só nas linhas: nada de texto some. */
+  html[data-camera='espera'] .capa-cota[data-owner='notas'] [data-cota-peca] {
+    opacity: 0;
+  }
+  .cota-linha {
+    position: relative;
+    width: calc(100% + 96px);
+    height: 0;
+    margin-top: 18px;
+  }
+  .cota-linha [data-cota-peca='linha'] {
+    position: absolute;
+    inset-inline: 0;
+    top: -0.75px;
+    height: 1.5px;
+    background: var(--cor-tinta);
+  }
+  .cota-linha [data-cota-peca='chamada'] {
+    position: absolute;
+    bottom: -12px;
+    width: 1.5px;
+    height: calc(var(--capa-numero) + 30px);
+    background: var(--cor-lapis);
+  }
+  .cota-linha [data-cota-peca='tique'] {
+    position: absolute;
+    top: -14px;
+    width: 3.5px;
+    height: 28px;
+    border-radius: 2px;
+    background: var(--cor-avanco);
+    transform: skewX(-24deg);
+  }
+  .cota-linha [data-lado='e'] { left: 12px; }
+  .cota-linha [data-lado='d'] { right: 12px; }
+  .cota-linha [data-cota-peca='tique'][data-lado='e'] { left: 11px; }
+  .cota-linha [data-cota-peca='tique'][data-lado='d'] { right: 11px; }
+
+  /* VENDER: cota vertical. A linha fica à esquerda, o número à direita. */
+  .capa-cota[data-forma='vertical'] .capa-medida {
+    grid-template-columns: auto auto;
+    align-items: center;
+    column-gap: 20px;
+    justify-items: start;
+  }
+  .cota-vertical {
+    position: relative;
+    grid-row: span 2;
+    width: 40px;
+    height: calc(var(--capa-numero) * 2.2);
+  }
+  .cota-vertical [data-cota-peca='linha'] {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1.5px;
+    translate: -50% 0;
+    background: var(--cor-tinta);
+  }
+  .cota-vertical [data-cota-peca='chamada'] {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 1.5px;
+    background: var(--cor-lapis);
+  }
+  .cota-vertical [data-cota-peca='chamada'][data-lado='e'] { top: 6px; }
+  .cota-vertical [data-cota-peca='chamada'][data-lado='d'] { bottom: 6px; }
+  .cota-vertical [data-cota-peca='tique'] {
+    position: absolute;
+    left: 50%;
+    width: 3.5px;
+    height: 24px;
+    border-radius: 2px;
+    background: var(--cor-avanco);
+    translate: -50% 0;
+    transform: skewX(-24deg);
+  }
+  .cota-vertical [data-cota-peca='tique'][data-lado='e'] { top: -6px; }
+  .cota-vertical [data-cota-peca='tique'][data-lado='d'] { bottom: -6px; }
+  .capa-cota[data-forma='vertical'] .capa-rotulo {
+    margin: 12px 0 0;
+    text-align: left;
+  }
+
+  /* PRÉ-CONSTRUÇÃO: a cota alinhada, no ângulo da barra. A única capa inclinada.
+     `rotate` e não `transform`: o transform fica livre para o movimento. */
+  .capa-cota[data-forma='inclinada'] .cota-par {
+    rotate: -24deg;
+  }
+  .capa-cota[data-forma='inclinada'] .capa-rotulo {
+    margin-top: 40px;
+  }
+
+  /* MERCADO: a cota de nível, o triângulo sobre a linha. */
+  .capa-cota[data-forma='nivel'] .capa-medida {
+    justify-items: start;
+    width: min(100%, 36rem);
+  }
+  .cota-nivel {
+    position: relative;
+    width: 100%;
+    height: 0;
+    margin-top: 14px;
+  }
+  .cota-nivel [data-cota-peca='linha'] {
+    position: absolute;
+    inset-inline: 0;
+    top: -0.75px;
+    height: 1.5px;
+    background: var(--cor-tinta);
+  }
+  .cota-nivel [data-cota-peca='tique'] {
+    position: absolute;
+    left: 0;
+    top: -22px;
+    width: 24px;
+    height: 20px;
+    color: var(--cor-avanco);
+  }
+  .capa-cota[data-forma='nivel'] .capa-numero {
+    padding-left: 36px;
+  }
+  .capa-cota[data-forma='nivel'] .capa-rotulo {
+    text-align: left;
+  }
+
+  /* A CAPA POBRE: sem número, a cota mede o tempo de leitura e o título entra. */
+  .capa-cota[data-forma='leitura'] .capa-medida {
+    grid-template-columns: auto;
+    row-gap: 28px;
+  }
+  @media (min-width: 768px) {
+    .capa-cota[data-forma='leitura'] .capa-medida {
+      grid-template-columns: auto minmax(0, 22ch);
+      column-gap: 48px;
+      align-items: center;
+    }
+  }
+  .capa-titulo {
+    margin: 0;
+    font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    color: var(--cor-tinta);
+    text-wrap: balance;
+  }
+
+  /* ---------- o índice do dossiê ---------- */
+  .indice-notas {
+    list-style: none;
+    margin: 0;
+    padding: 8px 24px;
+    border: 1px solid var(--cor-lapis);
+    border-radius: 12px;
+    background: var(--cor-branco);
+  }
+  .indice-notas > li + li {
+    border-top: 1px solid var(--cor-lapis);
+  }
+  .indice-linha {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 6px 16px;
+    align-items: baseline;
+    padding: 20px 0;
+    color: inherit;
+    text-decoration: none;
+  }
+  @media (min-width: 640px) {
+    .indice-linha {
+      grid-template-columns: 76px 1fr auto;
+    }
+  }
+  .indice-serie {
+    grid-column: 1 / -1;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    font-variant-numeric: tabular-nums;
+    color: var(--cor-grafite);
+  }
+  @media (min-width: 640px) {
+    .indice-serie { grid-column: auto; }
+  }
+  /* O LIVRO-RAZÃO (acabamento, 25/09/2026): o mesmo pontilhado da "A conta" liga o título ao
+     número-tese. Só a partir de 768: no celular o título quebra e o pontilhado vira ruído. Sem
+     texto, o pontilhado se alinha pela BORDA de baixo, que a grade põe na linha de base. */
+  .indice-pontilhado { display: none; }
+  @media (min-width: 768px) {
+    .indice-linha {
+      grid-template-columns: 76px minmax(0, max-content) minmax(40px, 1fr) auto;
+    }
+    .indice-pontilhado {
+      display: block;
+      border-bottom: 1.5px dotted var(--cor-lapis);
+      translate: 0 -4px;
+    }
+  }
+  .indice-titulo {
+    font-size: 1.0625rem;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--cor-tinta);
+    text-wrap: balance;
+  }
+  .indice-meta {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.8125rem;
+    font-weight: 400;
+    color: var(--cor-grafite);
+  }
+  .indice-valor {
+    font-size: 1.35rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--cor-tinta);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    position: relative;
+  }
+  /* O valor da linha ganha a cota ao passar o ponteiro ou o foco: o traço de 3px corre da
+     esquerda, o mesmo gesto da capa. Estado de CSS (hover), sem dono de JS. */
+  .indice-valor::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -8px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--cor-avanco);
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    transition: transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .indice-linha:hover .indice-valor::after,
+  .indice-linha:focus-visible .indice-valor::after,
+  .indice-valor[data-recebendo]::after {
+    transform: scaleX(1);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .indice-valor::after {
+      transition: none;
+    }
+  }
+  .indice-linha:hover .indice-titulo,
+  .indice-linha:focus-visible .indice-titulo {
+    text-decoration: underline;
+    text-decoration-color: var(--cor-avanco);
+    text-decoration-thickness: 3px;
+    text-underline-offset: 6px;
+  }
+  .indice-linha:focus-visible {
+    outline: none;
+  }
+
+  /* ---------- a nota ---------- */
+  .nota-grade {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    padding-inline: 16px;
+  }
+  @media (min-width: 1024px) {
+    .nota-grade {
+      grid-template-columns: 1fr 120px minmax(0, 65ch) 260px 1fr;
+      column-gap: 32px;
+      padding-inline: 32px;
+    }
+    .nota-grade > * { grid-column: 3; }
+    .nota-grade > .nota-larga { grid-column: 2 / 5; }
+  }
+
+  /* A leitura: a régua na margem esquerda SÓ enquanto o corpo passa. */
+  @media (min-width: 1024px) {
+    .nota-grade > .nota-leitura {
+      grid-column: 2 / 5;
+      display: grid;
+      grid-template-columns: 120px minmax(0, 65ch) 260px;
+      column-gap: 32px;
+    }
+    .nota-leitura > .leitura-alvo { grid-column: 2; grid-row: 1; min-width: 0; }
+  }
+
+  .ficha-medicao {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 24px;
+    margin: 0;
+    padding: 16px 20px;
+    border: 1px solid var(--cor-lapis);
+    border-radius: 12px;
+    background: var(--cor-branco);
+  }
+  @media (min-width: 640px) {
+    .ficha-medicao { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+  .ficha-medicao::before {
+    content: '';
+    position: absolute;
+    left: 20px;
+    top: -1px;
+    width: 44px;
+    height: 3px;
+    border-radius: 0 0 2px 2px;
+    background: var(--cor-avanco);
+  }
+  .ficha-medicao dt {
+    margin-bottom: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--cor-grafite);
+  }
+  .ficha-medicao dd {
+    margin: 0;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    line-height: 1.35;
+    color: var(--cor-tinta);
+    overflow-wrap: anywhere;
+  }
+
+  /* O corpo: Inter 400, 17px no celular e 18px no computador, entrelinha 1,65. */
+  .corpo-nota {
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    color: var(--cor-grafite);
+  }
+  @media (min-width: 1024px) {
+    .corpo-nota { font-size: 1.125rem; }
+  }
+  .corpo-nota > p,
+  .corpo-nota > ul,
+  .corpo-nota > ol {
+    margin: 0 0 1.1em;
+    text-wrap: pretty;
+  }
+  .corpo-nota > h2 {
+    margin: 1.9em 0 0.6em;
+    font-size: 1.45rem;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--cor-tinta);
+    text-wrap: balance;
+    scroll-margin-top: 112px;
+  }
+  .corpo-nota > h3 {
+    margin: 1.6em 0 0.5em;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--cor-tinta);
+  }
+  .corpo-nota strong { color: var(--cor-tinta); }
+  .corpo-nota a {
+    color: var(--cor-tinta);
+    text-decoration-color: var(--cor-avanco);
+    text-underline-offset: 3px;
+  }
+
+  /* A FRASE MARCADA (5.6): no Passe 1, a cota parada, por linha real
+     (box-decoration-break). No Passe 3 ela vira uma barra por linha que se traça. */
+  .marcada {
+    color: var(--cor-tinta);
+    background-image: linear-gradient(var(--cor-avanco), var(--cor-avanco));
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 100% 3px;
+    padding-bottom: 3px;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+  /* PASSE 3: com a câmera ligada (components/camera-notas.ts), o sublinhado parado sai e a
+     cota viva, uma barra por linha real, se traça com a rolagem. Sem JS e com movimento
+     reduzido, fica o de cima. */
+  .marcada[data-cota-viva] {
+    background-image: none;
+  }
+  .corpo-nota {
+    position: relative;
+  }
+  .camada-cotas {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .cota-da-frase {
+    position: absolute;
+    height: 3px;
+    background: var(--cor-avanco);
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+  }
+
+  /* A NOTA DO LUÍS (5.7): no fluxo no celular, na margem direita no computador. */
+  .nota-do-luis {
+    margin: -0.2em 0 1.4em;
+    padding: 2px 0 2px 14px;
+    border-left: 3px solid var(--cor-avanco);
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--cor-tinta);
+  }
+  .nota-do-luis b {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--cor-grafite);
+  }
+  .bloco-com-nota > p {
+    margin: 0 0 1.1em;
+    text-wrap: pretty;
+  }
+  @media (min-width: 1024px) {
+    .bloco-com-nota { position: relative; }
+    .nota-do-luis {
+      position: absolute;
+      top: 0.35em;
+      left: calc(100% + 48px);
+      width: 244px;
+      margin: 0;
+      padding: 0;
+      border-left: 0;
+    }
+    .nota-do-luis::before {
+      content: '';
+      position: absolute;
+      left: -16px;
+      top: 3px;
+      width: 3px;
+      height: 14px;
+      border-radius: 1px;
+      background: var(--cor-avanco);
+      transform: skewX(-24deg);
+    }
+  }
+
+  /* A CONTA (5.8): o livro-razão. */
+  .a-conta {
+    margin: 0.4em 0 1.6em;
+    padding: 20px 24px;
+    border: 1px solid var(--cor-lapis);
+    border-radius: 12px;
+    background: var(--cor-branco);
+  }
+  .a-conta h3 {
+    margin: 0 0 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--cor-grafite);
+  }
+  .a-conta ul { list-style: none; margin: 0; padding: 0; }
+  .a-conta li {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    padding: 7px 0;
+    font-size: 1rem;
+    line-height: 1.4;
+  }
+  .a-conta .item { color: var(--cor-tinta); min-width: 0; }
+  .a-conta .pontilhado {
+    flex: 1;
+    min-width: 20px;
+    border-bottom: 1.5px dotted var(--cor-lapis);
+    translate: 0 -4px;
+  }
+  .a-conta .valor {
+    font-weight: 600;
+    color: var(--cor-tinta);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .a-conta .total {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px 16px;
+    margin-top: 10px;
+    padding-top: 14px;
+    border-top: 1px solid var(--cor-tinta);
+  }
+  .a-conta .total span {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--cor-tinta);
+  }
+  .a-conta .total strong {
+    font-size: 1.9rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--cor-tinta);
+    font-variant-numeric: tabular-nums;
+    background-image: linear-gradient(var(--cor-avanco), var(--cor-avanco));
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 100% 3px;
+    padding-bottom: 7px;
+  }
+  .a-conta small {
+    display: block;
+    margin-top: 12px;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--cor-grafite);
+  }
+
+  /* A RÉGUA DA LEITURA (5.5), components/ui/progresso-da-leitura.tsx.
+     CELULAR: a linha de 3px presa no topo da tela, com as marcas dos subtítulos. */
+  .regua-topo {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    height: 12px;
+    margin-inline: -16px;
+    margin-bottom: 24px;
+    background: var(--cor-papel);
+    /* A marca inclinada no fim da régua passava 4px da tela e dava rolagem lateral
+       (medido em 390 e 768). `clip` recorta sem criar contexto de rolagem: o sticky segue. */
+    overflow: clip;
+  }
+  .regua-topo [data-regua='trilho'] {
+    position: absolute;
+    inset-inline: 0;
+    top: 5px;
+    height: 1px;
+    background: var(--cor-lapis);
+  }
+  .regua-topo [data-regua='feito'] {
+    position: absolute;
+    inset-inline: 0;
+    top: 4px;
+    height: 3px;
+    border-radius: 2px;
+    background: var(--cor-avanco);
+    transform-origin: left;
+  }
+  .regua-topo [data-regua='marca'] {
+    position: absolute;
+    top: 1px;
+    width: 2px;
+    height: 9px;
+    background: var(--cor-tinta);
+    transform: skewX(-24deg);
+    transition: background-color 200ms ease;
+  }
+  .regua-topo [data-regua='marca'][data-lida] {
+    background: var(--cor-avanco);
+  }
+  @media (min-width: 1024px) {
+    .regua-topo { display: none; }
+  }
+
+  .regua-leitura { display: none; }
+  @media (min-width: 1024px) {
+    .regua-leitura {
+      display: block;
+      grid-column: 1;
+      grid-row: 1;
+      position: relative;
+    }
+    .regua-leitura .regua-cola {
+      position: sticky;
+      top: 96px;
+      height: calc(100svh - 192px);
+    }
+    .regua-leitura [data-regua='trilho'] {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 40px;
+      width: 1px;
+      background: var(--cor-lapis);
+    }
+    .regua-leitura [data-regua='feito'] {
+      position: absolute;
+      right: -1px;
+      top: 0;
+      bottom: 40px;
+      width: 3px;
+      border-radius: 2px;
+      background: var(--cor-avanco);
+      transform-origin: top;
+    }
+    /* As marcas dos subtítulos: cota de nível, Tinta, e Avanço quando o leitor passa. */
+    .regua-leitura [data-regua='marca'] {
+      position: absolute;
+      right: -6px;
+      width: 14px;
+      height: 2px;
+      background: var(--cor-tinta);
+      transition: background-color 200ms ease;
+    }
+    .regua-leitura [data-regua='marca'][data-lida] {
+      background: var(--cor-avanco);
+    }
+    .regua-leitura [data-regua='ponta'] {
+      position: absolute;
+      right: -9px;
+      top: -1px;
+      width: 20px;
+      height: 1.5px;
+      background: var(--cor-tinta);
+    }
+    .regua-leitura [data-regua='falta'] {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      margin: 0;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: var(--cor-tinta);
+      text-align: right;
+    }
+  }
+}

@@ -1,0 +1,578 @@
+{
+  "nav": {
+    "menu": "Menu",
+    "abrirMenu": "Open menu",
+    "fecharMenu": "Close menu",
+    "buying": "Buying",
+    "selling": "Selling",
+    "presales": "Presales",
+    "about": "About",
+    "contact": "Contact",
+    "whatsapp": "Talk on WhatsApp"
+  },
+  "flutuante": {
+    "rotulo": "Talk on WhatsApp"
+  },
+  "colecao": {
+    "anterior": "Previous card",
+    "proximo": "Next card",
+    "card": "Card",
+    "de": "of",
+    "pausar": "Pause rotation",
+    "retomar": "Resume rotation"
+  },
+  "hero": {
+    "nome1": "LUIS",
+    "nome2": "ALVES",
+    "identificacao": "REALTOR® · Stonehaus Realty Corp. · Greater Vancouver",
+    "dicaRolagem": "scroll",
+    "kicker": "Luis Alves REALTOR®",
+    "titulo": "Smarter real estate <ancora>decisions</ancora> in Greater Vancouver.",
+    "tituloLinha1": "<ancora>Smarter</ancora> decisions",
+    "tituloLinha2": "in Greater Vancouver.",
+    "apoio": "Market knowledge, strategic negotiation and personal service, from your first question to the keys in your hand.",
+    "regioes": "South Surrey · White Rock · Surrey · Langley · Coquitlam · Port Moody · Burnaby · New Westminster · Vancouver · Maple Ridge · North Vancouver",
+    "ctaBusca": "Search homes",
+    "ctaWhatsapp": "Talk on WhatsApp",
+    "ctaAgenda": "Book a conversation",
+    "altFoto": "Luis Alves, REALTOR®"
+  },
+  "caminhos": {
+    "titulo": "Where are you |right now|?",
+    "dica": "Tap to open",
+    "comprar": {
+      "titulo": "I want to |buy|.",
+      "apoio": "Understand what you can actually afford and move without guessing.",
+      "cta": "Start here"
+    },
+    "vender": {
+      "titulo": "I want to |sell|.",
+      "apoio": "Price, preparation and negotiation planned before the listing goes live.",
+      "cta": "See how it works"
+    },
+    "primeiro": {
+      "titulo": "It is my |first| home.",
+      "apoio": "The full number, the real steps and no surprises at the end.",
+      "cta": "Start here"
+    }
+  },
+  "sobre": {
+    "fantasma": "ABOUT",
+    "titulo": "You should <ancora>understand</ancora> what you are buying, not just like what you are seeing.",
+    "p1": "My career was built on sales, negotiation, market analysis and close relationships with clients. Real estate was the natural next step.",
+    "p2": "Before I recommend anything, I look at the numbers, the comparables, the property history and the market context. Then I explain what I found and why it matters for your situation.",
+    "p3": "I do not push anyone to buy or sell. My job is to show you the risks, the opportunities and the options, and to negotiate well when you decide to move.",
+    "credibilidade": {
+      "numero": "100+",
+      "numeroRotulo": "families helped",
+      "premio": "Ruby Award 2025",
+      "premioRotulo": "Stonehaus Realty",
+      "regiao": "Greater Vancouver and Fraser Valley",
+      "idiomas": "English and Portuguese"
+    },
+    "cta": "More about me",
+    "altFoto": "Market documents and floor plans on a consultant's desk"
+  },
+  "destaques": {
+    "_reservado": "RESERVED, do not delete. This node has no live consumer since 2026-09-03: it belongs to the archived package in _arquivo/ (the /listings page and destaques.tsx) and is what they read when they come back. See _arquivo/README.md.",
+    "titulo": "Homes worth a closer look.",
+    "apoio": "A selected view of the market, with full search access whenever you want to explore on your own.",
+    "ctaBusca": "Search all listings",
+    "ctaAlertas": "Get new listing alerts"
+  },
+  "primeiroImovel": {
+    "titulo": "How much do you actually need to buy in BC?",
+    "chips": {
+      "c1": "Down payment",
+      "c2": "Pre-approval",
+      "c3": "Closing costs",
+      "c4": "Property Transfer Tax",
+      "c5": "Strata documents",
+      "c6": "Inspection"
+    },
+    "texto1": "Most first-time buyers only find out about half of it, and usually late.",
+    "texto2": "The free Real Cost Guide walks you through the full number and the real steps, in the order they actually happen.",
+    "cta": "Get the free guide"
+  },
+  "venda": {
+    "titulo": "Selling starts long before the sign goes up.",
+    "texto1": "Property review, pricing strategy based on real comparables, preparation, marketing, negotiation and support through completion.",
+    "texto2": "You will know what each decision is based on, from the first estimate to the closing table.",
+    "cta": "Value my home",
+    "altFoto": "Residential home surrounded by evergreen trees"
+  },
+  "preConstrucao": {
+    "titulo": "Presales, reviewed |before| you commit.",
+    "texto": "Deposit structure, timelines, assignment rules, developer track record, location and what happens if plans change. I go through the parts of a presale that are not in the brochure.",
+    "cta": "Talk about presales",
+    "palavra": "before"
+  },
+  "processo": {
+    "titulo": "How we work together.",
+    "apoio": "Five steps, and at every one of them you know why we are doing it.",
+    "rotuloEtapa": "Step",
+    "etapas": {
+      "e1": {
+        "titulo": "Conversation.",
+        "texto": "Your goals, priorities and timing."
+      },
+      "e2": {
+        "titulo": "Financial preparation.",
+        "texto": "Clarity on your real budget, with a mortgage broker when it helps."
+      },
+      "e3": {
+        "titulo": "Strategy and search.",
+        "texto": "Regions, criteria, alerts and showings."
+      },
+      "e4": {
+        "titulo": "Analysis and offer.",
+        "texto": "Comparables and value first, negotiation after."
+      },
+      "e5": {
+        "titulo": "Subjects and closing.",
+        "texto": "Inspection, strata documents, lawyer, completion and support after the keys."
+      }
+    },
+    "linhaFinal": "Selling follows the same logic: review, price, prepare, market, negotiate, close."
+  },
+  "depoimentos": {
+    "titulo": "What clients say.",
+    "nota": "5.0",
+    "avaliacoes": "20 reviews on Google",
+    "notaAcessivel": "{n} out of 5 stars",
+    "origem": "via Google",
+    "itens": {
+      "d1": {
+        "nome": "Thiago Bazzi",
+        "foto": "/depoimentos/thiago-bazzi.webp",
+        "texto": "We've had some terrible experiences in the past with realtors who just wanted to sell something quickly and move on to the next customer, but <realce>with Luis it was a whole different story</realce>."
+      },
+      "d2": {
+        "nome": "Pablo Soler",
+        "foto": "/depoimentos/pablo-soler.webp",
+        "texto": "Luis became <realce>our first friend in Canada</realce>. His services are exceptional: we held several meetings before arriving in Canada where he thoroughly explained to us every single step we would be taking."
+      },
+      "d3": {
+        "nome": "Alex Macabu",
+        "foto": "/depoimentos/alex-macabu.webp",
+        "texto": "We came to Luis with the very challenging task to find us a home with all our requirements within a very narrow deadline […] Luis started as <realce>our REALtor but now he is our REALfriend</realce>!"
+      }
+    }
+  },
+  "regioes": {
+    "titulo": "Where I work.",
+    "apoio": "Greater Vancouver and the Fraser Valley are not one single market. Each city has its own pace, its own inventory and its own kind of buyer.",
+    "cidades": {
+      "c1": "South Surrey",
+      "c2": "White Rock",
+      "c3": "Surrey",
+      "c4": "Langley",
+      "c5": "Coquitlam",
+      "c6": "Port Coquitlam",
+      "c7": "Port Moody",
+      "c8": "Burnaby",
+      "c9": "New Westminster",
+      "c10": "Vancouver",
+      "c11": "Maple Ridge",
+      "c12": "North Vancouver"
+    }
+  },
+  "guia": {
+    "titulo": "Free: the Real Cost Guide for BC.",
+    "texto": "Every cost, every step and the questions to ask before you make an offer. Sent straight to your email.",
+    "campoNome": "First name",
+    "campoEmail": "Email",
+    "botao": "Send me the guide",
+    "newsletter": "Also send me the monthly market update, what changed and what it means for buyers and sellers.",
+    "_confirmacaoNota": "PROVISIONAL COPY, PENDING. The roteiro.md gives no in-place confirmation for the home capture block; the line below is borrowed VERBATIM from the H1 of the thank-you page (obrigado.titulo), which announces the very same outcome. Replace it when the client writes the block own line. Pending key: guia.confirmacao.",
+    "confirmacao": "Done. Your guide is on the way."
+  },
+  "faq": {
+    "titulo": "FAQ",
+    "itens": {
+      "q1": {
+        "pergunta": "How much money do I actually need to buy a home in BC?",
+        "resposta": "More than the down payment. You also need closing costs, Property Transfer Tax, inspection, lawyer or notary fees and, in a strata, the monthly fees from day one. The exact number depends on the price range and the type of property, and we go through it together before you start looking. The free guide gives you the full list."
+      },
+      "q2": {
+        "pergunta": "Is this a good time to buy or sell?",
+        "resposta": "It depends far more on your situation than on the headlines. Your financing, your timeline, how long you plan to stay and what is available in your range matter more than the general market number. That is exactly what the first conversation is for."
+      },
+      "q3": {
+        "pergunta": "Do I pay anything to work with you as a buyer?",
+        "resposta": "In a typical residential purchase in BC, the buyer's agent commission is paid through the seller's side of the transaction. I go over exactly how it works in your case before we start, in writing, so there are no surprises."
+      },
+      "q4": {
+        "pergunta": "Do you speak Portuguese?",
+        "resposta": "Yes. I work in English and Portuguese, and the whole process, including documents and contracts, can be explained in either language."
+      },
+      "q5": {
+        "pergunta": "Do you only work with Brazilian clients?",
+        "resposta": "No. I work with buyers and sellers across Greater Vancouver and the Fraser Valley. Portuguese is an extra, not the service."
+      },
+      "q6": {
+        "pergunta": "What if I am not ready to buy yet?",
+        "resposta": "Then that is what we will find out together, and it is useful information. Knowing which steps come first is worth more than starting to visit properties too early."
+      }
+    }
+  },
+  "ctaFinal": {
+    "titulo": "Let's talk before you make the decision.",
+    "apoio": "A short conversation is usually enough to know where you stand and what the next step is. No pressure, no commitment.",
+    "ctaWhatsapp": "Message me on WhatsApp",
+    "ctaAgenda": "Book a conversation",
+    "ctaMensagem": "Send a message"
+  },
+  "formulario": {
+    "_nota": "PROVISIONAL COPY, PENDING. The roteiro.md does not deliver the sending, failure or field-review states for any of the five forms. These three lines are functional, written so the screen is never mute, and they are meant to be replaced by the client copy. Pending keys: formulario.enviando, formulario.erroSistema, formulario.erroCampos.",
+    "enviando": "Sending",
+    "erroSistema": "The message did not go through. You can reach me directly here.",
+    "erroCampos": "Check the name and email fields before sending."
+  },
+  "rodape": {
+    "nome": "Luis Alves REALTOR®",
+    "corretora": "Stonehaus Realty Corp.",
+    "licenca": "Licence #190001",
+    "endereco1": "Suite A, 1126 Austin Avenue",
+    "endereco2": "Coquitlam, BC V3K 3P5",
+    "rotuloTelefone": "Phone",
+    "rotuloWhatsapp": "WhatsApp",
+    "rotuloEmail": "Email",
+    "instagram": "Instagram @luisalvesrealestate",
+    "tiktok": "TikTok @soldbyluis",
+    "legal": "The information on this site is provided for general information purposes only and does not constitute financial, legal or tax advice. Nothing presented here is a guarantee of value, return or financing approval.",
+    "privacidade": "Privacy Policy",
+    "copyright": "© 2026 Luis Alves REALTOR®"
+  },
+  "paginaComprar": {
+    "titulo": "Buying a home in BC, with the full <ancora>picture</ancora> in front of you.",
+    "intro": "Most buyers do not need more listings. They need to know what they can afford, what the property is really worth and what happens at each step.",
+    "b1Titulo": "What I do for buyers.",
+    "b1Texto1": "Before we look at anything, we go through your numbers with a mortgage broker and put the pre-approval in writing. Then I explain the agency agreement and the disclosure form, so you know who I work for before you sign anything.",
+    "b1Texto2": "From there it is criteria, regions, alerts and showings, and I say what I would not buy as often as I say what I would. When a property holds up, I pull the comparables and we agree on the number before I write the offer, with the subjects that protect you.",
+    "b1Texto3": "Once the offer is accepted, the work is the part nobody sees: inspection, strata documents, final financing approval, subject removal, deposit, lawyer or notary, Property Transfer Tax and completion. Eleven stages, and you know which one you are in.",
+    "custos": {
+      "c1": "Down payment",
+      "c2": "Mortgage pre-approval",
+      "c3": "Closing costs",
+      "c4": "Property Transfer Tax",
+      "c5": "Strata fees",
+      "c6": "Inspection",
+      "c7": "Lawyer"
+    },
+    "b3Titulo": "Families upgrading.",
+    "b3Texto": "Selling and buying at the same time is a logistics problem before it is a market problem. Timing, financing and order of operations planned together.",
+    "b4Titulo": "Condos and strata.",
+    "b4Apoio": "Three documents that tell you what the listing photos never will.",
+    "docs": {
+      "d1": "Depreciation report",
+      "d2": "Meeting minutes",
+      "d3": "Contingency reserve fund"
+    },
+    "b5Titulo": "Buying from abroad or as a newcomer.",
+    "b5Texto": "Different system, different rules, same goal. I explain how the process works here and what changes compared to what you knew.",
+    "faq": {
+      "q1": {
+        "pergunta": "How long does it take, from the first conversation to the keys?",
+        "resposta": "The search is the part that varies, and it depends on your criteria and on what is available in your range. From an accepted offer to completion the timeline is short and it is written into the contract. I show you the real dates of the properties we are looking at, not an average."
+      },
+      "q2": {
+        "pergunta": "What is a subject, and can I lose my deposit?",
+        "resposta": "Subjects are the conditions written into your offer: financing, inspection, strata documents. While they are in place, the contract is not firm. Once they are removed, it is, and the deposit is committed. That is why nobody removes a subject on my watch before the reason for it is answered."
+      },
+      "q3": {
+        "pergunta": "What happens if the inspection finds something?",
+        "resposta": "That is exactly what the subject period is for. Depending on what it is, we renegotiate, we ask for the repair, or we walk. Finding a problem before the deadline is the inspection working, not the deal failing."
+      },
+      "q4": {
+        "pergunta": "Can I buy in BC if I am not a permanent resident?",
+        "resposta": "The rules on this have changed more than once in recent years, and they apply differently depending on your status, the property and where it is. I check your specific case against what is in force before you spend money on anything, and I put it in writing."
+      },
+      "q5": {
+        "pergunta": "Do I have to use a mortgage broker?",
+        "resposta": "No, and you can go straight to your bank. I suggest talking to a broker because seeing more than one lender usually changes the number you are working with, and that number decides everything after it."
+      }
+    }
+  },
+  "paginaVender": {
+    "titulo": "Selling with a strategy, not just a listing.",
+    "intro": "The price you ask, the way the property is presented and how the offer is negotiated decide the result. All three are planned before the property goes live.",
+    "b1Titulo": "The process.",
+    "passos": {
+      "p1": "Property review and pricing strategy",
+      "p2": "Preparation and staging",
+      "p3": "Marketing and launch",
+      "p4": "Market tracking",
+      "p5": "Offer negotiation",
+      "p6": "Support through completion"
+    },
+    "b2Titulo": "How I price a property.",
+    "b2Texto": "Comparables, property history, current inventory and how long similar homes are taking to sell. Never a number pulled out of the air.",
+    "b3Titulo": "Common seller mistakes.",
+    "erros": {
+      "e1": {
+        "titulo": "Pricing to the most optimistic opinion.",
+        "texto": "The highest number is the easiest one to promise and the hardest one to get. A property that sits stops being new and starts being negotiated down."
+      },
+      "e2": {
+        "titulo": "Going live before the property is ready.",
+        "texto": "The first two weeks bring the most qualified traffic the listing will ever have. Photos of an unprepared home spend that traffic."
+      },
+      "e3": {
+        "titulo": "Treating photography as a cost.",
+        "texto": "The property is seen on a phone long before it is seen in person."
+      },
+      "e4": {
+        "titulo": "Confusing traffic with progress.",
+        "texto": "Showings without offers are information, and the information is usually about the price."
+      },
+      "e5": {
+        "titulo": "Negotiating only the price.",
+        "texto": "Dates, subjects, deposit and what stays in the house move a deal as much as the number does."
+      }
+    },
+    "campos": {
+      "nome": "Name",
+      "email": "Email",
+      "telefone": "Phone / WhatsApp",
+      "endereco": "Property address",
+      "tipo": "Property type",
+      "prazo": "Intended timeline",
+      "mensagem": "Message (optional)"
+    },
+    "_confirmacaoNota": "PROVISIONAL COPY, PENDING. The roteiro.md gives no confirmation for the market review form; the line below is borrowed VERBATIM from the contact form (paginaContato.confirmacao), which makes the same promise: Luis answers personally. It states no value and no estimate, as the client demanded for this page. Pending key: paginaVender.confirmacao.",
+    "confirmacao": "Got it. I will get back to you personally, usually within a few hours.",
+    "faq": {
+      "q1": {
+        "pergunta": "How long will it take to sell?",
+        "resposta": "It depends on the price band, the type of property and the preparation. I show you how long comparable properties actually took in your area, and we plan against those, not against a market average."
+      },
+      "q2": {
+        "pergunta": "What do I pay to sell?",
+        "resposta": "The commission is agreed with you in writing before anything goes live, and it is never a surprise at the end. On top of that come the lawyer or notary and, if there is a mortgage, the discharge. I go through all of it before you decide."
+      },
+      "q3": {
+        "pergunta": "Should I renovate before listing?",
+        "resposta": "Usually not. What pays for itself is smaller than people expect: cleaning, light, small repairs and taking things out. I tell you which ones come back in the price and which ones do not."
+      },
+      "q4": {
+        "pergunta": "Can I sell and buy at the same time?",
+        "resposta": "Yes, and it is a logistics problem before it is a market problem. The order of the dates, the financing and what happens if one side moves are decided together, at the start."
+      },
+      "q5": {
+        "pergunta": "What if it does not sell?",
+        "resposta": "We look at price, presentation and timing, in that order, and I tell you which one it is. Sometimes the honest answer is to take it off the market and come back, and I will say that too."
+      }
+    }
+  },
+  "paginaPresales": {
+    "titulo": "Presales and new developments, reviewed with the same rigour as a resale.",
+    "intro": "A presale is a contract first and a home second. Understanding the contract is what protects you.",
+    "b1Titulo": "What I review before recommending a project.",
+    "analise": {
+      "a1": "Deposit structure",
+      "a2": "Timelines and possible delays",
+      "a3": "Assignment rules",
+      "a4": "Developer track record",
+      "a5": "Location and what gets built around it",
+      "a6": "Comparison with the resale market"
+    },
+    "b2Titulo": "Who a presale makes sense for.",
+    "b2Texto": "It depends on your timeline, your financing and how much flexibility you have if the completion date moves.",
+    "b3Titulo": "What to ask before signing.",
+    "perguntas": {
+      "p1": "What is the full deposit schedule, and what happens if one is late?",
+      "p2": "Where is my deposit held until completion, and who holds it?",
+      "p3": "What is the estimated completion date, and how far can the contract move it?",
+      "p4": "Does the contract allow assignment, at what cost and with whose approval?",
+      "p5": "What exactly is included, and what is an upgrade?",
+      "p6": "When does my rescission period start, and from which document?"
+    },
+    "perguntasFecho": "If the answer to any of these is not in writing, it is not an answer.",
+    "cta": "Talk about a specific project",
+    "altFoto": "Tower crane over a building under construction at dawn"
+  },
+  "paginaImoveis": {
+    "titulo": "Homes in Greater Vancouver and the Fraser Valley.",
+    "soldTitulo": "Recently sold.",
+    "etiquetaSold": "Sold"
+  },
+  "paginaSobre": {
+    "titulo": "I would rather explain the risk than close the deal.",
+    "p1": "My career was built on sales, negotiation, market analysis and relationships. Real estate was the natural next step, and it never became about selling a property.",
+    "p2": "I have helped more than 100 families with their real estate needs: first-time buyers, families moving into more space, sellers, and clients looking at presales and residential investment.",
+    "p3": "My style is direct, personal and based on data. I want my clients to understand not only what we are doing, but why we are doing it that way.",
+    "p4": "When a property is not a good decision for someone, I say so. That has cost me deals and earned me clients who came back and sent their friends.",
+    "credoTitulo": "What I believe",
+    "credo": {
+      "c1": "A good decision starts before the first showing.",
+      "c2": "Clarity matters more than pressure.",
+      "c3": "Not every property is a good opportunity for every buyer.",
+      "c4": "The right time to buy or sell depends on your reality, not on the news."
+    },
+    "manifesto": "Clarity matters more than pressure.",
+    "altFoto": "Luis Alves, REALTOR®",
+    "cartao": {
+      "copiarEmail": "Copy email",
+      "copiado": "Copied"
+    }
+  },
+  "paginaContato": {
+    "titulo": "Tell me where you are in the process.",
+    "apoio": "Whether you are ready to move or still figuring things out, the first conversation is the same.",
+    "campos": {
+      "nome": "Name",
+      "email": "Email",
+      "telefone": "Phone / WhatsApp",
+      "ajuda": "How can I help?",
+      "opcoes": {
+        "o1": "Buying",
+        "o2": "Selling",
+        "o3": "First home",
+        "o4": "Presale",
+        "o5": "Something else"
+      },
+      "mensagem": "Message (optional)"
+    },
+    "confirmacao": "Got it. I will get back to you personally, usually within a few hours.",
+    "avisoDados": "Sending this form is your consent for me to use this information to reply to you. Your information is not sold, rented or traded. The rest is in the <politica>Privacy Policy</politica>.",
+    "ctaLigar": "Call"
+  },
+  "landing": {
+    "s1": {
+      "kicker": "FREE GUIDE · 38 PAGES · GREATER VANCOUVER AND THE FRASER VALLEY",
+      "titulo": "Know the real number before you sign",
+      "subtitulo": "The statement of adjustments lands a week before closing. This one lands first.",
+      "v1": "Two complete worked examples, line by line, of a real purchase and a real sale",
+      "v2": "The exemptions worth up to $50,000, and the conditions that quietly disqualify you from each",
+      "v3": "A twelve-question checklist to take to your lawyer, your accountant and your lender",
+      "formTitulo": "Get the guide",
+      "campoNome": "Name",
+      "campoEmail": "Email",
+      "_placeholdersNota": "INTERFACE TEXT, not roteiro copy: the three rotating placeholders of the hero email field (Placeholders And Vanish Input, 21st 1420). All three say email in some form on purpose, so the field is never mistaken for a search box. Sibling of the _reservado convention, because JSON has no comments.",
+      "placeholders": {
+        "p1": "you@email.com",
+        "p2": "where the guide should land",
+        "p3": "your best email"
+      },
+      "opcoes": {
+        "o1": "I am buying",
+        "o2": "I am selling",
+        "o3": "Both at once",
+        "o4": "Still researching"
+      },
+      "_consentimentoNota": "LEGAL TEXT, not marketing copy. Shortened on 2026-09-04, when the marketing consent became OPTIONAL on this landing: the person asked for the guide, so delivering it is the transaction, and PIPA does not allow requiring consent beyond what the requested service needs. The old wording said the person agreed to receive THIS GUIDE and market updates, which stopped being true the moment the box could be left unchecked, and copy that states what does not happen is a defect. What survives is exactly what CASL requires: who is sending, and the right to unsubscribe. PENDING review by Luis, together with the Privacy Policy. Decision recorded in funil-arquitetura.md.",
+      "consentimento": "I agree to receive occasional market updates from Luis Alves and Stonehaus Realty. I can unsubscribe at any time.",
+      "botao": "Send me the guide",
+      "_continuarNota": "ACCESSIBLE LABEL ONLY, never rendered as visible text. It names the arrow block of step 1, which ADVANCES to step 2; it does not submit. It used to borrow landing.s1.botao, and that lied to a screen reader: the button announced sending the guide and only opened a step. The submit button of step 2 keeps landing.s1.botao. Sibling of the _reservado convention, because JSON has no comments.",
+      "continuar": "Continue",
+      "microcopy": "Arrives by email in under a minute. No call, no showing, no appointment.",
+      "confianca": "Luis Alves · REALTOR® · Stonehaus Realty · Serving clients in English and Portuguese"
+    },
+    "s2": {
+      "kicker": "WHAT IS INSIDE",
+      "titulo": "Three things in the guide that most people find out too late",
+      "b1Numero": "$8,000",
+      "b1Texto": "The first-time buyer exemption wipes out Property Transfer Tax up to $500,000 and is worth $8,000 up to $835,000. Between $835,000 and $860,000 it phases out. Above that, nothing. The guide lays out the five personal conditions and the property condition that all have to be met at once, and meeting all but one is common.",
+      "b2Numero": "$50,000",
+      "b2Texto": "Since March 2026 there is a federal GST rebate for first-time buyers of new homes worth up to $50,000. It is recent, plenty of people still do not know it exists, and the guide covers who qualifies, what counts as a first-time buyer under this specific rule, and the difference between the builder crediting it at closing and claiming it from the CRA yourself.",
+      "b3Numero": "730 days",
+      "b3Texto": "Selling before you have owned for 730 days can trigger the BC home flipping tax, and the principal residence exemption does not protect you from it. It reaches people who lived in their own home. The clock includes presale contract dates, it started before 2025, and the return is separate with a 90-day deadline. The guide walks through the four situations where it catches people who are not speculators at all.",
+      "simulacao": "And the two full calculations. In the buyer example, a $780,000 condo in Surrey needs $11,250 in cash beyond the down payment in closing week. In the seller example, the lines that are not commission come to nearly $12,000, and the biggest one is not the lawyer or the move. It is the mortgage penalty.",
+      "cta": "Get the full guide"
+    },
+    "s3": {
+      "kicker": "WHO WROTE THIS",
+      "titulo": "Luis Alves",
+      "linha": "REALTOR® with Stonehaus Realty, working across Greater Vancouver and the Fraser Valley. Serving clients in English and Portuguese.",
+      "corpo": "I work with two kinds of client: people buying for the first time who do not want to get it wrong, and people who already own and are making a move where both ends have to line up. In both cases the first thing I do is the same. I sit down and build the full number, before we look at a single property. This guide is that conversation, in writing.",
+      "passosTitulo": "After you download",
+      "p1": "The guide arrives by email and you read it on your own time. There is no sales sequence dressed up as content.",
+      "p2": "If you want the version with your own numbers, reply to the email or send COST by direct message. It is four short questions.",
+      "p3": "I build your calculation and send it over. From there you decide whether to talk strategy or just keep the numbers. Both answers are fine.",
+      "legal": "Luis Alves, REALTOR®, Stonehaus Realty. Informational material, August 2026 edition. Not legal, accounting, tax or mortgage advice. Rules and figures are subject to change. Confirm your specific situation with your lawyer or notary, your accountant and your lender. By submitting your details you agree to receive the guide and occasional updates, and you can unsubscribe at any time.",
+      "legalPrivacidade": "Privacy policy."
+    }
+  },
+  "obrigado": {
+    "titulo": "Done. Your guide is on the way.",
+    "corpo": "It should arrive within a minute. If it does not show up, check promotions or spam and mark it as not spam so the next ones land in your main inbox.",
+    "botao": "Download now",
+    "secundario": "Want the calculation with your own numbers? Send COST by direct message."
+  },
+  "naoEncontrada": {
+    "titulo": "This page does not exist.",
+    "voltar": "Back to the home page"
+  },
+  "notas": {
+    "nomeAntes": "Second",
+    "nomeAncora": "Opinion",
+    "apoio": "Notes from Luis Alves, REALTOR®, every two weeks. One number, where it comes from, and what to ask before you sign.",
+    "recente": "Latest note",
+    "lerNota": "Read the note",
+    "indiceTitulo": "All notes",
+    "vazio": "The first note is on its way.",
+    "filtros": {
+      "rotulo": "Filter notes",
+      "todas": "All",
+      "buying": "Buying",
+      "selling": "Selling",
+      "presale": "Presale",
+      "market": "Market",
+      "notes": "Notes",
+      "outroIdioma": "Em português"
+    },
+    "minutos": "{n} min",
+    "leitura": "{n} min read",
+    "serie": "N.º",
+    "ficha": {
+      "medido": "Measured",
+      "fonte": "Source",
+      "validade": "Valid for",
+      "atualizado": "Updated"
+    },
+    "pergunte": "Questions about this number?",
+    "pergunteLink": "Ask Luis on WhatsApp",
+    "pergunteMensagem": "Hi Luis, I read your note \"{titulo}\" and I have a question.",
+    "nesteTexto": "In this note",
+    "notaDoLuis": "Luis's note",
+    "falta": "{n} min left",
+    "lido": "Read",
+    "assinaturaNome": "Luis Alves, REALTOR®",
+    "assinaturaCorretora": "Stonehaus Realty Corp. · Greater Vancouver",
+    "proxima": "Next",
+    "outroIdioma": "Leia em português",
+    "rascunho": "Draft, not published. Visible only at this address.",
+    "capaLeitura": "Of reading",
+    "inscricao": {
+      "kicker": "Second Opinion",
+      "titulo": "The next number, |measured|, every two weeks",
+      "apoio": "One note from Luis in your inbox. Unsubscribe any time.",
+      "nome": "First name",
+      "email": "Email",
+      "consentimento": "I agree to receive the Second Opinion from Luis Alves and Stonehaus Realty, about every two weeks. I can unsubscribe at any time.",
+      "botao": "Send me the next one",
+      "enviando": "Sending",
+      "sucessoTitulo": "You're on the list.",
+      "sucessoTexto": "The next note arrives in your inbox. If it lands in Promotions, drag it to your main inbox once and the rest will follow.",
+      "erroCampos": "Check your name and email, and tick the box to agree.",
+      "erroSistema": "Something failed on our side. Try again in a minute, or message Luis on WhatsApp."
+    },
+    "faixa": {
+      "titulo": "Get the next note by email",
+      "apoio": "About every two weeks. Unsubscribe any time."
+    },
+    "paginaInscricao": {
+      "kicker": "By email",
+      "texto": "Every two weeks, one number that changes a real estate decision in Greater Vancouver: where it comes from, when it was measured, and what to ask about it before you sign.",
+      "ultima": "The latest note"
+    },
+    "meta": {
+      "titulo": "Second Opinion | Notes from Luis Alves REALTOR®",
+      "descricao": "Real estate numbers for Greater Vancouver buyers and sellers, with the source and the date. Every two weeks, from Luis Alves REALTOR®.",
+      "inscricaoTitulo": "Subscribe to the Second Opinion | Luis Alves REALTOR®",
+      "inscricaoDescricao": "One note every two weeks: a real estate number for Greater Vancouver, its source, and what to ask before you sign."
+    },
+    "rodapeLink": "Second Opinion"
+  }
+}

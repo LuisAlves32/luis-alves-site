@@ -1,0 +1,4 @@
+# O que não sobe no deploy por CLI (vercel deploy), além do que a Vercel já ignora sozinha (node_modules, .next,
+# .git, .vercel). As pastas de trabalho das sessões do Claude Code (.claude/worktrees) são cópias inteiras do site:
+# subindo junto, o build checaria os tipos delas também (15/09/2026).
+.claude

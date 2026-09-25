@@ -1,0 +1,85 @@
+// Mapa autoral das regiões (asset canônico em public/mapa/mapa-regioes.svg,
+// aqui inline por exigência do design: as linhas usam stroke="currentColor"
+// e herdam a cor do contexto; os pontos são Avanço fixo via token). Os grupos
+// data-cidade ficam preservados para o mapa clicável da fase 2. Decorativo
+// neste uso: os nomes das cidades seguem nos chips ao lado (bloco 10).
+export function MapaRegioes({className = ''}: {className?: string}) {
+  return (
+    <svg
+      viewBox="0 0 1600 1000"
+      fill="none"
+      aria-hidden="true"
+      className={className}
+    >
+      <path
+        d="M 218.2 -0.0 C 207.6 31.2 168.1 125.0 154.5 187.5 C 140.9 250.0 133.4 316.0 136.4 375.0 C 139.4 434.0 146.9 489.6 172.7 541.7 C 198.4 593.8 231.8 647.6 290.9 687.5 C 350.0 727.4 448.5 750.0 527.3 781.2 C 606.1 812.5 681.8 847.2 763.6 875.0 C 845.4 902.8 933.4 927.1 1018.2 947.9 C 1103.0 968.7 1230.3 991.3 1272.7 1000.0"
+        stroke="currentColor"
+        strokeWidth="3"
+        strokeLinecap="round"
+        opacity="0.5"
+      />
+      <path
+        d="M 0.0 245.8 C 48.5 247.2 200.0 250.7 290.9 254.2 C 381.8 257.7 466.7 263.2 545.5 266.7 C 624.3 270.2 727.2 273.6 763.6 275.0"
+        stroke="currentColor"
+        strokeWidth="3"
+        strokeLinecap="round"
+        opacity="0.45"
+      />
+      <path
+        d="M 1600.0 427.1 C 1545.5 432.3 1381.8 447.9 1272.7 458.3 C 1163.6 468.7 1048.5 483.7 945.5 489.6 C 842.5 495.5 745.4 485.0 654.5 493.7 C 563.6 502.4 478.8 523.3 400.0 541.7 C 321.2 560.1 242.4 588.6 181.8 604.2 C 121.2 619.8 60.6 630.2 36.4 635.4"
+        stroke="currentColor"
+        strokeWidth="2.25"
+        strokeLinecap="round"
+        opacity="0.35"
+      />
+      <g data-cidade="vancouver">
+        <circle cx="363.6" cy="333.3" r="14" fill="var(--cor-avanco)" opacity="0.14" />
+        <circle cx="363.6" cy="333.3" r="6.5" fill="var(--cor-avanco)" />
+      </g>
+      <g data-cidade="north-vancouver">
+        <circle cx="454.5" cy="197.9" r="14" fill="var(--cor-avanco)" opacity="0.14" />
+        <circle cx="454.5" cy="197.9" r="6.5" fill="var(--cor-avanco)" />
+      </g>
+      <g data-cidade="burnaby">
+        <circle cx="618.2" cy="354.2" r="14" fill="var(--cor-avanco)" opacity="0.14" />
+        <circle cx="618.2" cy="354.2" r="6.5" fill="var(--cor-avanco)" />
+      </g>
+      <g data-cidade="new-westminster">
+        <circle cx="745.5" cy="437.5" r="14" fill="var(--cor-avanco)" opacity="0.14" />
+        <circle cx="745.5" cy="437.5" r="6.5" fill="var(--cor-avanco)" />
+      </g>
+      <g data-cidade="coquitlam">
+        <circle cx="963.6" cy="281.3" r="14" fill="var(--cor-avanco)" opacity="0.14" />
+        <circle cx="963.6" cy="281.3" r="6.5" fill="var(--cor-avanco)" />
+      </g>
+      <g data-cidade="port-moody">
+        <circle cx="836.4" cy="270.8" r="14" fill="var(--cor-avanco)" opacity="0.14" />
+        <circle cx="836.4" cy="270.8" r="6.5" fill="var(--cor-avanco)" />
+      </g>
+      <g data-cidade="port-coquitlam">
+        <circle cx="1000.0" cy="343.7" r="14" fill="var(--cor-avanco)" opacity="0.14" />
+        <circle cx="1000.0" cy="343.7" r="6.5" fill="var(--cor-avanco)" />
+      </g>
+      <g data-cidade="maple-ridge">
+        <circle cx="1309.1" cy="416.7" r="14" fill="var(--cor-avanco)" opacity="0.14" />
+        <circle cx="1309.1" cy="416.7" r="6.5" fill="var(--cor-avanco)" />
+      </g>
+      <g data-cidade="surrey">
+        <circle cx="872.7" cy="562.5" r="14" fill="var(--cor-avanco)" opacity="0.14" />
+        <circle cx="872.7" cy="562.5" r="6.5" fill="var(--cor-avanco)" />
+      </g>
+      <g data-cidade="langley">
+        <circle cx="1218.2" cy="666.7" r="14" fill="var(--cor-avanco)" opacity="0.14" />
+        <circle cx="1218.2" cy="666.7" r="6.5" fill="var(--cor-avanco)" />
+      </g>
+      <g data-cidade="south-surrey">
+        <circle cx="963.6" cy="760.4" r="14" fill="var(--cor-avanco)" opacity="0.14" />
+        <circle cx="963.6" cy="760.4" r="6.5" fill="var(--cor-avanco)" />
+      </g>
+      <g data-cidade="white-rock">
+        <circle cx="945.5" cy="833.3" r="14" fill="var(--cor-avanco)" opacity="0.14" />
+        <circle cx="945.5" cy="833.3" r="6.5" fill="var(--cor-avanco)" />
+      </g>
+    </svg>
+  );
+}

@@ -1,0 +1,41 @@
+/* AS FONTES DO FUNIL, carregadas pela FONTSHARE (24/09/2026).
+
+   Author e Satoshi são da Fontshare, sob a ITF Free Font License, que permite uso comercial mas
+   PROÍBE redistribuir o arquivo. Enquanto o repositório era privado, os .woff2 moravam em
+   components/landing/fontes/ via next/font/local. Com o repositório indo a público, o arquivo não
+   pode estar nele: a pele passa a pedir a folha da própria Fontshare (ver pele.tsx).
+
+   Conferido no dia da troca: os cinco arquivos que a Fontshare serve são IDÊNTICOS, byte a byte, aos
+   que estavam no repositório (mesmo SHA-1 e mesmo tamanho). Nenhuma métrica, nenhuma quebra de linha
+   muda com a troca de origem.
+
+   O QUE SE PERDEU COM O next/font E FOI REPOSTO À MÃO: a fonte de reserva com as métricas ajustadas,
+   que impede a linha de pular quando a fonte chega (o swap). Os números abaixo são os que o próprio
+   next/font calculou a partir dos arquivos (lidos no CSS do build de 24/09/2026), não estimativa.
+   Se um dia a Fontshare trocar o desenho da fonte, estes números precisam ser medidos de novo. */
+
+@font-face {
+  font-family: "Author Fallback";
+  src: local(Arial);
+  ascent-override: 93.34%;
+  descent-override: 22.49%;
+  line-gap-override: 9%;
+  size-adjust: 88.92%;
+}
+
+@font-face {
+  font-family: "Satoshi Fallback";
+  src: local(Arial);
+  ascent-override: 102.23%;
+  descent-override: 24.29%;
+  line-gap-override: 10.12%;
+  size-adjust: 98.8%;
+}
+
+/* As MESMAS variáveis que o next/font criava: nenhum componente do funil precisa mudar. */
+.pele-fontes {
+  --fonte-display: "Author", "Author Fallback", ui-sans-serif, system-ui, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --fonte-corpo: "Satoshi", "Satoshi Fallback", ui-sans-serif, system-ui, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  /* O cursor de digitação do funil é latão (o do site é Avanço, em globals.css). */
+  --campo-cursor: var(--cor-latao);
+}

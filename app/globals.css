@@ -1,0 +1,3895 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ============================================================
+   TOKENS · CAMADA 1 · PRIMITIVOS (design.md, Paleta)
+   Nunca usados direto em componente.
+   ============================================================ */
+:root {
+  /* Tema único claro: recusa o escuro forçado do Android (ver o `viewport` do layout). */
+  color-scheme: only light;
+  --cor-tinta: #0e2440;
+  --cor-avanco: #2a6dd6;
+  --cor-avanco-escuro: #2258ae; /* hover do botão primário (lei do design.md) */
+  --cor-papel: #f5f3ef;
+  --cor-lapis: #c8ccd1;
+  --cor-ceu: #e8f0f9;
+  --cor-areia: #e7dfd4;
+  --cor-grafite: #3d4d63;
+  --cor-branco: #ffffff;
+  --cor-latao: #b08d57; /* EXCLUSIVO da landing do ebook; nunca no site institucional */
+  /* Avanço CLARO. Não é cor nova da marca: é a mesma cota do sistema levada
+     para cima de mídia. O Avanço (#2a6dd6) sobre o scrim de Tinta de uma foto
+     rende ~2,4:1 e some; este claro é o valor mínimo que passa em AA nesse
+     fundo mantendo a leitura de "azul da marca". Só existe sobre foto. */
+  --cor-avanco-claro: #8fc0ff;
+}
+
+/* ============================================================
+   TOKENS · CAMADA 2 · SEMÂNTICOS (design.md)
+   ============================================================ */
+:root {
+  --fundo-pagina: var(--cor-papel);
+  --fundo-secao-alt: var(--cor-ceu);
+  --fundo-destaque: var(--cor-tinta);
+  --fundo-quente: var(--cor-areia); /* máximo um bloco por página */
+  --superficie-card: var(--cor-branco);
+  --texto-titulo: var(--cor-tinta);
+  --texto-corpo: var(--cor-grafite);
+  --texto-sobre-tinta: var(--cor-papel);
+  --acao: var(--cor-avanco);
+  --linha: var(--cor-lapis);
+  --assinatura-cota: var(--cor-avanco);
+  --assinatura-cota-sobre-midia: var(--cor-avanco-claro);
+
+  /* Grade e ritmo (design.md): 8pt, seções 96/64, conteúdo 1200px, texto 65ch */
+  --espaco-secao: 64px;
+  --largura-conteudo: 1200px;
+  --medida-texto: 65ch;
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --espaco-secao: 96px;
+  }
+}
+
+/* ============================================================
+   TOKENS · CAMADA 3 · COMPONENTE (exemplos-lei do design.md)
+   ============================================================ */
+:root {
+  --botao-primario-fundo: var(--acao);
+  --botao-primario-fundo-hover: var(--cor-avanco-escuro);
+  --botao-primario-texto: var(--cor-branco);
+  --botao-secundario-borda: var(--cor-tinta);
+  --botao-raio: 8px;
+
+  --card-fundo: var(--superficie-card);
+  --card-borda: var(--linha);
+  --card-borda-hover: var(--acao);
+  --card-cota: var(--assinatura-cota);
+  --card-raio: 12px;
+
+  --chip-ativo-fundo: var(--cor-tinta);
+  --chip-ativo-texto: var(--cor-papel);
+
+  --midia-raio: 16px;
+
+  /* VENDIDOS (bloco do filme de miniaturas, 2.36). Raio 18px por decisão de
+     direção: o herói é uma FOTO grande, não a ficha de 12px do design.md nem
+     a vitrine de 16px da hero. Sombra na VARIANTE MÍDIA ("sombra difusa, sem
+     borda", reservada a imagem solta), que é exatamente o que o herói passou
+     a ser, tingida na Tinta como todo escuro deste site, nunca em preto. */
+  --vendidos-card-raio: 18px;
+  --vendidos-card-sombra: 0 24px 60px -28px rgb(14 36 64 / 0.38),
+    0 6px 16px -10px rgb(14 36 64 / 0.2);
+  --foco-teclado: var(--acao);
+  /* O cursor que pisca nos campos. A landing do guia troca por latão em components/landing/pele.css. */
+  --campo-cursor: var(--acao);
+
+  /* Sombra do card do baralho (bloco 6). É a VARIANTE MÍDIA do design.md
+     ("sombra difusa, sem borda", reservada a objeto flutuante e a imagem
+     solta sobre Céu), que é exatamente o que cada foto da estante é. Tingida
+     na Tinta (14 36 64), nunca em preto: o escuro desta marca é a Tinta. */
+  --baralho-card-sombra: 0 18px 40px -18px rgb(14 36 64 / 0.34),
+    0 4px 10px -6px rgb(14 36 64 / 0.18);
+
+  /* Sombra do botão FLUTUANTE do WhatsApp (2.38). É a VARIANTE MÍDIA do
+     design.md ("sombra difusa, sem borda", reservada a objeto flutuante), e
+     aqui ela não é enfeite: com o verde fora, o botão passou a ser Papel sobre
+     uma página que também é Papel, então é a sombra que desenha a aresta dele.
+     Sem ela o botão perde o contorno em cima de qualquer seção clara e vira um
+     glifo solto no canto. Mais funda que a do baralho pelo mesmo motivo: lá a
+     foto tem cor própria e só precisa descolar do fundo; aqui o fundo do botão
+     é a cor da própria página. Tingida na Tinta (14 36 64), nunca em preto: o
+     escuro desta marca é a Tinta. */
+  --flutuante-sombra: 0 14px 34px -14px rgb(14 36 64 / 0.55),
+    0 4px 10px -6px rgb(14 36 64 / 0.3);
+
+  /* VITRINE da hero: o material do painel de vidro fosco que CONTÉM o corpo
+     do Luís enquanto a cabeça atravessa a borda de cima. Quem explica o fim
+     do corpo é a borda do painel, como a moldura de uma vitrine: não existe
+     máscara de degradê nem esvanecimento em lugar nenhum da figura.
+     SEM backdrop-filter de propósito: o fundo da hero é vídeo, e o projeto
+     já registrou que vidro sobre vídeo vira camada composta e não se
+     comporta. A translucidez vem do branco a 27,5%, que é estável.
+     SEM box-shadow também: o mock aprovado não tem sombra nenhuma, e quem
+     descola o card do céu é o halo, não uma sombra.
+     Os três valores abaixo são a FOLHA DE COTAS 2.29, copiados do mock que o
+     diretor aprovou. Não são para arredondar. */
+  --vitrine-fundo: rgb(255 255 255 / 0.275);
+  --vitrine-borda: rgb(255 255 255 / 0.88);
+  --vitrine-fio: rgb(255 255 255 / 0.35);
+  /* O véu é o que faz o corpo parecer estar ATRÁS do vidro enquanto a cabeça
+     está na frente dele. Sem ele a figura lê como adesivo colado por cima. */
+  --vitrine-veu: rgb(238 244 252 / 0.1);
+  /* Raio da vitrine. 16px porque é o que o design.md deste projeto declara
+     ("cantos raio 12 a 16px em cards e retrato de apoio"), e porque os
+     componentes-assinatura são CTA 8, card 12, navbar 8. Os 34px de antes não
+     existiam em lugar nenhum deste site. */
+  --vitrine-raio: 16px;
+
+  /* Botão secundário SOBRE MÍDIA: contorno vazado não tem contraste em cima
+     de foto, então este preenche. Só existe onde há vídeo ou imagem atrás. */
+  --botao-sobre-midia-fundo: rgb(255 255 255 / 0.8);
+  --botao-sobre-midia-texto: var(--cor-tinta);
+  --botao-sobre-midia-borda: var(--cor-lapis);
+}
+
+/* ============================================================
+   COMPATIBILIDADE SHADCN · consome os tokens da marca
+   (componentes do catálogo já nascem na paleta do Luis)
+   ============================================================ */
+:root {
+  --background: var(--fundo-pagina);
+  --foreground: var(--texto-corpo);
+  --card: var(--superficie-card);
+  --card-foreground: var(--texto-corpo);
+  --popover: var(--superficie-card);
+  --popover-foreground: var(--texto-corpo);
+  --primary: var(--acao);
+  --primary-foreground: var(--cor-branco);
+  --secondary: var(--fundo-secao-alt);
+  --secondary-foreground: var(--texto-titulo);
+  --muted: var(--fundo-secao-alt);
+  --muted-foreground: var(--texto-corpo);
+  --accent: var(--fundo-secao-alt);
+  --accent-foreground: var(--texto-titulo);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: var(--linha);
+  --input: var(--linha);
+  --ring: var(--acao);
+  --chart-1: var(--cor-avanco);
+  --chart-2: var(--cor-tinta);
+  --chart-3: var(--cor-grafite);
+  --chart-4: var(--cor-lapis);
+  --chart-5: var(--cor-ceu);
+  --radius: 0.75rem;
+  --sidebar: var(--superficie-card);
+  --sidebar-foreground: var(--texto-corpo);
+  --sidebar-primary: var(--acao);
+  --sidebar-primary-foreground: var(--cor-branco);
+  --sidebar-accent: var(--fundo-secao-alt);
+  --sidebar-accent-foreground: var(--texto-titulo);
+  --sidebar-border: var(--linha);
+  --sidebar-ring: var(--acao);
+}
+
+@theme inline {
+  /* Cores nomeadas da marca (bg-tinta, text-grafite, border-lapis...) */
+  --color-tinta: var(--cor-tinta);
+  --color-avanco: var(--cor-avanco);
+  --color-avanco-escuro: var(--cor-avanco-escuro);
+  --color-papel: var(--cor-papel);
+  --color-lapis: var(--cor-lapis);
+  --color-ceu: var(--cor-ceu);
+  --color-areia: var(--cor-areia);
+  --color-grafite: var(--cor-grafite);
+  --color-avanco-claro: var(--cor-avanco-claro);
+  --color-latao: var(--cor-latao);
+
+  /* Fontes: Inter principal, Instrument Serif itálica como voz editorial
+     pontual (design.md, atualização de 29/08 no lugar da Cormorant) */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-editorial: var(--font-serifa), Georgia, serif;
+  --font-heading: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* Ritmo de seção: py-secao = 96px desktop, 64px mobile */
+  --spacing-secao: var(--espaco-secao);
+
+  /* Mapeamento shadcn (mantido do init) */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  /* NÃO é `@apply font-sans`, e a diferença foi MEDIDA no navegador.
+     O token `--font-sans` começa com `var(--font-inter)`, e a Inter desceu
+     para `(site)/layout.tsx` em 06/09/2026. Num `font-family`, um `var()` que
+     não resolve invalida a DECLARAÇÃO INTEIRA (invalid at computed value
+     time), não só aquele item da lista: o <html> caía no valor inicial do
+     navegador e computava Times New Roman. Invisível, porque o <body> e os
+     dois invólucros pintam por cima, e por isso mesmo uma armadilha: o
+     primeiro elemento que nascesse fora deles apareceria serifado.
+     Aqui fica o padrão neutro explícito. Quem planta a família de verdade é o
+     invólucro de cada grupo de rota. */
+  html {
+    font-family: ui-sans-serif, system-ui, sans-serif;
+  }
+
+  body {
+    background: var(--fundo-pagina);
+    color: var(--texto-corpo);
+    /* SEM `var(--font-inter)` desde 06/09/2026, e isso não é esquecimento.
+       A Inter desceu para `(site)/layout.tsx` para parar de ser baixada nas
+       rotas do funil, então a variável não existe mais neste nível: mantê-la
+       aqui seria escrever uma referência que resolve para nada.
+       O que fica é o padrão NEUTRO do documento, e cada grupo de rota planta a
+       família dele por cima: o site no invólucro do `(site)/layout.tsx`, o
+       funil na `PeleLanding`. Nenhum texto de nenhum dos dois herda esta
+       linha; ela é a rede de segurança de qualquer rota futura que esqueça de
+       declarar a sua. */
+    font-family: ui-sans-serif, system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  @media (min-width: 1024px) {
+    body {
+      font-size: 17px;
+    }
+  }
+
+  /* Display: Inter 600, tracking -0.02em, line-height 1.1 a 1.15 (design.md) */
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: var(--texto-titulo);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.12;
+    text-wrap: balance;
+  }
+
+  h1 {
+    font-size: clamp(2.1rem, 4.6vw, 3.4rem);
+  }
+
+  h2 {
+    font-size: clamp(1.7rem, 3.2vw, 2.4rem);
+  }
+
+  h3 {
+    font-size: 1.25rem;
+  }
+
+  p,
+  li,
+  blockquote,
+  figcaption,
+  dt,
+  dd {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--cor-ceu);
+    color: var(--cor-tinta);
+  }
+
+  input,
+  textarea {
+    caret-color: var(--campo-cursor);
+  }
+
+  /* Foco de teclado: sublinhado-cota Avanço de 3px (design.md; nunca remover sem substituto) */
+  :focus-visible {
+    outline: none;
+    box-shadow: 0 3px 0 0 var(--foco-teclado);
+  }
+
+  /* Rede de segurança até o Passe 3 (o movimento.md define o estado final por elemento) */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ============================================================
+   UTILITÁRIOS DO SISTEMA (grade e tipografia do design.md)
+   ============================================================ */
+/* ============================================================
+   A RESPIRAÇÃO DO PAPEL · caligrafia 3 do movimento.md
+   Três camadas de cor SÓLIDA empilhadas e fixas, atrás de todo o conteúdo.
+   Quem anima é só a OPACIDADE das duas de cima: nunca background-color.
+   A regra dura do projeto é transform e opacity, e interpolar cor é repintura
+   a cada quadro; opacidade é composição de GPU.
+
+   z-index -1 num filho do body pinta ACIMA do fundo do body e ABAIXO de todo
+   o conteúdo em fluxo. É por isso que o body pode continuar Papel (que é o
+   estado sem JS) sem esconder as camadas.
+
+   O ESTADO PADRÃO É O FINAL: as seções que pintam fundo próprio continuam com
+   a classe delas (bg-ceu, bg-tinta, .portas-secao), e é isso que aparece sem
+   JS e com movimento reduzido. Só quando a câmera liga é que ela marca o
+   <html> e essas seções ficam transparentes, deixando as camadas aparecerem.
+   A regra abaixo fica FORA de @layer de propósito: CSS sem camada ganha de
+   qualquer @layer, então ela vence tanto o .bg-ceu das utilities quanto o
+   .portas-secao dos components, sem depender de ordem de arquivo.
+
+   ATENÇÃO AO NOME: `data-respiracao` existe em DOIS lugares e quer dizer duas
+   coisas. No <html> é o interruptor que a câmera acende ("ativa"). Na seção do
+   bloco 7 é uma declaração de intenção escrita no Passe 2 ("fora": aquela
+   faixa tem preto próprio e não participa). O seletor abaixo pede `html[...]`
+   justamente para nunca casar com a seção. Não escreva regra em
+   `[data-respiracao]` solto.
+   ============================================================ */
+html[data-respiracao='ativa'] [data-fundo] {
+  background-color: transparent;
+}
+
+@layer components {
+  .respiracao {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .respiracao span {
+    position: absolute;
+    inset: 0;
+    display: block;
+  }
+
+  /* O chão do documento. Nunca anima. */
+  .respiracao-papel {
+    background: var(--cor-papel);
+  }
+
+  /* As duas que a rolagem dirige. Nascem apagadas. */
+  .respiracao-ceu {
+    background: var(--cor-ceu);
+    opacity: 0;
+  }
+
+  .respiracao-tinta {
+    background: var(--cor-tinta);
+    opacity: 0;
+  }
+}
+
+/* ============================================================
+   A COTA QUE SE TRAÇA · convenção data-cota (caligrafia 1 do movimento.md)
+   A câmera (components/camera.tsx) anima ESTA custom property, e não o
+   transform direto. O motivo é duro: boa parte das cotas do site é
+   pseudo-elemento (::after), e GSAP não alcança pseudo-elemento. Animando a
+   property no elemento DONO, a mesma mecânica serve elemento real e
+   pseudo-elemento sem tocar no layout de nenhuma seção.
+
+   O PADRÃO É 1, e é ele que cumpre a regra de "estado FINAL, nunca o inicial":
+   sem JS, com JS falhando e com prefers-reduced-motion, a cota aparece
+   INTEIRA, sem precisar de nenhum branch. Quem quiser "simplificar" isto para
+   um scaleX direto quebra as cotas em pseudo-elemento em silêncio.
+
+   `inherits: true` NÃO é descuido, é o que faz a mecânica funcionar: um
+   ::after herda do elemento que o originou, e com `inherits: false` ele
+   receberia sempre o valor inicial e ficaria PARADO. MEDIDO em 03/09: com
+   `false`, o pseudo-elemento devolvia scaleX 1 para --cota-traco 0, 0,4 e 1.
+   A herança não vaza para os filhos reais porque só quem CASA com [data-cota]
+   lê a property; o que não pode é uma cota dentro de outra cota, e por isso o
+   fio da seção Venda é marcado no pai e não também na cota de 44px de dentro.
+   ============================================================ */
+@property --cota-traco {
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 1;
+}
+
+@layer components {
+  [data-cota] {
+    transform: scaleX(var(--cota-traco, 1));
+    transform-origin: left center;
+  }
+
+  /* Cota vertical (o fio que desce). Mesma property, outro eixo. */
+  [data-cota='vertical'] {
+    transform: scaleY(var(--cota-traco, 1));
+    transform-origin: center top;
+  }
+
+  /* Grade: conteúdo máximo 1200px, padding interno mínimo (24/32px) */
+  .conteudo {
+    margin-inline: auto;
+    width: 100%;
+    max-width: var(--largura-conteudo);
+    padding-inline: 24px;
+  }
+
+  @media (min-width: 1024px) {
+    .conteudo {
+      padding-inline: 32px;
+    }
+  }
+
+  /* Trilho horizontal de coleções no mobile (design.md, Padrão mobile de
+     coleções): abaixo de 768px, coleção homogênea de 3+ cards vira trilho
+     por gesto com scroll-snap nativo. Card com 85% do trilho e uma fatia do
+     próximo visível (peek); o gap continua o da grade da marcação; a barra
+     de rolagem some SEM impedir a rolagem. Só estrutura de layout, zero
+     animação: a física do arrasto pertence ao componente no Passe 2
+     (movimento.md). No md+ a classe é inerte e a grade (md:grid) assume.
+     Contrato: usar sempre como FILHO de .conteudo (a sangria conta com o
+     padding do pai; no mesmo elemento ela estoura a viewport). */
+  @media (width < 48rem) {
+    .trilho-colecao {
+      display: flex;
+      margin-inline: -24px; /* sangra o padding da .conteudo até a borda da tela... */
+      padding-inline: 24px; /* ...e devolve os cards ao alinhamento da grade */
+      overflow-x: auto;
+      overscroll-behavior-x: contain;
+      scroll-snap-type: x mandatory;
+      scroll-padding-inline-start: 24px;
+      scrollbar-width: none;
+    }
+
+    .trilho-colecao::-webkit-scrollbar {
+      display: none;
+    }
+
+    .trilho-colecao > * {
+      flex: 0 0 85%;
+      scroll-snap-align: start;
+    }
+  }
+
+  /* Palavra-âncora: Instrument Serif itálica dentro do título Inter.
+     A família tem UM peso (400) e a mancha óptica dela é bem maior que a da
+     Cormorant: o 1.12em que compensava o traço fino da Cormorant sai, senão a
+     palavra fica maior que o resto do título. O tracking negativo curto fecha
+     o espaço que o itálico abre antes da palavra seguinte. Calibrado no
+     mock-hero.html aprovado. */
+  .ancora {
+    font-family: var(--font-serifa), Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.004em;
+  }
+
+  /* ==========================================================
+     VENDIDOS · palco do FILME DE MINIATURAS (bloco 2.36)
+     Substitui a .vendidos-card da pilha por rolagem (2.35), que morreu
+     junto com a mecânica dela.
+
+     UMA REGRA DE GEOMETRIA, SEM BREAKPOINT, e o min() é o motivo:
+         --vendidos-hh: min(62svh, calc(100cqi * 9 / 16))
+     No DESKTOP o teto de 62svh manda: o herói fica em ~853 x 480 e SOBRA a
+     coluna ao lado, onde endereço, papel do Luís, specs e filme ficam
+     visíveis JUNTO com a foto. Se a foto ocupasse a largura inteira, em
+     1290px ela teria 726px de altura, e numa tela de 774 ela sozinha
+     encheria o monitor: o visitante veria a casa e não saberia qual é.
+     No CELULAR a largura manda (100cqi * 9/16 fica menor que 62svh): a foto
+     ocupa a calha inteira e a coluna DESCE sozinha, por flex-wrap.
+     Mesma regra, os dois casos. Não existe um segundo layout de celular
+     aqui, nem breakpoint decidindo quem aparece.
+
+     O container-type fica na CAIXA e não no palco de propósito: um elemento
+     não consulta a si mesmo, então cqi declarado no próprio container
+     resolveria contra o ancestral errado. */
+  .vendidos-caixa {
+    container-type: inline-size;
+  }
+
+  .vendidos-palco {
+    --vendidos-hh: min(62svh, calc(100cqi * 9 / 16));
+    --vendidos-hw: calc(var(--vendidos-hh) * 16 / 9);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    gap: 24px;
+  }
+
+  /* A ALTURA vem do aspect-ratio, não de um height fixo, e isso é o que
+     garante o recorte 16:9 em TODA largura: quando a coluna cabe ao lado, a
+     largura é o --vendidos-hw (teto de 62svh) e a altura sai dele; quando a
+     coluna desce, o herói assume a calha inteira e a altura acompanha. Um
+     height fixo daria uma tarja panorâmica na faixa em que a coluna já
+     desceu mas a tela ainda é larga: a mesma foto com dois enquadramentos,
+     que é o defeito que esta regra existe para matar.
+     align-self: flex-start porque align-items: stretch atropelaria a altura
+     do aspect-ratio; a COLUNA é que estica, e é isso que põe o filme no pé
+     dela. */
+  .vendidos-heroi {
+    position: relative;
+    flex: 1 1 var(--vendidos-hw);
+    min-width: min(100%, var(--vendidos-hw));
+    align-self: flex-start;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: var(--vendidos-card-raio);
+    box-shadow: var(--vendidos-card-sombra);
+  }
+
+  /* flex-grow 999 contra o 1 do herói, e a desproporção é o mecanismo: com a
+     coluna AO LADO, a sobra vai 999/1000 para ela e o herói fica a 0,03% do
+     16:9 exato; com a coluna EMBAIXO, o herói fica sozinho na linha, é o
+     único com grow e ocupa a calha inteira, sem deixar buraco à direita.
+     Uma regra, os dois casos, sem breakpoint.
+     A base de 210px (e não 250) é o que decide QUANDO a coluna desce: com
+     250 a linha somava 1143px numa calha de 1136 e a coluna descia já no
+     desktop, porque o flex quebra linha pela base hipotética, antes de
+     considerar o encolhimento. */
+  .vendidos-coluna {
+    container-type: inline-size;
+    display: flex;
+    flex: 999 1 210px;
+    min-width: 0;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 24px;
+  }
+
+  /* As fichas ficam EMPILHADAS na mesma célula de grade: a coluna passa a ter
+     a altura da MAIOR ficha e para de pular quando o endereço muda de
+     comprimento. A inativa some por visibility, que esconde de verdade (sai
+     da árvore de acessibilidade e do foco), e não só por opacity. */
+  .vendidos-fichas {
+    display: grid;
+  }
+
+  .vendidos-ficha {
+    grid-area: 1 / 1;
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+      visibility 0s linear 0.5s;
+  }
+
+  .vendidos-ficha[data-ativa] {
+    opacity: 1;
+    visibility: visible;
+    transition:
+      opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+      visibility 0s;
+  }
+
+  /* O FILME. A largura é TRAVADA porque nasce da própria altura e da
+     contagem: uma miniatura 16:9 (a ativa) mais (n-1) de 0,62, mais os vãos.
+     Com a largura travada, a animação das miniaturas não empurra nada para
+     fora do filme.
+     A ALTURA entra num min() pelo MESMO motivo do herói. O clamp() sozinho
+     pediria 74px, e 74px em quatro imóveis dão ~300px de largura numa coluna
+     de ~243px: a última miniatura sairia cortada. O segundo termo do min() é
+     a altura que CABE na coluna. Quando cabe, manda o clamp; quando não
+     cabe, manda a coluna. --filme-n e --filme-fator vêm do componente, que é
+     quem sabe quantos quadros existem. */
+  .vendidos-filme {
+    --filme-vao: 6px;
+    --filme-alt: min(
+      clamp(74px, 10svh, 116px),
+      calc(
+        (100cqi - (var(--filme-n) - 1) * var(--filme-vao)) / var(--filme-fator)
+      )
+    );
+    display: flex;
+    gap: var(--filme-vao);
+    height: var(--filme-alt);
+    max-width: 100%;
+  }
+
+  .vendidos-aba {
+    position: relative;
+    flex: none;
+    height: 100%;
+    aspect-ratio: 0.62;
+    opacity: 0.5;
+    transition:
+      aspect-ratio 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .vendidos-aba[data-ativa] {
+    aspect-ratio: 16 / 9;
+    opacity: 1;
+  }
+
+  /* Alvo de toque de 44px. A miniatura inativa tem ~38px de largura, abaixo
+     do mínimo do projeto na MENOR dimensão. O pseudo-elemento estende a área
+     sensível sem mexer no desenho; com vão de 6px as áreas encostam e não se
+     sobrepõem, então nenhuma aba rouba o clique da vizinha. */
+  .vendidos-aba::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: max(100%, 44px);
+    height: max(100%, 44px);
+    transform: translate(-50%, -50%);
+  }
+
+  .vendidos-aba-recorte {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border: 1px solid var(--cor-lapis);
+    border-radius: 8px;
+  }
+
+  /* A COTA: fio de 3px em Avanço na base da miniatura ativa, entrando por
+     scaleX (transform, nunca width). É a forma-assinatura do projeto
+     marcando o estado ativo de um elemento FUNCIONAL, que é a regra do
+     design.md, e é o que impede o filme de parecer carrossel de catálogo. */
+  .vendidos-aba-cota {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: 3px;
+    border-radius: 999px;
+    background: var(--assinatura-cota);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .vendidos-aba[data-ativa] .vendidos-aba-cota {
+    transform: scaleX(1);
+  }
+
+  /* Anel, e não o fio de 3px do :focus-visible global: naquele lugar já mora
+     a cota, e os dois juntos viram dois fios embaixo da mesma miniatura. */
+  .vendidos-aba:focus-visible,
+  .vendidos-seta:focus-visible {
+    outline: 2px solid var(--foco-teclado);
+    outline-offset: 3px;
+    box-shadow: none;
+  }
+
+  /* Setas sobre o herói. Fundo Papel a 90% (o mesmo #f5f3ef da marca), ícone
+     em Tinta, raio total. Desabilitadas de verdade nas pontas. */
+  .vendidos-seta {
+    position: absolute;
+    top: 50%;
+    z-index: 1;
+    display: flex;
+    height: 38px;
+    width: 38px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    background: rgb(245 243 239 / 0.9);
+    color: var(--cor-tinta);
+    transform: translateY(-50%);
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+  }
+
+  /* Alvo de toque: 38px de desenho, 44px de área sensível. */
+  .vendidos-seta::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+  }
+
+  .vendidos-seta:hover {
+    background: rgb(245 243 239 / 1);
+    color: var(--cor-avanco);
+  }
+
+  .vendidos-seta:active {
+    transform: translateY(-50%) scale(0.98);
+  }
+
+  .vendidos-seta:disabled {
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  @media (min-width: 48rem) {
+    .vendidos-palco {
+      gap: 40px;
+    }
+
+    .vendidos-coluna {
+      gap: 30px;
+    }
+
+    .vendidos-seta {
+      height: 46px;
+      width: 46px;
+    }
+  }
+
+  /* ==========================================================
+     BOTÃO FLUTUANTE DO WHATSAPP (2.38)
+     O verde saiu por decisão de direção: era a única cor do site que não
+     vinha da marca. No lugar dele, o vocabulário da casa: Papel, Tinta e a
+     cota em Avanço, a mesma assinatura do card e do filme de miniaturas.
+     Raio 16px, o mesmo da vitrine da hero, e NÃO círculo: o botão deixa de
+     ser adesivo de plataforma e passa a ser objeto do sistema.
+     ========================================================== */
+  .flutuante-zap {
+    border-radius: 16px;
+    box-shadow: var(--flutuante-sombra);
+  }
+
+  /* A COTA, colada na aresta inferior e de ponta a ponta. Quem recorta as duas
+     pontas dela é o raio de 16px, via overflow hidden no elemento.
+     Pseudo-elemento de propósito: não existe no DOM nem na árvore de
+     acessibilidade, então não há o que rotular nem o que esconder. */
+  .flutuante-zap::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    height: 3px;
+    background: var(--assinatura-cota);
+  }
+
+  /* NÃO padronize isto de volta para o foco global do projeto (o
+     sublinhado-cota de 3px em Avanço do :focus-visible da camada base).
+     Aqui essa cota JÁ está acesa o tempo todo, então o indicador padrão seria
+     invisível: o botão focado ficaria idêntico ao botão em repouso. O anel em
+     Tinta é o substituto que o próprio design.md exige ("nunca outline
+     removido sem substituto"): distinto do repouso, cor da marca, e sem
+     disputar a aresta de baixo com a cota.
+     A sombra é repetida aqui porque o :focus-visible da camada base troca o
+     box-shadow do elemento; sem repetir, o botão perderia a aresta no foco. */
+  .flutuante-zap:focus-visible {
+    outline: 2px solid var(--cor-tinta);
+    outline-offset: 2px;
+    /* O halo de Papel preenche os 2px de respiro do outline-offset, e ele
+       existe por MEDIÇÃO: o anel de Tinta rende 14,1:1 sobre Papel e 13,6:1
+       sobre Céu, mas some sobre as duas seções escuras da home (1,0:1 no
+       bloco guia, que é Tinta pura, e 1,35:1 na pré-construção, que é preta).
+       O botão é fixo e sobrevoa todas elas, então sem o halo o foco de teclado
+       ficaria invisível justamente ali, abaixo do 3:1 que a WCAG 2.2 (1.4.11)
+       pede para indicador de foco.
+       Sobre fundo claro o halo é Papel sobre Papel e não aparece: o desenho
+       aprovado não muda. Sobre fundo escuro ele vira a borda que separa o anel
+       do fundo. A sombra vem depois na mesma lista porque o :focus-visible da
+       camada base troca o box-shadow do elemento; sem repetir, o botão perderia
+       a aresta no foco. */
+    box-shadow: 0 0 0 2px var(--cor-papel), var(--flutuante-sombra);
+  }
+
+  /* Estado FINAL, nunca o inicial (regra dura do projeto). O componente já
+     troca de ramo por useReducedMotion; isto cobre a janela entre a
+     hidratação e o hook, e o caso de a preferência mudar com a página
+     aberta. */
+  @media (prefers-reduced-motion: reduce) {
+    .vendidos-ficha,
+    .vendidos-aba,
+    .vendidos-aba-cota,
+    .vendidos-seta {
+      transition-duration: 0s !important;
+    }
+
+    .vendidos-aba[data-ativa] .vendidos-aba-cota {
+      transform: scaleX(1);
+    }
+  }
+}
+
+/* ============================================================
+   HERO EM DOIS ATOS · bloco 1 da home
+   Estrutura, medidas e tempos do mock-hero.html aprovado pelo diretor
+   (30/08). PICO 1 do movimento.md: trecho sticky curto, uma das DUAS
+   exceções de pin do site. Só transform, opacity e filter.
+   REGRA DURA: nenhuma camada entre o vídeo e o olho. O contraste se
+   resolve por COR e POSIÇÃO de texto, nunca por véu, gradiente ou
+   filtro sobre o quadro (design.md, decisão do diretor repetida duas
+   vezes). Os três regimes de contraste estão no fim deste bloco.
+   ============================================================ */
+
+:root {
+  /* Altura da seção: o palco tem 100svh, então a passagem dispõe de
+     (altura menos 100svh) de rolagem. 190svh dá os ~90svh de trilho que o
+     movimento.md declara. No celular sobra folga porque a barra do
+     navegador faz innerHeight variar entre svh e lvh durante a rolagem. */
+  --hero-altura: 190svh;
+  /* Âncora vertical do ato 1: centro do nome e do retrato. */
+  --hero-topo-palco: 41%;
+  /* LADO DO PAINEL (S). O painel é QUADRADO, e é ELE que manda: dado S, todo
+     o resto da vitrine é consequência.
+     FOLHA DE COTAS 2.29: no desktop tudo sai de UMA medida, a ALTURA DO
+     HERÓI. A figura é 54% dela e o card é 62% da figura, então o card é
+     0,54 x 0,62 = 33,48% da altura do herói. Teto 310px, piso 190px.
+     Escrito em svh porque o palco tem height:100svh: os dois precisam ser a
+     mesma régua. Quem RESOLVE este número na prática é a medição do
+     componente (que escreve --vitrine-lado no elemento com o valor em px, a
+     partir do clientHeight do palco); este clamp é o estado da primeira
+     pintura e do noscript, e existe para os dois não brigarem.
+     O JS pode REDUZIR o valor se a figura não couber na altura disponível.
+     Ele nunca aumenta a figura para resolver: cresce a figura, o Luís vira o
+     dono da tela e o painel vira um cartãozinho na cintura dele, que foi o
+     defeito do 2.26. */
+  --vitrine-lado: clamp(190px, 33.48svh, 310px);
+  /* A LARGURA QUE O RETRATO TINHA NO ATO 1, e ela é a trava principal do
+     projeto: foi ela que o diretor calibrou para o nome LUIS / ALVES se ler
+     ATRÁS dele. É a fórmula ANTIGA do retrato já multiplicada pelo fator de
+     chegada de então (0,585 x 0,56 = 0,3276; 16vw x 0,56 = 8,96vw; os limites
+     132 e 224 x 0,56). Medida em 1440x900: 121,21px, idêntica ao build antigo.
+     O JS lê esta largura resolvida (pela régua .hero2-regua) e calcula a escala
+     de chegada como largura / S. Assim a escala é o que tiver que ser, em vez
+     de um número fixo que briga com a trava.
+     ESTE TOKEN NÃO MUDOU NA FOLHA 2.29, e é de propósito: é ele que garante
+     que a largura visível do conjunto no ato 1 continua idêntica à de antes
+     mesmo com o S novo. Quem absorve a mudança de S é a escala, abaixo. */
+  --vitrine-ato1-largura: clamp(
+    73.92px,
+    min(8.96vw, calc((46svh - 44px) * 0.3276)),
+    125.44px
+  );
+  /* Escala do ato 1. FALLBACK DE PRIMEIRA PINTURA APENAS: quem manda é o
+     CÁLCULO do componente (prompt 2.34, item 2.3).
+     O número deixou de ser cravado porque número absoluto herdado envelhece
+     mal: ele nasceu de uma largura de retrato de duas folhas atrás. A trava
+     agora é RELATIVA e sobrevive a qualquer tela e a qualquer mudança do nome:
+       altura da cápsula / altura do bloco LUIS / ALVES = 0,60 no desktop
+                                                          0,62 no celular
+     O componente mede a altura RENDERIZADA do bloco do nome e resolve a
+     escala como razao x altura-do-nome / altura-da-figura. Este 0,515 é o que
+     a conta dava em 1440x900 antes, e serve só para a primeira pintura e o
+     noscript não saltarem. */
+  --retrato-escala-ato1: 0.515;
+  /* A linha de identificação vive em 64% da altura. O max() é a garantia de
+     que ela NUNCA fica por baixo do painel, mesmo que alguém mexa no tamanho
+     depois. Quem conta aqui é a BASE do painel no ato 1 (a cabeça sai por
+     cima, não por baixo), então entra a altura já em escala de chegada.
+     O 0,726 é essa base depois da folha 2.30: metade do card já crescido
+     (1,28 / 2 = 0,64) mais a compensação que devolve o centro do conjunto ao
+     lugar (0,14 x 0,38 / 0,62 = 0,0858).
+
+     O TERCEIRO BRAÇO (04/09/2026) é o conserto de uma BRIGA DE RÉGUAS, e vale
+     entender por que ele precisou existir:
+       . a ALTURA do nome é filha da LARGURA da janela
+         (font-size: clamp(78px, 14.6vw, 218px), duas linhas, line-height .82)
+       . a POSIÇÃO desta linha era filha da ALTURA da janela (os 64%)
+     Duas medidas diferentes governando duas coisas que não podem se cruzar. Em
+     janela LARGA a fonte bate o teto de 218px e o nome para de crescer; em
+     janela BAIXA os 64% descem menos. Juntas, a base do nome passava do topo
+     do kicker e a identificação sumia POR BAIXO do nome. Faixa medida do
+     defeito: largura >= ~1493px (onde a fonte trava no teto) E altura < 777px,
+     que é exatamente o notebook largo e baixo e mais nada. Medido em
+     1536x768: base do nome 493,63 contra topo do kicker 491,52.
+
+     O braço novo faz a linha ser filha da MESMA régua do nome. A altura vem
+     medida pelo componente (`--hero-nome-altura`, em px, escrita no :root); o
+     `/2` existe porque os 41% são o CENTRO do bloco (translateY(-50%)), então
+     a base fica meia altura abaixo da âncora. O 22px é o MESMO respiro do
+     braço da vitrine, de propósito: uma régua só.
+
+     O fallback de 0px é o que mantém o comportamento de hoje antes da medição
+     e no noscript. Com ele o braço vale 41% + 22px, que perde do 64% em
+     qualquer altura de tela, então ele simplesmente não existe até a medição
+     chegar. Não é breakpoint: vale em toda tela, e some sozinho onde não
+     precisa. */
+  --hero-identificacao: max(
+    64%,
+    calc(var(--hero-topo-palco) + var(--vitrine-ato1-largura) * 0.726 + 22px),
+    calc(var(--hero-topo-palco) + var(--hero-nome-altura, 0px) / 2 + 22px)
+  );
+}
+
+/* As faixas de S POR LARGURA saíram na folha 2.29: no desktop o S passou a
+   sair da ALTURA do herói (ver --vitrine-lado no :root), então quebrar a
+   conta em 1279 e 1023 só criava dois números que brigavam com ela. */
+
+@media (max-width: 820px) {
+  :root {
+    --hero-altura: 210svh;
+    /* FOLHA DE COTAS 2.29, celular e tablet: aqui o card fica EMPILHADO sobre
+       o texto, então quem manda é a LARGURA da janela, não a altura.
+       S = 48,7% da largura, teto 200px, piso 140px. Em 390px isso dá 190px,
+       que é exatamente o mock aprovado. */
+    --vitrine-lado: clamp(140px, 48.7vw, 200px);
+    --vitrine-raio: 14px;
+    /* TABLET (520 a 820px): o retrato antigo era 158px fixos e chegava com
+       60,04px no ato 1. */
+    --vitrine-ato1-largura: 60.04px;
+    /* 60,04 x 1,28 / 200 (o teto do S morde em toda a faixa do tablet). */
+    --retrato-escala-ato1: 0.384;
+  }
+}
+
+/* No CELULAR a largura de chegada era em vw, como o nome (22.5vw), então as
+   duas escalam juntas: clamp(120px, 40.5vw, 178px) x 0,38. */
+@media (max-width: 519px) {
+  :root {
+    --vitrine-ato1-largura: clamp(45.6px, 15.39vw, 67.64px);
+    /* Largura de chegada e lado do card são os DOIS em vw nesta faixa, então
+       a escala é constante: 15,39 / 48,7 x 1,28 = 0,404. O teto de 20% da
+       largura do nome pode baixar isto; quem resolve é a medição. */
+    --retrato-escala-ato1: 0.404;
+  }
+}
+
+
+/* Movimento reduzido: sem sticky, sem passagem. A seção é só o ato 2. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --hero-altura: 100svh;
+  }
+}
+
+/* Halo da vitrine. Volta de 14s, linear, infinita. Só transform. */
+@keyframes hero2-halo-gira {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes hero2-desce {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(26px);
+    opacity: 0;
+  }
+}
+
+@layer components {
+  .hero2 {
+    position: relative;
+    height: var(--hero-altura);
+    /* Só aparece na faixa que a barra do navegador do celular libera ao
+       recolher, abaixo do palco de 100svh. Cor medida na base do próprio
+       pôster, para a faixa não denunciar a emenda. */
+    background-color: #111611;
+  }
+
+  .hero2-palco {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    overflow: hidden;
+  }
+
+  /* ---- z0 · FUNDO VIVO ---------------------------------------------
+     O pôster é o LCP e a camada base; o vídeo entra por cima com fade.
+     Nenhum filtro, nenhuma opacidade parcial, nenhum blend: o quadro
+     aparece exatamente como o Veo gerou. */
+  .hero2-fundo {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero2-video {
+    opacity: 0;
+    transition: opacity 1.1s ease;
+  }
+
+  .hero2-video[data-visivel="sim"] {
+    opacity: 1;
+  }
+
+  /* ---- z2 · PALCO --------------------------------------------------- */
+  .hero2-cena {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+  }
+
+  /* ---- ATO 1 · o cartaz --------------------------------------------- */
+  .hero2-nome {
+    position: absolute;
+    inset-inline: 0;
+    top: var(--hero-topo-palco);
+    transform: translateY(-50%);
+    text-align: center;
+    font-size: clamp(78px, 14.6vw, 218px);
+    font-weight: 600;
+    letter-spacing: 0.012em;
+    line-height: 0.82;
+    color: var(--texto-titulo);
+    will-change: transform, opacity, filter;
+  }
+
+  .hero2-nome span {
+    display: block;
+  }
+
+  /* ---- A VITRINE · o conjunto que atravessa os dois atos --------------
+     A caixa do conjunto É a caixa do painel. Halo, invólucro e véu vivem
+     dentro dela por posição absoluta, então o transform do conjunto escala
+     os quatro JUNTOS e a relação entre eles não muda no meio da viagem.
+     Sem overflow aqui: o invólucro é quem recorta, e o halo precisa vazar. */
+  /* OS TOKENS DERIVADOS MORAM AQUI, e não no :root, por um motivo do
+     próprio CSS: substituição de custom property acontece no elemento que
+     DECLARA. Declarados no :root, --vitrine-figura-altura e companhia
+     resolviam o var(--vitrine-lado) do :root e depois só herdavam o resultado,
+     então a redução que a medição escreve no elemento não chegava neles.
+     MEDIDO em 768x1024: painel de 177px com figura de 385px, ou seja cota de
+     54,6% em vez de 46%, e a cabeça 35px atrás da navbar. */
+  .hero2-vitrine {
+    /* A FIGURA (F). A base dela coincide com a base do CARD, então a borda
+       superior do card cai sempre na MESMA cota do corpo dele.
+       FOLHA DE COTAS 2.29, e este é o número que o diretor bateu o martelo:
+       S = 0,62 x F, ou seja o transbordo da cabeça é 38% da altura da figura.
+       O 0,38 NÃO é para re-derivar por anatomia. Ele veio da comparação
+       RENDERIZADA dos dois casos lado a lado, no tamanho real, com o arquivo
+       verdadeiro (zoom-38-vs-46.png, na pasta do projeto):
+         38%  a borda cai NO CONTORNO DE BAIXO DA BARBA, onde a gola do paletó
+              começa. Não corta nada. É o aprovado.
+         46%  a borda cai no PEITO, e o card encolhe para 54% da altura da
+              figura e para de ler como card.
+       O erro das duas rodadas anteriores foi MEDIR (perfil de alfa de um
+       lado, landmarks do outro) em vez de RENDERIZAR os dois casos juntos.
+       Não há -2px aqui, e isso fecha a identidade "fora + S = F" da folha:
+       quem paga a espessura da borda é a figura, pendurando 2px por baixo do
+       invólucro (ver .hero2-figura img). Sem isso a cabeça saía 2px a mais do
+       que a folha manda e o número documentado ficava diferente do
+       renderizado. */
+    --vitrine-figura-altura: calc(var(--vitrine-lado) / 0.62);
+    /* Quanto a cabeça passa da borda superior do painel. Não é número livre:
+       sem folga transparente no arquivo, é a sobra da figura sobre o painel.
+       Confira sempre: cabeça-fora + lado = altura da figura. */
+    --vitrine-cabeca-fora: calc(var(--vitrine-figura-altura) - var(--vitrine-lado));
+    /* A CÁPSULA DO ATO 1 (prompt 2.34). O cliente aprovou o ato 1 como pílula,
+       com a cabeça CONTIDA, e o ato 2 como está. A caixa do conjunto não muda
+       de tamanho em momento nenhum: o que muda é o RECORTE dentro dela.
+       Proporção 0,585 = largura / altura, medida sobre a ALTURA DA FIGURA,
+       porque a cápsula é o conjunto inteiro (da ponta do cabelo à base do
+       card) com as pontas arredondadas. Ela CABE dentro do quadrado: em
+       1510x774, lado 259,14 e figura 417,96 dão cápsula de 244,51, sobrando
+       7,31px de cada lado. */
+    --vitrine-capsula-proporcao: 0.585;
+    --vitrine-capsula-largura: calc(
+      var(--vitrine-figura-altura) * var(--vitrine-capsula-proporcao)
+    );
+    /* L: a sobra lateral de cada lado, dentro do quadrado. */
+    --vitrine-capsula-lado: calc(
+      (var(--vitrine-lado) - var(--vitrine-capsula-largura)) / 2
+    );
+    /* Rcap: metade da largura, ou seja pontas totalmente arredondadas. */
+    --vitrine-capsula-raio: calc(var(--vitrine-capsula-largura) / 2);
+    /* Rampa do véu, 0,22 x S (66px em 300). É ela que faz o véu NASCER invisível
+       na borda de cima: sem rampa aparece uma linha horizontal dura. */
+    --vitrine-veu-rampa: calc(var(--vitrine-lado) * 0.22);
+    /* Desfoque do halo: 13% do lado do painel. */
+    --vitrine-halo-desfoque: calc(var(--vitrine-lado) * 0.13);
+    position: absolute;
+    left: 50%;
+    top: var(--hero-topo-palco);
+    z-index: 6;
+    width: var(--vitrine-lado);
+    height: var(--vitrine-lado);
+    transform: translate(-50%, -50%) scale(var(--retrato-escala-ato1));
+    will-change: transform;
+  }
+
+  /* z1 · HALO. Anel de luz girando atrás de tudo (base: 21st.dev 5521,
+     "Rotating Gradient Right" de ruixen.ui, com a paleta trocada pela da
+     marca; do original sobra só o núcleo, um conic-gradient superdimensionado
+     e borrado girando por transform). CSS puro, sem ponteiro, então é
+     idêntico no celular e no desktop. */
+  .hero2-halo {
+    position: absolute;
+    left: -14%;
+    top: -14%;
+    z-index: 1;
+    width: 128%;
+    height: 128%;
+    opacity: 0; /* entra na passagem, por opacidade (o JS conduz) */
+    filter: blur(var(--vitrine-halo-desfoque));
+    pointer-events: none;
+    /* O halo é decorativo do CARD, então recebe o MESMO recorte (prompt 2.34,
+       item 3.2): ele não pode vazar para fora da cápsula. A caixa dele é
+       128% do card e começa 14% acima, então cada lado carrega esse desvio.
+       No ato 2 o JS leva este inset para valores NEGATIVOS (a caixa expandida
+       além do desfoque), porque clip-path é aplicado DEPOIS do filter: um
+       inset(0) ali cortaria o blur e o halo do ato 2 mudaria. */
+    clip-path: inset(
+      calc(var(--vitrine-lado) * 0.14 - var(--vitrine-cabeca-fora))
+        calc(var(--vitrine-capsula-lado) + var(--vitrine-lado) * 0.14)
+        calc(var(--vitrine-lado) * 0.14)
+        calc(var(--vitrine-capsula-lado) + var(--vitrine-lado) * 0.14)
+        round var(--vitrine-capsula-raio)
+    );
+  }
+
+  .hero2-halo > i {
+    position: absolute;
+    inset: 0;
+    display: block;
+    background: conic-gradient(
+      from 0deg,
+      var(--cor-avanco),
+      var(--cor-ceu),
+      rgb(245 250 255),
+      var(--cor-avanco),
+      var(--cor-avanco)
+    );
+    /* O recorte é do HALO, e só dele: é ele que transforma o bloco em ANEL,
+       para o halo ler como luz de borda e não como mancha azul atrás do
+       Luís. A FIGURA não tem máscara nenhuma (trava do briefing). O recorte
+       é radial e portanto simétrico, então girar não o denuncia.
+       Os 78% são a borda do painel dentro desta caixa (100 / 128): a luz
+       nasce exatamente ali e o desfoque a espalha para fora. Com o vazio
+       parando em 52% e a luz só acendendo em 84%, o anel inteiro cabia
+       dentro do desfoque e não sobrava nada para o olho. MEDIDO em
+       1440x900, com e sem halo, no mesmo pixel: 4 níveis de canal antes,
+       40 depois. */
+    -webkit-mask-image: radial-gradient(closest-side, transparent 45%, #000 78%);
+    mask-image: radial-gradient(closest-side, transparent 45%, #000 78%);
+    animation: hero2-halo-gira 14s linear infinite;
+    will-change: transform;
+  }
+
+  /* Com vídeo tocando atrás, girar fora da tela é gasto puro. */
+  .hero2[data-halo="parado"] .hero2-halo > i {
+    animation-play-state: paused;
+  }
+
+  /* z2 · PAINEL. A borda e o fio interno moram AQUI, ATRÁS da figura. Se a
+     borda for redesenhada por cima, a linha de cima atravessa a TESTA dele e
+     o painel passa a parecer estar na frente da cabeça. Não existe nenhuma
+     borda, contorno ou sombra do painel acima da camada da figura. */
+  .hero2-painel {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border: 2px solid var(--vitrine-borda);
+    border-radius: var(--vitrine-raio);
+    background: var(--vitrine-fundo);
+    /* A OPACIDADE DO PAINEL VIAJA JUNTO: 0,55 no ato 1, 1 no ato 2, no mesmo
+       progresso que move o resto. No ato 1 o painel fica cravado no meio do
+       nome, e opaco ele lia como caixa branca por cima das letras, ou seja
+       como bug. A 0,55 as letras se leem ATRAVÉS dele. Quem conduz é o JS;
+       este valor é só o estado antes da primeira medição. */
+    opacity: 0.55;
+    /* RECORTE DO CARD, estado do ato 1 (prompt 2.34). Quem conduz é o JS, que
+       interpola este inset() até o do ato 2 (inset(0 0 0 0 round --vitrine-raio),
+       que é um NO-OP: o ato 2 fica idêntico ao de antes deste prompt). Aqui é
+       só a primeira pintura e o noscript.
+       Os cantos DE CIMA são retos porque a caixa do card só tem `lado` de
+       altura: a ponta arredondada de cima da cápsula é desenhada pelo recorte
+       da FIGURA, que é quem tem altura para isso. Os de baixo levam o raio da
+       cápsula inteiro.
+       O topo começa em 5px, e não em 0, para o recorte comer a BORDA de 2px e
+       o fio interno (inset 4px, 1px): sem isso a borda superior do card vira
+       um traço branco atravessando a cápsula na altura do colarinho, que foi
+       medido em tela e lê como defeito. Os 5px viajam para 0 junto com o
+       resto. */
+    clip-path: inset(
+      5px var(--vitrine-capsula-lado) 0 var(--vitrine-capsula-lado)
+        round 0 0 var(--vitrine-capsula-raio) var(--vitrine-capsula-raio)
+    );
+  }
+
+  .hero2-painel::after {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border: 1px solid var(--vitrine-fio);
+    border-radius: calc(var(--vitrine-raio) - 4px);
+  }
+
+  /* z3 · O INVÓLUCRO QUE RECORTA. Lados e fundo coincidem com o painel; o
+     topo fica muito acima dele. Com overflow hidden, o painel recorta o corpo
+     e a cabeça passa livre. Os cantos de baixo acompanham o raio do painel;
+     os de cima ficam retos, porque é por ali que a cabeça sai.
+     Os 2px de recuo são a espessura da borda, e existem por um motivo só: a
+     borda mora ATRÁS da figura (é o que impede a linha de cima de cruzar a
+     testa dele), e com o invólucro em inset 0 a figura cobria a borda por
+     dentro. O corpo terminava numa emenda sem moldura em vez de terminar na
+     moldura da vitrine, que é o mecanismo inteiro. Recuando 2px a borda
+     aparece em volta do corpo sem nunca ser desenhada por cima dele. */
+  .hero2-figura {
+    position: absolute;
+    right: 2px;
+    bottom: 2px;
+    left: 2px;
+    z-index: 3;
+    height: calc(var(--vitrine-figura-altura) + 40px);
+    overflow: hidden;
+    border-bottom-right-radius: calc(var(--vitrine-raio) - 2px);
+    border-bottom-left-radius: calc(var(--vitrine-raio) - 2px);
+    /* RECORTE DA FIGURA, estado do ato 1 (prompt 2.34): a cabeça fica CONTIDA
+       dentro da cápsula. No ato 2 o JS leva isto a inset(0 0 0 0 round 0), que
+       é NO-OP: volta a valer só o overflow do invólucro, e a cabeça sai por
+       cima como sempre saiu.
+       O topo é 42px e é CONSTANTE, não coincidência: o invólucro nasce 40px
+       mais alto que a figura e 2px acima da base do card, então o topo da
+       figura (que é o topo da cápsula) cai sempre 42px abaixo do topo desta
+       caixa. Os lados descontam os 2px de recuo do invólucro. Os quatro
+       cantos levam o raio inteiro: é este recorte que desenha as duas pontas
+       arredondadas da cápsula, porque a figura é a única camada que tem
+       altura para as duas. */
+    clip-path: inset(
+      42px calc(var(--vitrine-capsula-lado) - 2px) 0
+        calc(var(--vitrine-capsula-lado) - 2px) round var(--vitrine-capsula-raio)
+    );
+  }
+
+  /* Posicionada pela BASE. Nada de object-fit: ela não preenche caixa
+     nenhuma. É mais larga que o painel, então os ombros SÃO recortados pelas
+     laterais, e é isso que dá o efeito de vitrine.
+     O bottom NEGATIVO é a peça que fecha a folha de cotas 2.29. O invólucro
+     se afasta 2px da base do card (a espessura da borda), então uma figura em
+     bottom:0 teria a base 2px ACIMA da base do card e a identidade
+     "fora + S = F" não fechava: a cabeça saía 2px a mais do que os 38%.
+     Pendurando a figura esses mesmos 2px, a base dela volta a coincidir com a
+     base do card e as três cotas batem exatas. Os 2px pendurados são
+     recortados pelo overflow do invólucro, então a borda de baixo continua
+     aparecendo em volta do corpo, que é o motivo do recuo existir. O que se
+     perde são 2px do paletó, embaixo, atrás da própria borda. */
+  .hero2-figura img {
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    display: block;
+    width: auto;
+    max-width: none;
+    height: var(--vitrine-figura-altura);
+    transform: translateX(-50%);
+  }
+
+  /* A RÉGUA. Caixa invisível de altura zero cuja largura é
+     --vitrine-ato1-largura. Existe por um motivo só: getComputedStyle devolve
+     o clamp() de um custom property como TEXTO, não como px, e o componente
+     precisa do valor RESOLVIDO para calcular a escala de chegada
+     (largura do ato 1 dividida pelo lado do painel). Medir uma caixa real é a
+     única forma que não depende de suporte a @property.
+     Ela vive FORA da vitrine (irmã dela, dentro da .hero2-cena) porque
+     getBoundingClientRect traz o transform dos ancestrais junto: dentro da
+     vitrine a leitura vinha multiplicada pelo scale do ato 1 e a escala se
+     realimentava, caindo de 0,404 para 0,163 e 0,066 a cada remedição. */
+  .hero2-regua {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: var(--vitrine-ato1-largura);
+    height: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  /* z4 · VÉU. Cobre só a área do painel, nunca a cabeça. O topo é uma RAMPA:
+     sem ela nasce uma linha horizontal dura onde o véu começa, em cima do
+     colarinho. */
+  .hero2-veu {
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    border-radius: var(--vitrine-raio);
+    background: linear-gradient(
+      to bottom,
+      rgb(238 244 252 / 0) 0,
+      var(--vitrine-veu) var(--vitrine-veu-rampa),
+      var(--vitrine-veu) 100%
+    );
+    pointer-events: none;
+    /* Mesmo recorte do card (item 3.2). O topo pode ser 0 aqui porque o véu
+       não tem borda nenhuma: ele nasce transparente na rampa. */
+    clip-path: inset(
+      0 var(--vitrine-capsula-lado) 0 var(--vitrine-capsula-lado) round 0 0
+        var(--vitrine-capsula-raio) var(--vitrine-capsula-raio)
+    );
+  }
+
+  .hero2-identificacao {
+    position: absolute;
+    inset-inline: 0;
+    top: var(--hero-identificacao);
+    z-index: 5;
+    text-align: center;
+    font-size: 12px; /* piso de 12px (portão de 24/09/2026) */
+    line-height: 1.2;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--texto-corpo);
+  }
+
+  .hero2-identificacao .hero2-sep {
+    color: var(--texto-titulo);
+    font-weight: 600;
+  }
+
+  /* Trecho entre separadores: nunca se parte (ver comSeparadores no componente). */
+  .hero2-trecho {
+    white-space: nowrap;
+  }
+
+  .hero2-dica {
+    position: absolute;
+    left: 50%;
+    /* acompanha a identificação, mantendo o mesmo respiro de sempre */
+    top: calc(var(--hero-identificacao) + 43px);
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    font-size: 9.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--texto-corpo);
+    transform: translateX(-50%);
+  }
+
+  .hero2-dica-fio {
+    display: block;
+    width: 1px;
+    height: 30px;
+    background: linear-gradient(180deg, var(--linha), transparent);
+  }
+
+  .hero2-dica-fio::after {
+    content: "";
+    display: block;
+    width: 1px;
+    height: 12px;
+    background: var(--acao);
+    animation: hero2-desce 2.1s ease-in-out infinite;
+  }
+
+  /* ---- ATO 2 · a hero funcional -------------------------------------
+     container-type: inline-size é o que faz a headline caber em 2 linhas
+     em qualquer largura sem breakpoint (ver .hero2-h1). */
+  .hero2-ato2 {
+    position: absolute;
+    left: clamp(20px, 6vw, 86px);
+    top: 50%;
+    z-index: 7;
+    display: flex;
+    width: min(52%, 660px);
+    flex-direction: column;
+    align-items: flex-start;
+    container-type: inline-size;
+    pointer-events: none;
+    transform: translateY(-50%);
+  }
+
+  .hero2-kicker {
+    margin-bottom: 22px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    /* Tinta, não Grafite: ganha contraste sobre o quadro e melhora a
+       hierarquia. Sem barra e sem traço antes (regra do design.md). */
+    color: var(--texto-titulo);
+  }
+
+  /* As duas linhas são explícitas na marcação e não quebram (nowrap), então
+     o corpo tem que nascer da LARGURA REAL do bloco, nunca de breakpoint.
+     Coeficiente 8.88 medido com as fontes reais do projeto: a linha mais longa
+     ("Decisões mais inteligentes", Instrument Serif na âncora e Inter no
+     resto) ocupa 10,75em, e 8.88cqw a deixa em 95,5% do container em
+     qualquer largura, de 320px a 1440px. Trocou a copy ou a fonte, REMEDIR
+     (a máscara tem overflow hidden: texto largo demais some sem avisar). */
+  .hero2-h1 {
+    margin-bottom: 22px;
+    font-size: min(8.88cqw, 58px);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.06;
+    color: var(--texto-titulo);
+  }
+
+  .hero2-linha {
+    display: block;
+    /* A máscara da revelação linha a linha.
+       line-height 1.06 é a medida do display, mas ela NÃO contém o rabo do
+       "g" de "inteligentes": medido, a tinta desce 2,2px abaixo da caixa e o
+       overflow hidden cortava o descendente. A máscara ganha 0.1em embaixo e
+       devolve o mesmo tanto em margem negativa, então a altura do bloco (e a
+       composição aprovada) não muda. O estado escondido passa a ser 112%,
+       porque a máscara agora é 1,16em e 104% já não a cobria. */
+    overflow: hidden;
+    padding-bottom: 0.1em;
+    margin-bottom: -0.1em;
+  }
+
+  .hero2-linha > i {
+    display: block;
+    font-style: normal;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateY(112%);
+    will-change: transform, opacity;
+  }
+
+  .hero2-sub {
+    margin-bottom: 28px;
+    max-width: 30em;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--texto-corpo);
+  }
+
+  .hero2-botoes {
+    display: flex;
+    margin-bottom: 26px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  /* Botões da hero: mesmos tokens de componente do resto do site
+     (--botao-*, raio 8px), com duas exigências próprias desta seção:
+     alcançar 52px de toque no celular até 820px (e não 640px, que é onde a
+     grade geral vira desktop) e um secundário com preenchimento, porque
+     contorno vazado sobre foto não tem contraste. */
+  .hero2-btn {
+    display: inline-flex;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    border-radius: var(--botao-raio);
+    padding: 13px 24px;
+    font-size: 14.5px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition:
+      background-color 200ms ease,
+      color 200ms ease,
+      border-color 200ms ease;
+  }
+
+  .hero2-btn:active {
+    transform: scale(0.98);
+  }
+
+  .hero2-btn-primario {
+    background: var(--botao-primario-fundo);
+    color: var(--botao-primario-texto);
+  }
+
+  .hero2-btn-primario:hover {
+    background: var(--botao-primario-fundo-hover);
+  }
+
+  /* RESERVADA, não apague. Ficou sem uso no 2.39, quando o "buscar imóveis"
+     saiu da hero junto com a página de imóveis e o WhatsApp herdou o peso
+     primário: a hero tem UM botão. Esta regra é o par do primário para o dia
+     em que um segundo botão voltar (a decisão está com o diretor, e a chave
+     hero.ctaBusca segue nos dois idiomas esperando). Sem esta nota, a próxima
+     limpeza de CSS morto a leva junto. */
+  .hero2-btn-secundario {
+    border: 1px solid var(--botao-sobre-midia-borda);
+    background: var(--botao-sobre-midia-fundo);
+    color: var(--botao-sobre-midia-texto);
+  }
+
+  .hero2-btn-secundario:hover {
+    border-color: var(--botao-secundario-borda);
+    background: var(--cor-branco);
+  }
+
+  .hero2-cidades {
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--texto-corpo);
+  }
+
+  .hero2-cidades .hero2-sep {
+    margin: 0 5px;
+    color: var(--linha);
+  }
+
+  /* Estado inicial da cascata do ato 2 (o JS assume a partir daqui). */
+  .hero2-fade {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  /* ---- MODO COMPACTO ------------------------------------------------
+     Ligado pela medição quando o retrato mais a folga mais o bloco não
+     cabem na altura disponível. Nunca abaixo de 44px de alvo de toque. */
+  .hero2-ato2[data-compacto="sim"] .hero2-kicker {
+    margin-bottom: 12px;
+  }
+
+  .hero2-ato2[data-compacto="sim"] .hero2-h1 {
+    margin-bottom: 10px;
+  }
+
+  .hero2-ato2[data-compacto="sim"] .hero2-sub {
+    margin-bottom: 14px;
+    font-size: 12.5px;
+    line-height: 1.45;
+  }
+
+  .hero2-ato2[data-compacto="sim"] .hero2-botoes {
+    margin-bottom: 12px;
+    gap: 8px;
+  }
+
+  .hero2-ato2[data-compacto="sim"] .hero2-btn {
+    min-height: 44px;
+    padding: 10px 18px;
+    font-size: 13.5px;
+  }
+
+  .hero2-ato2[data-compacto="sim"] .hero2-cidades {
+    font-size: 12px;
+    line-height: 1.55;
+  }
+
+  /* ================= CELULAR E TABLET (até 820px) ==================== */
+  @media (max-width: 820px) {
+    /* O que faz o nome aparecer ATRÁS da foto no celular é o nome CRESCER,
+       não a pílula encolher: a razão pílula/palavra é o que importa
+       (design.md). O text-indent devolve o espaço que o tracking abre
+       depois da última letra e mantém a palavra opticamente centrada. */
+    .hero2-nome {
+      padding-inline: 4px;
+      font-size: clamp(56px, 22.5vw, 150px);
+      letter-spacing: 0.15em;
+      text-indent: 0.15em;
+      line-height: 0.94;
+    }
+
+
+    .hero2-ato2 {
+      left: 20px;
+      top: auto;
+      bottom: 44px;
+      width: calc(100% - 40px);
+      align-items: stretch;
+      text-align: center;
+      transform: none;
+    }
+
+    .hero2-h1 {
+      margin-bottom: 14px;
+    }
+
+    .hero2-sub {
+      margin-inline: auto;
+      margin-bottom: 20px;
+      max-width: 24em;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .hero2-botoes {
+      margin-bottom: 18px;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .hero2-btn {
+      min-height: 52px;
+    }
+
+    .hero2-cidades {
+      font-size: 12px;
+    }
+
+    /* a dica perde a palavra e fica só o fio: cabe na mesma faixa escura */
+    .hero2-dica {
+      gap: 0;
+    }
+
+    .hero2-dica-rotulo {
+      display: none;
+    }
+
+    .hero2-dica-fio {
+      height: 24px;
+    }
+  }
+
+  /* ============ CONTRASTE, REGIME 1 · CELULAR (até 519px) ============
+     A base do quadro é floresta quase preta: Tinta mede 1,0:1 ali e branco
+     puro mede de 7,8 a 11,7:1. Por isso as DUAS frases que caem na faixa
+     escura (a identificação do ato 1 e a linha de cidades do ato 2) viram
+     branco puro. O resto do bloco cai sobre o céu claro e continua escuro.
+     Nada disso é camada sobre o vídeo: é cor de texto. */
+  @media (max-width: 519px) {
+    .hero2-identificacao {
+      top: auto;
+      bottom: 46px;
+      padding-inline: 14px;
+      /* Era 8,5px numa linha só, e a linha diz "Stonehaus Realty Corp.", que a lei do
+         projeto manda ser LEGÍVEL. Agora 12px, em até duas linhas equilibradas; a base
+         continua presa em 46px e a segunda linha cresce para cima. */
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      line-height: 1.6;
+      text-wrap: balance;
+      color: var(--cor-branco);
+    }
+
+    .hero2-identificacao .hero2-sep {
+      color: var(--cor-branco);
+    }
+
+    .hero2-dica {
+      top: auto;
+      bottom: 14px;
+      color: rgb(255 255 255 / 0.92);
+    }
+
+    .hero2-dica-fio {
+      background: linear-gradient(180deg, rgb(255 255 255 / 0.85), transparent);
+    }
+
+    .hero2-cidades {
+      color: var(--cor-branco);
+    }
+
+    .hero2-cidades .hero2-sep {
+      color: rgb(255 255 255 / 0.5);
+    }
+  }
+
+  /* ============ CONTRASTE, REGIME 2 · TABLET (520 a 820px) ===========
+     Nesta faixa o mesmo vídeo é recortado de outro jeito e a base do quadro
+     vira mistura, onde NENHUMA cor de texto passa. Por isso o bloco inteiro
+     é mantido nos 70% de cima, que são claros (a trava está na medição, no
+     componente), e todo o texto continua escuro. O REGIME 3 (desktop, de
+     821px em diante) é o padrão declarado acima: identificação em 64% e
+     bloco preso aos mesmos 70% de cima. */
+
+  /* ============ MOVIMENTO REDUZIDO ==================================
+     Estado FINAL, nunca o inicial (movimento.md): sem sticky, sem
+     passagem, sem vídeo. A seção mostra o ato 2 completo sobre o pôster;
+     o ato 1 não existe. Nada fica escondido. */
+  @media (prefers-reduced-motion: reduce) {
+    .hero2 {
+      background-color: transparent;
+    }
+
+    .hero2-palco {
+      position: relative;
+    }
+
+    .hero2-nome,
+    .hero2-identificacao,
+    .hero2-dica {
+      display: none;
+    }
+
+    .hero2-ato2 {
+      pointer-events: auto;
+    }
+
+    .hero2-linha > i,
+    .hero2-fade {
+      opacity: 1;
+      transform: none;
+    }
+
+    /* O halo NÃO some: fica PARADO no ângulo final e visível. Estado final,
+       nunca ausência (movimento.md). A opacidade de 0,85 quem põe é o JS, no
+       mesmo desenhar(1) que põe o conjunto no ato 2. */
+    .hero2-halo > i {
+      animation: none;
+    }
+
+    /* O painel chega no fim da viagem: opaco. */
+    .hero2-painel {
+      opacity: 1;
+    }
+
+    /* Movimento reduzido é o ESTADO FINAL, e o estado final é o ATO 2: card
+       quadrado e cabeça FORA. Ou seja, a cápsula não existe aqui. O
+       desenhar(1) do componente escreve os mesmos no-ops; estas linhas são o
+       estado antes de ele medir. */
+    .hero2-painel,
+    .hero2-veu,
+    .hero2-halo,
+    .hero2-figura {
+      clip-path: none;
+    }
+
+    /* Espelha o <style> embutido do hero-dois-atos.tsx. Este é o estado ANTES
+       do JS medir: o desenhar(1) do componente reescreve o transform com o
+       valor medido em px, que é o que realmente vale. Os dois pontos existem
+       só para não haver salto entre a primeira pintura e a medição. */
+    .hero2-vitrine {
+      transform: translate(-50%, -50%) translate(15.6vw, 10vh) scale(1);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) and (max-width: 820px) {
+    .hero2-vitrine {
+      transform: translate(-50%, -50%) translate(0, -6vh) scale(0.8);
+    }
+  }
+}
+
+/* ============================================================
+   SEÇÃO 2 · PORTAS DOS CAMINHOS · bloco 2 da home
+   Medidas do mock-secao2.html aprovado pelo diretor (31/08). A GRADE em si
+   mora no componente (components/portas-dos-caminhos.tsx, Fluid Expanding
+   Grid 21st.dev 10467, posse do Framer Motion); aqui fica só a seção em
+   volta: fundo, ritmo, cabeçalho, régua e palco.
+   Só transform e opacity.
+   ============================================================ */
+@layer components {
+  /* Fronteira por posse: a seção transborda sobre a borda final da hero,
+     nunca emenda com ela (design.md, "fronteiras por posse"). */
+  .portas-secao {
+    position: relative;
+    z-index: 2;
+    margin-top: -30px;
+    padding: 60px 0 70px;
+    background: var(--fundo-secao-alt);
+  }
+
+  .portas-wrap {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 1240px;
+    padding-inline: 20px;
+  }
+
+  /* container-type é o que permite dimensionar o H2 pela LARGURA REAL da
+     caixa, e é o que mantém a promessa de UMA LINHA SÓ (ver .portas-titulo). */
+  .portas-cabecalho {
+    container-type: inline-size;
+    margin-bottom: 10px;
+  }
+
+  /* REGRA DURA (decisão do diretor, 31/08): UMA LINHA SÓ em qualquer largura
+     e nos DOIS idiomas. Por isso white-space: nowrap e corpo derivado da
+     largura da caixa, nunca de breakpoint e NUNCA em ch (foi o max-width em
+     ch que quebrava a linha antes).
+     De onde vem o 9.1: medido com as fontes reais. A frase mais longa é a EN
+     ("Where are you right now?"), que ocupa 1071,6px com corpo de 100px; ela
+     cabe numa caixa de C px com corpo de C x 100/1071,6 = 9,33cqw. O 9.1 é
+     essa conta com folga. Trocou a copy ou a fonte, REMEDIR. */
+  .portas-titulo {
+    max-width: none;
+    font-size: min(9.1cqw, 40px);
+    font-weight: 600;
+    letter-spacing: -0.028em;
+    line-height: 1.04;
+    text-wrap: nowrap;
+    white-space: nowrap;
+  }
+
+  /* Só no celular: no desktop o hover já ensina o gesto. */
+  .portas-dica {
+    margin-top: 10px;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    line-height: 1.2;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--texto-corpo);
+  }
+
+  /* A cota na versão silenciosa: a linha de 1px do documento, que se traça
+     conforme o leitor rola (caligrafia 1 do movimento.md).
+     O traçado NÃO mora mais aqui: era um gatilho de 1,1s disparado pelo
+     .esta-visivel, e a caligrafia 1 é TRILHO (o usuário dirige). A régua
+     ganhou data-cota e quem a desenha é a câmera global. Só o material fica
+     nesta regra. */
+  .portas-regua {
+    height: 1px;
+    margin-bottom: 24px;
+    background: var(--texto-titulo);
+    opacity: 0.18;
+  }
+
+  /* O palco: a escala do componente, com as proporções do original quase
+     exatas (card fechado 1,25:1 contra 1,16 do original; aberto 2,58:1
+     contra 2,42). No celular ocupa a largura toda. */
+  .portas-palco {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity 0.7s ease-out,
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .portas-secao.esta-visivel .portas-palco {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ================= DESKTOP (821px em diante) ==================== */
+  @media (min-width: 821px) {
+    .portas-secao {
+      margin-top: -40px;
+      padding: 92px 0 104px;
+    }
+
+    .portas-wrap {
+      padding-inline: 30px;
+    }
+
+    .portas-cabecalho {
+      margin-bottom: 14px;
+    }
+
+    .portas-titulo {
+      font-size: min(9.1cqw, 60px);
+    }
+
+    /* No desktop a dica não existe: o hover já ensina. */
+    .portas-dica {
+      display: none;
+    }
+
+    .portas-regua {
+      margin-bottom: 40px;
+    }
+
+    .portas-palco {
+      margin-inline: auto;
+      max-width: 820px;
+    }
+  }
+
+  @media (min-width: 1025px) {
+    .portas-wrap {
+      padding-inline: 40px;
+    }
+  }
+
+  /* Telas estreitas: o mesmo respiro lateral do mock. */
+  @media (max-width: 380px) {
+    .portas-wrap {
+      padding-inline: 16px;
+    }
+  }
+
+  /* ============ MOVIMENTO REDUZIDO ==================================
+     Estado FINAL, nunca o inicial (movimento.md): o palco nasce no lugar. A
+     troca de porta continua funcionando; o que some é o movimento dela (a
+     mola vira duração zero no componente).
+     A régua não precisa de regra aqui: o padrão 1 de --cota-traco já a
+     entrega inteira quando a câmera não roda. */
+  @media (prefers-reduced-motion: reduce) {
+    .portas-palco {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+/* ============================================================
+   BLOCO 7 · PRÉ-CONSTRUÇÃO · a cena "antes" (components/cena-antes.tsx)
+   Escrito pela Tá Online. Desde 24/09/2026 nada aqui vem do CSS da Osmo
+   (21st.dev 4775), cuja licença proíbe redistribuir: o degradê e o ajuste da
+   palavra foram refeitos com conta nossa, medidos contra a composição
+   aprovada no mock-bloco7.html (31/08). Item 7 do mapa de camadas do
+   movimento.md. Três medidas que PARECEM arbitrárias e não são:
+   1. .s7-visuais tem 120% da altura da cabeça: a cena TRANSBORDA 20% por
+      baixo, e é esse transbordo que dá o percurso do scrub.
+   2. cada .s7-foto tem 117,5% de altura começando em -17,5%: é a folga que
+      permite a camada DESCER sem abrir barra preta no topo.
+   3. .s7-titulo tem 100svh e é flex centralizado: é assim que a palavra
+      cai no meio da primeira tela.
+   SEM PIN e SEM sticky (movimento.md, exceção retirada em 31/08).
+   Só transform e opacity.
+   ============================================================ */
+@layer components {
+  .s7 {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    background: #000;
+    color: #fff;
+  }
+
+  /* z-index 2: os visuais transbordam 20% e pintam POR CIMA do topo da faixa
+     de texto. Como o texto é preto, a emenda some. */
+  .s7-cabeca {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100svh;
+  }
+
+  .s7-visuais {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 120%;
+  }
+
+  /* É ELE o gatilho do scrub (start 0% 0%, end 100% 0%). */
+  .s7-camadas {
+    position: absolute;
+    inset: 0;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .s7-cam {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    will-change: transform;
+  }
+
+  .s7-foto {
+    top: -17.5%;
+    height: 117.5%;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-size: cover;
+  }
+
+  /* Chapa DESKTOP (1672x941). A troca para a chapa retrato é por media
+     query, nunca por srcset: cada orientação tem geometria própria e o
+     srcset não sabe disso. */
+  .s7-ceu {
+    background-image: url("/pre-construcao/antes-desktop-1-ceu.webp");
+  }
+
+  .s7-meio {
+    background-image: url("/pre-construcao/antes-desktop-2-floresta.webp");
+  }
+
+  /* O homem E a berma de terra numa peça só: é isso que impede a figura de
+     descolar do chão em qualquer ponto da rolagem. */
+  .s7-frente {
+    background-image: url("/pre-construcao/antes-desktop-4-homem-terra.webp");
+  }
+
+  /* A palavra NÃO fica no meio da tela (top 0, 50% da altura). Na nossa chapa a
+     cabeça do homem cai em 25,6% da tela no
+     desktop: com top 0 a palavra batia no quadril dele, onde o corpo é mais
+     largo e tapava letra demais. Os dois valores foram medidos no mock. */
+  .s7-titulo {
+    top: -19svh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100svh;
+  }
+
+  /* Inter 900. A serifada itálica é da palavra-âncora da headline, que é
+     outra coisa. O `translate` é o ajuste ÓPTICO: a caixa da Inter 900 tem
+     mais ar embaixo e à direita do que o desenho da letra, então o centro
+     visual da palavra fica abaixo e à direita do centro da caixa. Meia
+     sobra de cada lado, medida na composição aprovada em 31/08. É
+     `translate`, e não `transform`, porque o transform da camada é do GSAP. */
+  .s7-palavra {
+    translate: -0.0375em -0.05em;
+    color: #fff;
+    font-size: 11vw;
+    font-weight: 900;
+    letter-spacing: -0.035em;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  /* NÃO é camada de parallax e não se move: degradê fixo nos 20% de baixo,
+     preto puro na base indo a transparente. É ele que dissolve a terra no
+     preto da faixa de texto. A curva é nossa: opacidade = (1 - t)^1,5, em
+     onze pontos. Um degradê linear de dois pontos deixaria uma quina visível
+     onde ele termina; a curva chega ao zero deitada. */
+  .s7-fade {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 30;
+    width: 100%;
+    height: 20%;
+    background: linear-gradient(
+      to top,
+      rgb(0 0 0 / 1) 0%,
+      rgb(0 0 0 / 0.854) 10%,
+      rgb(0 0 0 / 0.716) 20%,
+      rgb(0 0 0 / 0.586) 30%,
+      rgb(0 0 0 / 0.465) 40%,
+      rgb(0 0 0 / 0.354) 50%,
+      rgb(0 0 0 / 0.253) 60%,
+      rgb(0 0 0 / 0.164) 70%,
+      rgb(0 0 0 / 0.089) 80%,
+      rgb(0 0 0 / 0.032) 90%,
+      rgb(0 0 0 / 0) 100%
+    );
+    pointer-events: none;
+  }
+
+  /* 2px que escondem a emenda entre o transbordo e a faixa de texto. */
+  .s7-linha-preta {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    z-index: 20;
+    width: 100%;
+    height: 2px;
+    background: #000;
+  }
+
+  /* ============ a faixa de texto ============ */
+  /* TRAVA PERMANENTE: padding-inline, NUNCA o atalho `padding`. Este
+     contêiner se ACUMULA com .s7-texto no mesmo elemento, e o atalho
+     escreveria os quatro lados, zerando o padding vertical do texto. */
+  .s7-wrap {
+    margin-inline: auto;
+    width: 100%;
+    max-width: 1240px;
+    padding-inline: 40px;
+  }
+
+  /* Os visuais transbordam 20% de uma cabeça de 100svh, ou seja 20svh
+     EXATOS. A folga do texto é escrita como esse MESMO 20svh mais um
+     respiro, em vez de um número solto: assim as duas metades da conta
+     nunca saem de sincronia. O clamp põe piso e teto em px para a tela
+     curta, onde 6svh viraria um respiro de 30px e a headline encostaria
+     na terra. NUNCA usar o atalho `padding` aqui. */
+  .s7-texto {
+    position: relative;
+    z-index: 1;
+    padding-top: calc(20svh + clamp(40px, 6svh, 90px));
+    padding-bottom: clamp(70px, 12svh, 140px);
+  }
+
+  .s7-texto h2 {
+    margin-bottom: 18px;
+    max-width: 29ch;
+    color: #fff;
+    font-size: clamp(28px, 3.6vw, 50px);
+    font-weight: 600;
+    letter-spacing: -0.028em;
+    line-height: 1.06;
+  }
+
+  .s7-texto p {
+    margin-bottom: 28px;
+    max-width: 62ch;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: clamp(15px, 1.35vw, 17.5px);
+    line-height: 1.6;
+  }
+
+  .s7-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.34);
+    border-radius: 5px;
+    padding: 15px 26px;
+    max-width: 100%;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition:
+      background-color 0.4s,
+      color 0.4s,
+      border-color 0.4s;
+  }
+
+  .s7-cta:hover {
+    border-color: #fff;
+    background: #fff;
+    color: #000;
+  }
+
+  /* O foco-cota do design.md, em branco: sobre preto o Avanço mede 4,26:1 e
+     passaria, mas o branco é o contraste que esta faixa pede. */
+  .s7-cta:focus-visible {
+    box-shadow: 0 3px 0 0 #fff;
+  }
+
+  .s7-cta svg {
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .s7-cta:hover svg {
+    transform: translateX(5px);
+  }
+
+  @media (max-width: 1023px) {
+    .s7-wrap {
+      padding-inline: 30px;
+    }
+  }
+
+  /* Chapa CELULAR (941x1672), a MESMA cena em enquadramento retrato.
+     A caixa do título desce: nesta chapa a cabeça do homem cai em 57% da
+     tela, e com top 0 a palavra passava ACIMA dela, sem oclusão nenhuma. */
+  @media (max-width: 899px) {
+    .s7-ceu {
+      background-image: url("/pre-construcao/antes-mobile-1-ceu.webp");
+    }
+
+    .s7-meio {
+      background-image: url("/pre-construcao/antes-mobile-2-floresta.webp");
+    }
+
+    .s7-frente {
+      background-image: url("/pre-construcao/antes-mobile-4-homem-terra.webp");
+    }
+
+    .s7-titulo {
+      top: 5svh;
+    }
+
+    .s7-palavra {
+      font-size: 19vw;
+    }
+  }
+
+  @media (max-width: 820px) {
+    .s7-wrap {
+      padding-inline: 24px;
+    }
+
+    .s7-texto {
+      padding-top: calc(20svh + clamp(30px, 4svh, 56px));
+      padding-bottom: clamp(56px, 10svh, 96px);
+    }
+
+    .s7-texto h2 {
+      margin-bottom: 14px;
+      max-width: none;
+      font-size: clamp(26px, 7.6vw, 34px);
+    }
+
+    .s7-texto p {
+      margin-bottom: 24px;
+      max-width: none;
+      font-size: 15px;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .s7-wrap {
+      padding-inline: 20px;
+    }
+
+    .s7-texto h2 {
+      font-size: 25px;
+    }
+
+    /* o CTA a 26px de padding lateral não cabia em 320px de tela sem
+       encostar nas duas calhas, e em inglês o rótulo é mais longo. */
+    .s7-cta {
+      padding: 14px 20px;
+    }
+  }
+
+  /* ============ MOVIMENTO REDUZIDO ==================================
+     Aqui NÃO vale a regra do "estado final" do projeto (movimento.md):
+     todos os estados desta cena são visíveis, e o final deixaria a
+     composição deslocada. As quatro camadas param em ZERO, que é a
+     composição de CHEGADA e é a legível. O componente já não cria a
+     timeline; esta regra é a rede de segurança. */
+  @media (prefers-reduced-motion: reduce) {
+    .s7-cam {
+      transform: none !important;
+    }
+  }
+}
+
+/* ============================================================
+   BLOCO 8 · COMO A GENTE TRABALHA JUNTO · o filmstrip
+   Base: Elastic Gallery (21st.dev 9859), adaptada à marca.
+   A GRADE em si mora no componente (components/home/processo.tsx, posse do
+   Framer Motion); aqui fica a faixa, o painel, a foto, o véu e o texto.
+   NADA de `transition: flex`: a mudança de largura é resolvida pelo `layout`
+   do Framer em transform (movimento.md). O que fica em CSS é o que NÃO é
+   layout: opacidade, filtro e a escala da foto.
+   ============================================================ */
+@layer components {
+  /* ---- headline em UMA linha em todos os aparelhos ----------------
+     MEDIDO no navegador, em Inter 600 com letter-spacing -0.03em, dentro de
+     .conteudo (calha 24px, e 32px a partir de 1024px). MAIOR corpo que ainda
+     cabe numa linha, na copy PORTUGUESA, que é a que aperta:
+
+        320px -> 19,64px  (6,14vw)      largura útil 257px
+        360px -> 22,69px  (6,30vw)      largura útil 297px
+        390px -> 24,98px  (6,41vw)      largura útil 327px
+        768px -> 50,12px                largura útil 656px
+       1440px -> 53,25px                largura útil 697px
+
+     O inglês nunca é o que aperta: em 320px ele aceita 24,44px.
+     O teto em vw CRESCE com a tela, porque a calha de 24px mais a barra de
+     rolagem comem uma fatia maior em 320 do que em 390. Por isso quem manda
+     é o 320: 6,14vw. O coeficiente é 5,9vw, ~4% abaixo desse teto no ponto
+     mais apertado e 8% abaixo em 390.
+     O PISO de 17px é sanidade para telas absurdas, e nunca morde na faixa
+     testada: em 320 o 5,9vw já dá 18,88px. Piso alto demais é justamente o
+     que quebra aqui, porque ele ignora a largura disponível.
+     NÃO usar white-space:nowrap: nowrap não impede a quebra, ele troca a
+     quebra por estouro horizontal se a fonte demorar a carregar ou a copy
+     mudar. O certo é dimensionar por aritmética e deixar a quebra como rede
+     que nunca vai ser acionada. */
+  [data-bloco='processo'] h2 {
+    font-size: clamp(17px, 5.9vw, 38.4px);
+    letter-spacing: -0.03em;
+    text-wrap: normal; /* cancela o text-wrap:balance global */
+  }
+
+  /* ---- a faixa ---- */
+  [data-bloco='processo'] .proc-faixa {
+    display: flex;
+    gap: 14px;
+    height: 520px;
+    margin-top: 40px;
+    /* vira contêiner de consulta para a foto poder se medir pela FAIXA, e não
+       pelo painel, que é justamente o que muda de tamanho (ver .proc-foto) */
+    container-type: inline-size;
+  }
+
+  /* O <li> é o filho flex e é ELE que muda de proporção; o painel preenche o
+     li. O <button> não pode ser o pai do <h3> e do <p> (conteúdo de frase
+     contra conteúdo de fluxo), então ele vira uma camada por cima, e o
+     dimensionamento fica aqui. */
+  [data-bloco='processo'] .proc-faixa > li {
+    flex: 1;
+    min-width: 0;
+    min-height: 0;
+  }
+
+  [data-bloco='processo'] .proc-faixa > li[data-ativa='sim'] {
+    flex: 4;
+  }
+
+  [data-bloco='processo'] .proc-painel {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 24px;
+  }
+
+  /* O escurecimento vive na FOTO, não no painel. No painel ele apagava
+     junto o rótulo branco: `filter` desce para todo o conteúdo, e o #fff
+     virava rgb(133,133,133). Medido nos quatro painéis fechados, o rótulo
+     ficava em 2,79 e 3,43 de contraste em dois deles, abaixo do mínimo de
+     4,5:1. Com o filtro na foto, o texto continua branco puro e o quadro
+     escurece igual. */
+  [data-bloco='processo'] .proc-painel[data-ativa='sim'] .proc-foto {
+    filter: none;
+  }
+
+  /* A CAIXA DA FOTO NÃO MUDA DE TAMANHO, e é isso que impede a distorção.
+     O Framer anima largura por `scale`, e `object-fit: cover` recorta pela
+     caixa de LAYOUT, não pela caixa transformada: enquanto a caixa da foto
+     acompanhava o painel, a imagem era desenhada na largura final e depois
+     espremida (medido: 0,275 na horizontal contra 1,10 na vertical, em 28 de
+     45 quadros). Com a caixa CONSTANTE, o `layout` do Framer tem o que
+     segurar e aplica a escala inversa exata: a foto fica parada e nítida
+     enquanto a janela do painel abre em cima dela.
+     A largura é a do painel ABERTO, medida na FAIXA: 8 unidades, 4 vãos de
+     14px, e o aberto vale 4 unidades, ou seja (100cqw - 56px) / 2.
+     O centramento é por `left`, nunca por translate: o transform deste nó
+     pertence ao Framer. */
+  [data-bloco='processo'] .proc-foto {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: calc((100cqw - 56px) / 2);
+    left: calc(50% - (100cqw - 56px) / 4);
+    filter: brightness(0.52) saturate(0.7);
+    transition: filter 700ms cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  [data-bloco='processo'] .proc-foto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.1);
+    transition: transform 1000ms cubic-bezier(0.25, 1, 0.5, 1);
+  }
+
+  [data-bloco='processo'] .proc-painel[data-ativa='sim'] .proc-foto img {
+    transform: scale(1);
+  }
+
+  /* véu só no painel aberto, que é o que carrega parágrafo */
+  [data-bloco='processo'] .proc-veu {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    transition: opacity 500ms;
+    background: linear-gradient(
+      to top,
+      rgba(14, 36, 64, 0.9) 0%,
+      rgba(14, 36, 64, 0.42) 34%,
+      transparent 68%
+    );
+  }
+
+  [data-bloco='processo'] .proc-painel[data-ativa='sim'] .proc-veu {
+    opacity: 1;
+  }
+
+  [data-bloco='processo'] .proc-texto {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 30px;
+    text-align: left;
+  }
+
+  [data-bloco='processo'] .proc-aberto {
+    opacity: 0;
+    transform: translateY(28px);
+    transition:
+      opacity 500ms,
+      transform 500ms;
+  }
+
+  [data-bloco='processo'] .proc-painel[data-ativa='sim'] .proc-aberto {
+    opacity: 1;
+    transform: none;
+    transition-delay: 200ms;
+  }
+
+  [data-bloco='processo'] .proc-chip {
+    display: inline-block;
+    align-self: flex-start;
+    border: 1px solid rgb(255 255 255 / 0.34);
+    background: rgb(255 255 255 / 0.12);
+    backdrop-filter: blur(8px);
+    border-radius: 99px;
+    padding: 5px 12px;
+    color: #fff;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  [data-bloco='processo'] .proc-aberto h3 {
+    margin-top: 14px;
+    color: #fff;
+    font-size: 34px;
+    line-height: 1.04;
+  }
+
+  [data-bloco='processo'] .proc-aberto p {
+    margin-top: 10px;
+    max-width: 34ch;
+    color: rgb(255 255 255 / 0.86);
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  /* título vertical do painel fechado */
+  [data-bloco='processo'] .proc-vertical {
+    position: absolute;
+    left: 50%;
+    bottom: 30px;
+    transform: translateX(-50%);
+    writing-mode: vertical-rl;
+    white-space: nowrap;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    transition: opacity 500ms;
+    transition-delay: 500ms;
+  }
+
+  [data-bloco='processo'] .proc-painel[data-ativa='sim'] .proc-vertical {
+    opacity: 0;
+    transition-delay: 0ms;
+  }
+
+  /* O gatilho: um <button> de verdade cobrindo o painel inteiro. Mesma área
+     de clique, foco e Enter/Espaço nativos.
+     O anel é INTERNO (offset negativo) de propósito: o painel tem
+     overflow:hidden, e overflow de ancestral recorta o outline dos
+     descendentes. Um anel externo aqui seria cortado justamente nos cantos. */
+  [data-bloco='processo'] .proc-gatilho {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+
+  [data-bloco='processo'] .proc-gatilho:focus-visible {
+    outline: 2px solid var(--cor-avanco, #2a6dd6);
+    outline-offset: -4px;
+  }
+
+  @media (max-width: 820px) {
+    [data-bloco='processo'] .proc-faixa {
+      flex-direction: column;
+      height: 500px;
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    [data-bloco='processo'] .proc-painel {
+      border-radius: 20px;
+    }
+
+    /* No celular a faixa é coluna: quem muda é a ALTURA, e a largura é
+       sempre 100%. A caixa constante da foto passa a ser a ALTURA do painel
+       aberto: faixa de 500px, 4 vãos de 10px, 4 unidades de 8. */
+    [data-bloco='processo'] .proc-foto {
+      width: 100%;
+      left: 0;
+      height: calc((500px - 40px) / 2);
+      top: calc(50% - (500px - 40px) / 4);
+    }
+
+    [data-bloco='processo'] .proc-texto {
+      padding: 20px;
+    }
+
+    [data-bloco='processo'] .proc-aberto h3 {
+      font-size: 23px;
+    }
+
+    [data-bloco='processo'] .proc-aberto p {
+      font-size: 13.5px;
+      max-width: none;
+    }
+
+    /* no celular o painel fechado é uma tira LARGA e baixa: o título volta
+       a ser horizontal, senão ele não cabe. */
+    [data-bloco='processo'] .proc-vertical {
+      writing-mode: horizontal-tb;
+      left: 20px;
+      bottom: 16px;
+      transform: none;
+      font-size: 13px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-bloco='processo'] .proc-painel,
+    [data-bloco='processo'] .proc-foto,
+    [data-bloco='processo'] .proc-foto img,
+    [data-bloco='processo'] .proc-veu,
+    [data-bloco='processo'] .proc-aberto,
+    [data-bloco='processo'] .proc-vertical {
+      transition: none;
+    }
+
+    [data-bloco='processo'] .proc-foto img {
+      transform: none;
+    }
+  }
+}
+
+/* ============================================================
+   BLOCO 3 · SOBRE LUIS · o vale que abre e o cartão com facho
+   Base: Animated Video on Scroll (21st.dev 1959) no ato preso e Border Beam
+   Panel (21st.dev 23408) no cartão. O movimento dos dois mora nos próprios
+   componentes (posse do catálogo); aqui fica só o que é GEOMETRIA: o
+   orçamento de altura do painel preso e os separadores do cartão.
+   ============================================================ */
+@layer components {
+  /* ---- orçamento vertical do painel preso -----------------------------
+     O painel tem altura DEFINIDA de 100svh e centraliza. Tudo que não é a
+     mídia (respiros, headline, primeiro parágrafo, CTA e as folgas) é a
+     RESERVA; a mídia recebe o que sobra. O teto de ALTURA da mídia é
+     aplicado como teto de LARGURA, porque assim o quadro 16:9 encolhe sem
+     nunca perder a proporção nem estourar o painel.
+
+     Os números são MEDIDOS no navegador com a copy real, em português, que é
+     a que aperta. Em 1440x900: headline 130px (3 linhas a 38,4px), primeiro
+     parágrafo 82px, CTA 48px, respiro 80px e duas folgas de 28px, num total
+     de 411px. A reserva fica em 430 para o inglês e uma quebra a mais nunca
+     encostarem no limite. O celular pede menos porque a headline cai para
+     27,2px de corpo.
+
+     (O prompt sugeria 340px no desktop. Medido, 340 deixa o conjunto 71px
+     mais alto que a tela em 1440x900: a mídia ganharia 560px de altura e o
+     CTA sairia por baixo do painel preso. Ficou o número medido.)
+
+     Por que isto importa: o que transborda de um painel PRESO é
+     inalcançável, já que a rolagem não o traz de volta. Daí a mídia também
+     poder encolher (flex-shrink) como último recurso: se uma tradução
+     futura crescer, quem cede é o quadro, nunca o texto. */
+  [data-bloco='sobre'] {
+    --sobre-reserva: 300px;
+    /* A largura que a mídia pode ter. Vale como teto de largura E como base
+       do teto de altura logo abaixo, para os dois nunca se contradizerem. */
+    --sobre-largura-midia: min(
+      var(--largura-conteudo),
+      max(320px, calc((100svh - var(--sobre-reserva)) * 16 / 9))
+    );
+  }
+
+  @media (min-width: 821px) {
+    [data-bloco='sobre'] {
+      --sobre-reserva: 430px;
+    }
+  }
+
+  /* A folga e o respiro do painel preso moram AQUI, e não em utilitário
+     Tailwind, de propósito: a regra de tela baixa logo abaixo precisa
+     sobrepô-los, e no Tailwind v4 a camada `utilities` vem depois da camada
+     `components`, então utilitário sempre ganharia de regra escrita aqui,
+     por mais específica que ela fosse. Com os dois valores no mesmo lugar,
+     o orçamento vertical se lê num ponto só. */
+  .sobre-preso {
+    gap: 28px;
+    /* Este respiro é o ÚNICO ar desenhado nas pontas do painel. Tudo que
+       sobrava além dele virava vão morto, e é a mídia que passa a comer a
+       sobra (ver .sobre-midia). */
+    padding-block: 40px;
+  }
+
+  @media (min-width: 821px) {
+    .sobre-preso {
+      gap: 32px;
+      padding-block: 56px;
+    }
+  }
+
+  /* Celular baixo (320x568): o respiro e as folgas encolhem antes que a
+     mídia precise ceder. Só até 820px de largura: numa tela LARGA e baixa a
+     headline continua com 38,4px de corpo, e afrouxar a reserva ali faria
+     justamente o contrário do que esta regra existe para evitar. */
+  @media (width <= 820px) and (height <= 620px) {
+    .sobre-preso {
+      gap: 16px;
+      padding-block: 20px;
+    }
+
+    [data-bloco='sobre'] {
+      --sobre-reserva: 250px;
+    }
+  }
+
+  .sobre-midia {
+    width: 100%;
+    max-width: var(--sobre-largura-midia);
+    /* 16:9 é a proporção de PARTIDA, a do arquivo. */
+    aspect-ratio: 16 / 9;
+    /* A mídia CRESCE e encolhe: ela é o único elemento elástico do painel.
+       Antes era só `0 1 auto`, e a sobra entre o conteúdo (567px medidos em
+       390x844) e os 100svh do painel virava vão morto nas duas pontas: 138px
+       de Papel vazio acima da headline e 202px entre o CTA e o texto de
+       baixo. Com `1 1 auto` essa sobra vira quadro. */
+    flex: 1 1 auto;
+    min-height: 0;
+    /* Teto do crescimento, para o quadro não virar uma coluna e o object-fit
+       não comer a paisagem: no desktop a mídia nunca passa de 3:2, e é a
+       MESMA largura do teto acima que define o limite, então os dois não se
+       contradizem em nenhuma tela. */
+    max-height: calc(var(--sobre-largura-midia) * 2 / 3);
+    /* O raio do quadro fechado. Enquanto o recorte roda ele fica invisível
+       (a cápsula do clip-path é bem menor que a caixa); no fim os dois valem
+       16px, e sob movimento reduzido, com o recorte desligado, é ele que
+       entrega a mídia já no estado final. */
+    border-radius: var(--midia-raio);
+  }
+
+  /* ---- movimento reduzido --------------------------------------------
+     Resolvido AQUI, e não com um ramo de JSX. Trocar a árvore renderizada
+     conforme a preferência do usuário faz o servidor mandar uma marcação e
+     o cliente montar outra: o React reprova a hidratação, refaz a árvore
+     inteira e o próprio useScroll reclama ("Target ref is defined but not
+     hydrated"). Foram dois erros de console, medidos. Em CSS a preferência
+     é atendida antes da primeira pintura, sem trocar uma vírgula da
+     marcação.
+
+     !important em tudo por DOIS motivos: o Framer escreve estilo inline no
+     elemento, e inline só perde para !important; e as alturas e o sticky vêm
+     de utilitário Tailwind, que no v4 mora na camada `utilities`, depois
+     desta. É o mesmo recurso que a rede de segurança de movimento reduzido
+     já usa no topo deste arquivo.
+
+     O estado é o FINAL, nunca o inicial (lei do movimento.md): a mídia no
+     quadro cheio, o texto e o CTA visíveis e no lugar. E o trilho perde os
+     180svh: manter a rolagem morta seria trocar um defeito por outro. O
+     vídeo é barrado no efeito do MidiaDaRolagem. */
+  @media (prefers-reduced-motion: reduce) {
+    .sobre-trilho {
+      height: auto !important;
+      min-height: 0 !important;
+    }
+
+    .sobre-preso {
+      position: static !important;
+      height: auto !important;
+      min-height: 0 !important;
+      padding-block: var(--espaco-secao);
+    }
+
+    .sobre-midia {
+      clip-path: none !important;
+      max-height: none;
+    }
+
+    /* a escala 0,7 a 1 da mídia */
+    .sobre-midia > * {
+      transform: none !important;
+    }
+
+    /* o blur e o deslocamento de entrada do texto e do CTA */
+    .sobre-entrada {
+      filter: none !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+
+  /* Até 820px a largura da mídia é sempre a calha inteira da .conteudo
+     (100vw menos os 24px de cada lado do painel), nunca o teto acima. Então
+     o teto de altura vira 1:1 escrito na largura real: o quadro pode chegar
+     ao quadrado, que é o que enche a tela alta do celular, e não passa
+     disso, senão o corte comeria o vale. */
+  @media (width <= 820px) {
+    .sobre-midia {
+      max-height: calc(100vw - 48px);
+    }
+  }
+
+  /* ---- separadores do cartão de credibilidade -------------------------
+     Papel a 16% sobre a Tinta: fio suficiente para separar, discreto o
+     bastante para não competir com o facho. Escrito aqui, e não em classe
+     utilitária, porque a coluna em que cada item cai muda com o breakpoint
+     e nth-child no Tailwind vira loteria de ordem de regra. */
+  .sobre-credibilidade > li + li {
+    border-left: 1px solid rgb(245 243 239 / 0.16);
+  }
+
+  /* Calha fluida: 16px no celular estreito, 32px do tablet para cima. Numa
+     grade de 2 colunas a calha come a largura DUAS vezes, então cada pixel
+     aqui vale o dobro. */
+  .sobre-credibilidade > li {
+    padding-inline: clamp(16px, 4.5vw, 32px);
+  }
+
+  /* O valor dos três dados curtos. 19px é a medida do desktop. Numa grade de
+     2 colunas dentro de 320px a coluna útil cai para 104px, e "Fraser Valley"
+     (que anda colado por espaço inflexível, para "Valley" não ficar órfã)
+     MEDE 119px a 19px: transbordava a coluna e cruzava o separador. A escala
+     fluida entrega 16px em 320px e os 19px cheios a partir de ~430px. */
+  .sobre-valor {
+    font-size: clamp(16px, 2.73vw + 7.3px, 19px);
+  }
+
+  /* Até 820px a grade é de 2 colunas: o 3º item volta para a primeira
+     coluna e não pode ter separador. */
+  @media (width <= 820px) {
+    .sobre-credibilidade > li:nth-child(2n + 1) {
+      border-left: 0;
+    }
+  }
+}
+
+/* ============================================================
+   BLOCO 11 · GUIA E NEWSLETTER · o livro e o formulário com facho
+   Base: "Book" (21st.dev 1758) na geometria do livro e Border Beam Panel
+   (21st.dev 23408) no painel do formulário. O MOVIMENTO dos dois mora nos
+   componentes (posse declarada em cada um); aqui fica o que é MATÉRIA: a
+   pintura do livro, que o tema do autor não entrega, e os campos sobre a
+   Tinta.
+   ============================================================ */
+@layer components {
+  [data-bloco='guia'] {
+    /* O azul claro das portas, o mesmo do segundo facho. Mora aqui como
+       token do bloco para não virar hex solto em três regras; a prop
+       `colors` do painel repete o literal porque precisa de string em JS. */
+    --guia-azul-claro: #8fc0ff;
+  }
+
+  /* ---- o livro --------------------------------------------------------
+     LARGURA: 216px no celular, que é a medida em que a variante -mobile da
+     capa (tipografia maior de propósito) ainda se lê; 300px do tablet para
+     cima.
+     PROFUNDIDADE: 7% da largura (15,1px no celular, 21px no desktop). Era
+     5,5%, calibrado para um livro que só balançava 55 graus; num livro que
+     agora fica de PERFIL numa volta inteira, 11,9px praticamente somem.
+     7% continua sendo publicação fina e existe de perfil.
+     PERSPECTIVA: 1200px. 900px é lente curta demais para um objeto de 300px:
+     passando dos 90 graus a face distante distorce a ponto de dobrar. */
+  .guia-livro {
+    --livro-largura: 216px;
+    --livro-profundidade: calc(var(--livro-largura) * 0.07);
+    position: relative;
+    width: var(--livro-largura);
+    perspective: 1200px;
+    /* Arrastar na horizontal gira; arrastar na vertical continua rolando a
+       página. Sem isto o livro sequestra a rolagem no celular, e o
+       movimento.md proíbe sequestro de rolagem em qualquer seção. */
+    touch-action: pan-y;
+    cursor: grab;
+  }
+
+  .guia-livro:active {
+    cursor: grabbing;
+  }
+
+  @media (min-width: 821px) {
+    .guia-livro {
+      --livro-largura: 300px;
+    }
+  }
+
+  /* A sombra é IRMÃ da caixa 3D, nunca `box-shadow` na capa. Dois motivos, os
+     dois medidos: sombra colada na capa gira junto com ela, e sombra não gira;
+     e qualquer filtro dentro do elemento com `preserve-3d` achata a cena.
+     Difusa de propósito, porque é a única forma que continua verdadeira
+     quando o livro está de perfil. */
+  .guia-livro-sombra {
+    position: absolute;
+    left: 50%;
+    bottom: -5%;
+    width: 96%;
+    height: 16%;
+    transform: translateX(-50%);
+    background: radial-gradient(
+      closest-side,
+      rgb(0 0 0 / 0.55),
+      rgb(0 0 0 / 0.22) 62%,
+      transparent 100%
+    );
+    pointer-events: none;
+  }
+
+  /* REGRA DURA desta cena: aqui entram SÓ transform, transform-style e
+     will-change. `filter` (drop-shadow incluído), `backdrop-filter`,
+     `opacity` menor que 1, `overflow` diferente de visible, `clip-path`,
+     `mask`, `isolation`, `mix-blend-mode` e `contain: paint` ACHATAM o
+     preserve-3d em silêncio, e com ele morre o backface-visibility das faces:
+     o livro vira uma folha. Foi exatamente assim que esta cena caiu uma vez,
+     com um drop-shadow no próprio livro. */
+  .guia-livro-3d {
+    position: relative;
+    /* A capa é 3:4 EXATO. O demo do componente usa 49/60 (0,817) e cortava a
+       arte na altura do rosto. */
+    aspect-ratio: 3 / 4;
+    width: 100%;
+    transform-style: preserve-3d;
+    will-change: transform;
+    /* Ângulo de descanso como REGRA BASE, fora de qualquer media query: vale
+       na primeira pintura, com hidratação falhada e com JS desligado. O inline
+       do Framer vence isto assim que o JS roda. Mesma ordem que o Framer
+       compõe (rotateX antes de rotateY), para o estado com e sem JS serem o
+       mesmo pixel.
+       O ângulo virou TOKEN em 06/09/2026: -22deg continua sendo o da home, e a
+       cena do funil o redefine para -34deg no próprio escopo dela. O gêmeo em
+       JS é a prop `anguloDescanso` do `livro.tsx`; se os dois divergirem, o
+       livro dá um pulo no instante em que o Framer assume. */
+    transform: rotateX(4deg) rotateY(var(--livro-descanso, -22deg));
+  }
+
+  /* AS SEIS FACES. `backface-visibility: hidden` em todas, sem exceção: é a
+     única coisa que impede a CAPA ESPELHADA de aparecer quando o livro passa
+     dos 90 graus.
+     E a caixa é simétrica em torno do centro, de z = -D/2 a z = +D/2. Antes a
+     capa estava em z=0 e a contracapa em z=-D: com o eixo na capa, o livro
+     ORBITAVA em vez de girar em torno de si. */
+  .guia-livro-capa,
+  .guia-livro-verso,
+  .guia-livro-paginas,
+  .guia-livro-dorso,
+  .guia-livro-topo,
+  .guia-livro-base {
+    position: absolute;
+    backface-visibility: hidden;
+    /* FIO DE BORDA EM TODAS AS SEIS, e isto é medição, não gosto. A luminância
+       média da contracapa é 33,7 e a da Tinta da seção é 33,3: a mesma coisa.
+       Medindo só o perímetro, a borda esquerda dá 40,1 e o topo 35,4, mais
+       CLAROS que o fundo; a direita dá 12,0 e a base 8,4, mais ESCUROS. Ou
+       seja: partes do livro somem no fundo e partes recortam, e um objeto não
+       pode ter contorno intermitente. É o mesmo motivo pelo qual a borda de um
+       livro de verdade sempre aparece: o papel cortado pega luz. */
+    box-shadow: inset 0 0 0 1px rgb(245 243 239 / 0.16);
+  }
+
+  .guia-livro-capa {
+    inset: 0;
+    overflow: hidden;
+    border-radius: 2px 6px 6px 2px;
+    background: #ddd8ce;
+    transform: translateZ(calc(var(--livro-profundidade) / 2));
+  }
+
+  .guia-livro-capa img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* AS TRÊS CAMADAS DE LUZ DE CENA NASCEM DESLIGADAS.
+     Os nós existem no DOM em todo lugar que usa o livro (ver `CamadasDeLuz` em
+     livro.tsx), mas só a hero do funil tem uma cena fotografada com que casar.
+     Na home o livro está sobre a Tinta chapada do bloco 11, e ali qualquer
+     multiply ou screen só sujaria a capa. Quem as acende é o bloco
+     `[data-cena='nicho']`, no fim deste arquivo. */
+  .guia-livro-ambiente,
+  .guia-livro-sombra-cena,
+  .guia-livro-luz-borda {
+    display: none;
+  }
+
+  /* Lombada: a sombra da dobra impressa na própria capa. 8,4% da largura é a
+     medida do componente original. */
+  .guia-livro-lombada {
+    position: absolute;
+    inset-block: 0;
+    left: 0;
+    width: 8.4%;
+    background: linear-gradient(
+      to right,
+      rgb(14 36 64 / 0.34),
+      rgb(14 36 64 / 0.1) 55%,
+      transparent
+    );
+    mix-blend-mode: multiply;
+    pointer-events: none;
+  }
+
+  /* CORTE DAS PÁGINAS, na borda direita. A laje nasce achatada no canto
+     superior esquerdo e o rotateY(90deg) a levanta para dentro da
+     profundidade. Com o eixo no centro do livro, o único translate que resta
+     é o que leva o centro dela até x = +largura/2; o segundo translate que
+     existia antes era a compensação de um eixo que não estava no centro.
+     As listras correm na vertical e se repetem na profundidade, que é como se
+     vê o corte de um livro fechado. */
+  .guia-livro-paginas {
+    top: 0;
+    left: 0;
+    width: var(--livro-profundidade);
+    height: 100%;
+    background: repeating-linear-gradient(
+      to right,
+      #efece6 0 1px,
+      #d9d5cc 1px 2px
+    );
+    transform: translateX(
+        calc(var(--livro-largura) - var(--livro-profundidade) / 2)
+      )
+      rotateY(90deg);
+  }
+
+  /* O DORSO, na borda esquerda, agora com o título impresso como lombada de
+     verdade. `rotateY(-90deg)` e não +90: com as costas escondidas, uma face
+     só aparece pelo lado para onde a normal dela aponta, e a normal do dorso
+     tem que apontar para FORA, à esquerda. Com +90 ele ficava invisível
+     justamente quando o livro virava para mostrá-lo. */
+  .guia-livro-dorso {
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    width: var(--livro-profundidade);
+    height: 100%;
+    /* A LOMBADA É A DOBRA DA MESMA FOTO, não um azul inventado. Agora que a
+       frente e o verso são a mesma paisagem, um azul chapado no meio quebra a
+       peça. Os números vêm de amostrar os 14px de borda dos dois arquivos: a
+       borda esquerda da capa mede rgb(14 22 26), a borda direita da contracapa
+       mede rgb(6 14 18), e nas duas a luz cai de cima para baixo.
+       A camada de cima é a dobra pegando luz, e é ela que impede a lombada de
+       virar um risco preto quando o livro fica de perfil; a de baixo é a luz da
+       própria fotografia. */
+    background:
+      linear-gradient(
+        to right,
+        rgb(245 243 239 / 0.1) 0%,
+        rgb(245 243 239 / 0) 34%,
+        rgb(0 0 0 / 0.18) 72%,
+        rgb(245 243 239 / 0.07) 100%
+      ),
+      linear-gradient(
+        to bottom,
+        #172129 0%,
+        #09141c 33%,
+        #070c0d 66%,
+        #020505 100%
+      );
+    transform: translateX(calc(var(--livro-profundidade) / -2)) rotateY(-90deg);
+  }
+
+  .guia-livro-dorso-titulo {
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgb(245 243 239 / 0.7);
+    white-space: nowrap;
+  }
+
+  /* TOPO E BASE. Não existiam, e o livro só não parecia oco porque nunca
+     inclinava; agora ele inclina sempre (os 4 graus em X). Mesma matéria do
+     corte das páginas, mas as listras correm na HORIZONTAL e se repetem na
+     profundidade: visto de cima, o que se vê é a borda superior das folhas
+     empilhadas da lombada até o corte, não listras cruzando o livro. */
+  .guia-livro-topo,
+  .guia-livro-base {
+    left: 0;
+    width: 100%;
+    height: var(--livro-profundidade);
+    background: repeating-linear-gradient(
+      to bottom,
+      #efece6 0 1px,
+      #d9d5cc 1px 2px
+    );
+  }
+
+  .guia-livro-topo {
+    top: 0;
+    transform: translateY(calc(var(--livro-profundidade) / -2)) rotateX(90deg);
+  }
+
+  .guia-livro-base {
+    bottom: 0;
+    transform: translateY(calc(var(--livro-profundidade) / 2)) rotateX(-90deg);
+  }
+
+  /* A CONTRACAPA É FOTOGRAFIA, e é a MESMA paisagem da capa continuando para a
+     esquerda. Com a lombada no meio, as três faces leem como uma sobrecapa
+     impressa que dá a volta, e não como três superfícies diferentes coladas.
+     O `rotateY(180deg)` é obrigatório: sem ele a arte sai espelhada. O raio é o
+     espelho do da capa, porque vista por trás a lombada fica à direita. */
+  .guia-livro-verso {
+    inset: 0;
+    overflow: hidden;
+    border-radius: 6px 2px 2px 6px;
+    background: #0a1218;
+    transform: translateZ(calc(var(--livro-profundidade) / -2)) rotateY(180deg);
+  }
+
+  .guia-livro-verso img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* ---- o formulário ---------------------------------------------------
+     Os campos NÃO reusam o `Campo` de components/ui/formulario.tsx: aquele é
+     o campo do PAPEL (fundo branco, borda Lápis, texto Grafite) e sobre a
+     Tinta ele vira um retângulo branco chapado. Eram esses três retângulos
+     que faziam a seção parecer formulário de template. Aqui o campo é a
+     própria Tinta um pouco mais clara, e quem desenha é a borda. */
+  [data-bloco='guia'] .guia-rotulo {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgb(245 243 239 / 0.62);
+  }
+
+  [data-bloco='guia'] .guia-campo {
+    width: 100%;
+    height: 54px;
+    padding-inline: 16px;
+    border: 1px solid rgb(245 243 239 / 0.36);
+    border-radius: 8px;
+    background: rgb(245 243 239 / 0.06);
+    color: var(--cor-papel);
+    font-size: 15px;
+    transition:
+      border-color 0.3s,
+      background 0.3s,
+      box-shadow 0.3s;
+  }
+
+  [data-bloco='guia'] .guia-campo::placeholder {
+    color: rgb(245 243 239 / 0.34);
+  }
+
+  /* Substituto declarado da cota de foco (design.md: nunca remover o foco sem
+     substituto). A borda inteira acende no azul claro e ganha halo; sobre a
+     Tinta isso se lê melhor que um sublinhado de 3px. */
+  [data-bloco='guia'] .guia-campo:focus {
+    outline: none;
+    border-color: var(--guia-azul-claro);
+    background: rgb(245 243 239 / 0.1);
+    box-shadow: 0 0 0 3px rgb(143 192 255 / 0.18);
+  }
+
+  /* A caixa nativa sai: no Windows e no Android ela chega cinza de sistema e
+     estoura a paleta. Esta é desenhada, com o mesmo fundo e a mesma borda dos
+     campos, e o visto é SVG (nunca caractere, nunca emoji). */
+  [data-bloco='guia'] .guia-caixa {
+    appearance: none;
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    margin-top: 1px;
+    border: 1px solid rgb(245 243 239 / 0.36);
+    border-radius: 5px;
+    background: rgb(245 243 239 / 0.06);
+    cursor: pointer;
+    transition:
+      border-color 0.3s,
+      background-color 0.3s,
+      box-shadow 0.3s;
+  }
+
+  [data-bloco='guia'] .guia-caixa:checked {
+    border-color: var(--cor-avanco);
+    background-color: var(--cor-avanco);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='%23ffffff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4.8 10.4 8.3 13.9 15.2 6.4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 14px 14px;
+  }
+
+  [data-bloco='guia'] .guia-caixa:focus-visible {
+    outline: none;
+    border-color: var(--guia-azul-claro);
+    box-shadow: 0 0 0 3px rgb(143 192 255 / 0.18);
+  }
+
+  /* A label inteira é o alvo de toque (44px de altura mínima), e o rótulo do
+     consentimento nunca vira placeholder. */
+  [data-bloco='guia'] .guia-consentimento {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    min-height: 44px;
+    max-width: 60ch;
+    margin-top: 20px;
+    padding-block: 6px;
+    color: rgb(245 243 239 / 0.85);
+    font-size: 14px;
+    line-height: 1.55;
+    cursor: pointer;
+  }
+
+  /* Mesma lei do botaoPrimario (design.md): Avanço sólido, raio 8px, SEM
+     sombra, hover escurece um passo, active .98. Duas diferenças declaradas:
+     54px de altura, para casar com os campos, e a cota de foco em Papel,
+     porque a cota Avanço desaparece sobre a Tinta.
+     Sem vidro e sem backdrop-filter: sobre um campo de Tinta chapado não há
+     matéria para refratar, e o botão perderia o contraste que faz dele o
+     único ponto de ação da seção. */
+  [data-bloco='guia'] .guia-botao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 54px;
+    padding-inline: 28px;
+    border-radius: 8px;
+    background: var(--cor-avanco);
+    color: var(--cor-branco);
+    font-size: 15px;
+    font-weight: 600;
+    transition:
+      background-color 0.2s,
+      transform 0.2s;
+  }
+
+  @media (min-width: 640px) {
+    [data-bloco='guia'] .guia-botao {
+      width: auto;
+    }
+  }
+
+  [data-bloco='guia'] .guia-botao:hover {
+    background: var(--cor-avanco-escuro);
+  }
+
+  [data-bloco='guia'] .guia-botao:active {
+    transform: scale(0.98);
+  }
+
+  [data-bloco='guia'] .guia-botao:focus-visible {
+    outline: none;
+    box-shadow: 0 3px 0 0 var(--cor-papel);
+  }
+
+  /* MOVIMENTO REDUZIDO. Resolvido AQUI, e não em ramo de JSX, por dois
+     motivos, os dois MEDIDOS no navegador em 01/09:
+
+     1. Ramo de JSX quebraria a hidratação. O `useReducedMotion` responde false
+        no servidor e true na primeira pintura do cliente, então escolher
+        marcação ou estilo inicial por ele entrega duas árvores diferentes
+        (lição registrada em components/home/sobre-luis.tsx).
+     2. E principalmente: com a preferência ligada, o Framer PARA. Ele deixa o
+        elemento com `transform: none` inline e o `useScroll` nem atualiza mais
+        (medido: 11.514px de rolagem e o valor da base parado no ângulo de
+        entrada). Sem esta regra o livro não ficaria no descanso: ficaria
+        CHAPADO, de frente, sem volume nenhum. Ou seja, quem prende o livro no
+        ângulo é o CSS, não o JS.
+
+     `!important` porque é o inline do Framer que está do outro lado. Repete o
+     mesmo ângulo da regra base de `.guia-livro-3d`: quem usa movimento
+     reduzido vê o MESMO livro, só parado. E o estado é o FINAL, nunca o
+     inicial (lei do movimento.md). Sem oscilação de entrada, sem inércia, sem
+     arrasto e sem nenhum laço rodando: disso cuidam os manipuladores e o
+     efeito do observador em livro.tsx, que saem na porta quando `reduzido`. */
+  @media (prefers-reduced-motion: reduce) {
+    .guia-livro-3d {
+      transform: rotateX(4deg) rotateY(var(--livro-descanso, -22deg)) !important;
+    }
+
+    .guia-livro,
+    .guia-livro:active {
+      cursor: default;
+    }
+
+    [data-bloco='guia'] .guia-campo,
+    [data-bloco='guia'] .guia-caixa,
+    [data-bloco='guia'] .guia-botao {
+      transition: none;
+    }
+
+    [data-bloco='guia'] .guia-botao:active {
+      transform: none;
+    }
+  }
+}
+
+/* ============================================================
+   DEPOIMENTOS · bloco 9 da home
+   Palavras de pessoas reais publicadas no perfil do Google do Luis. A seção
+   tem DONO de movimento (data-owner="catalogo"): o Framer Motion da
+   PilhaCards. Nada aqui anima; o Passe 3 não toca nestes elementos.
+   A prova é conferível: nota real, contagem real e link para o perfil.
+   ============================================================ */
+
+/* LOCKUP EDITORIAL. Até 1024px é uma coluna só, na ordem título, nota, pilha.
+   A partir de 1024px o título ancora em cima à esquerda, o "5,0" ancora
+   embaixo à esquerda e a pilha toma a direita inteira: a diagonal entre os
+   três é o que substitui o bloco centralizado sozinho no meio do Papel. */
+[data-bloco='depoimentos'] .lockup-depoimentos {
+  display: grid;
+  gap: 32px;
+}
+
+@media (width >= 64rem) {
+  [data-bloco='depoimentos'] .lockup-depoimentos {
+    grid-template-columns: repeat(12, 1fr);
+    align-items: stretch;
+    gap: 48px;
+  }
+
+  [data-bloco='depoimentos'] .coluna-nota {
+    grid-column: 1 / 5;
+  }
+
+  [data-bloco='depoimentos'] .coluna-pilha {
+    grid-column: 6 / -1;
+  }
+}
+
+[data-bloco='depoimentos'] .coluna-nota {
+  display: flex;
+  flex-direction: column;
+}
+
+/* O empurrão que cria a diagonal. O padding inferior desconta a fileira de
+   controles da PilhaCards (24px de margem mais 44px de alvo de toque), que
+   fica ABAIXO do card: sem ele a nota alinharia com a base dos dots, e não
+   com a base do card da frente, que é o que o desenho pede. */
+@media (width >= 64rem) {
+  [data-bloco='depoimentos'] .coluna-nota {
+    padding-bottom: 68px;
+  }
+}
+
+/* Abaixo de 1024px a nota deita: número, estrelas e selo na mesma linha, com
+   quebra por flex-wrap nas telas mais estreitas. */
+[data-bloco='depoimentos'] .bloco-nota {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 24px;
+  column-gap: 18px;
+  row-gap: 10px;
+}
+
+@media (width >= 64rem) {
+  [data-bloco='depoimentos'] .bloco-nota {
+    display: block;
+    margin-top: auto;
+  }
+}
+
+/* O NÚMERO É O HERÓI, e é ele a forma-assinatura da seção. As estrelas se
+   alinham pela base ótica: align-items: baseline põe a base do grupo de
+   estrelas na linha de base do número, e continua certo quando o número cai
+   para 46px no celular, sem um segundo valor para desencontrar. */
+[data-bloco='depoimentos'] .linha-nota {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+}
+
+[data-bloco='depoimentos'] .numero-nota {
+  color: var(--texto-titulo);
+  font-family: var(--font-serifa), Georgia, serif;
+  font-size: 46px;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+@media (width >= 64rem) {
+  [data-bloco='depoimentos'] .numero-nota {
+    font-size: 64px;
+  }
+}
+
+/* O amarelo é o do próprio "G": é ele que amarra a estrela à atribuição do
+   Google em vez de deixá-la solta na paleta da marca. Cheia, sem contorno,
+   sem sombra, sem animação. */
+[data-bloco='depoimentos'] .estrelas {
+  display: inline-flex;
+  gap: 2px;
+  color: #fbbc04;
+}
+
+/* A linha 2 inteira é o link para o perfil, onde qualquer pessoa confere o
+   número. SEM transition no box-shadow, e isto foi MEDIDO: com transição o
+   anel de foco do teclado congela no primeiro quadro (transparente) e o link
+   fica sem foco visível mesmo casando com :focus-visible. Indicador de foco
+   precisa aparecer no quadro em que o Tab chega. */
+[data-bloco='depoimentos'] .link-avaliacoes {
+  display: flex;
+  align-items: center;
+  min-height: 44px; /* alvo de toque (portão de 24/09/2026) */
+  gap: 8px;
+  width: fit-content;
+  max-width: 100%;
+  color: var(--texto-corpo);
+  font-size: 14px;
+  letter-spacing: 0.01em;
+  line-height: 1.5;
+  text-decoration: none;
+}
+
+@media (width >= 64rem) {
+  [data-bloco='depoimentos'] .link-avaliacoes {
+    margin-top: 20px;
+  }
+}
+
+/* Sublinhado-cota do design.md: só no hover e no foco. O :focus-visible global
+   já cobre o teclado; o hover recebe o mesmo desenho para os dois lerem
+   igual. */
+[data-bloco='depoimentos'] .link-avaliacoes:hover {
+  box-shadow: 0 3px 0 0 var(--assinatura-cota);
+}
+
+[data-bloco='depoimentos'] .marca-google,
+[data-bloco='depoimentos'] .seta-externa {
+  flex: none;
+}
+
+[data-bloco='depoimentos'] .seta-externa {
+  width: 14px;
+  height: 14px;
+}
+
+/* A PILHA.
+   O overflow-x: clip conserta uma barra de rolagem horizontal REAL, e a conta
+   é esta: na PilhaCards a escala é 1 menos distancia vezes 0,08, e para o card
+   que JÁ PASSOU a distância é negativa, então ele não encolhe, ele CRESCE
+   (1,08 e 1,16). Ele fica invisível (opacity 0), mas continua ocupando
+   largura. Com o card ocupando a faixa de conteúdo inteira, o de 1,16
+   transborda 8% da largura para cada lado, e isso passa dos 24px de margem da
+   página assim que a viewport cruza os 348px. Medido antes do conserto: 498px
+   de scrollWidth numa janela de 487px. Clipar aqui não esconde nada, porque o
+   que passa da borda é justamente o card invisível. clip e não hidden de
+   propósito: hidden criaria contexto de rolagem e forçaria o eixo Y a auto;
+   clip corta sem isso e deixa o Y livre para os frames de trás subirem.
+   A PilhaCards não é tocada. */
+[data-bloco='depoimentos'] .coluna-pilha {
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+/* MOVIMENTO REDUZIDO. A PilhaCards troca a pilha por `grid gap-6
+   md:grid-cols-3`, e três colunas dentro da coluna da direita (680px no
+   desktop) dão cards de 198px de largura por 855px de altura: MEDIDO, e é
+   ilegível. A grade continua na coluna da direita, como manda o desenho; o
+   que muda é a contagem de colunas, para o card voltar à proporção que ele
+   tem na pilha. Quem pediu menos movimento recebe uma lista sóbria e legível,
+   não a mesma seção espremida.
+   O gancho é a classe `grid` da PRÓPRIA grade de fallback, e não um
+   `@media (prefers-reduced-motion: reduce)`, de propósito: quem decide o
+   fallback é o useReducedMotion do componente, então amarrar a regra ao que
+   ele REALMENTE renderizou é impossível de dessincronizar. Na pilha normal o
+   filho não tem `grid` e a regra nem existe. */
+[data-bloco='depoimentos'] .coluna-pilha > div.grid {
+  grid-template-columns: 1fr;
+}
+
+/* O CARD. Papel puro com fio de 10% de Tinta e sem sombra: a profundidade
+   desta seção já vem da pilha. A borda vence a utilitária do CardFicha por
+   especificidade (atributo mais classe), e por isso o hover dele é
+   redeclarado aqui em vez de perdido.
+   SEM overflow: hidden e sem position novo: a aspa decorativa que exigia os
+   dois foi removida, e a identidade do card agora vem de matéria de verdade
+   (estrelas, foto e atribuição). */
+/* Respiro uniforme nos quatro lados, em UMA declaração `padding`. O CardFicha
+   traz `p-7 lg:p-8` (28 e 32px, virando no 1024) e aqui a régua é outra: 26px
+   até 820px e 32px de 821px para cima. Uma declaração só, e não
+   `padding-inline` mais `padding-block`, justamente para não acumular com a
+   utilitária, que foi o acúmulo que quebrou o bloco 7 duas vezes. Regra sem
+   camada vence a utilitária, então o valor final é este e nenhum outro. */
+[data-bloco='depoimentos'] .ficha-depoimento {
+  background: var(--cor-papel);
+  border-color: rgb(14 36 64 / 0.1);
+  padding: 26px;
+}
+
+@media (width >= 51.3125rem) {
+  [data-bloco='depoimentos'] .ficha-depoimento {
+    padding: 32px;
+  }
+}
+
+/* A COTA, ancorada rente à borda em vez de montada sobre ela.
+   O CardFicha põe a cota em `top: -1px`, então 1px dela fica ACIMA da linha da
+   borda. Com a borda original (Lápis sólido) isso lia como um segmento da
+   própria borda. Nesta seção a borda passou a ser Tinta a 10%, quase
+   invisível, e aí um traço sólido de Avanço de 44x3px montado por cima dela
+   passou a ler como barra solta flutuando acima do card, que é exatamente o
+   que o design.md proíbe ("a cota NUNCA aparece como traço solto flutuando").
+   `top: 0` devolve a leitura de segmento da borda superior, que é uma das
+   âncoras que o design.md autoriza. A forma-assinatura continua no card. */
+[data-bloco='depoimentos'] .ficha-depoimento > span[aria-hidden='true'] {
+  top: 0;
+}
+
+[data-bloco='depoimentos'] .ficha-depoimento:hover {
+  border-color: var(--cor-avanco);
+}
+
+/* AS LASCAS AZUIS DO CANTO SUPERIOR ESQUERDO. Medido: elas NÃO eram a aspa
+   amputada. São a cota do CardFicha, a forma-assinatura do card, um traço
+   sólido de 44x3px em Avanço que cada card carrega no topo. Como os frames de
+   trás sobem 30px cada e encolhem, apareciam três traços escalonados
+   (44, 40 e 37px) empilhados no canto. A aspa saiu e eles continuavam lá,
+   porque nunca foram ela.
+   A cota fica no card DA FRENTE, que é onde ela é assinatura, e some nos que
+   a PilhaCards já marcou como não-atuais. Em movimento reduzido não há
+   wrapper com aria-hidden, então as três fichas da grade mantêm a cota, que é
+   o certo: ali as três são cards de verdade, lado a lado. */
+[data-bloco='depoimentos'] [aria-hidden='true'] .ficha-depoimento > span[aria-hidden='true'] {
+  opacity: 0;
+}
+
+[data-bloco='depoimentos'] .estrelas-card {
+  margin-bottom: 22px;
+}
+
+/* O TEXTO é o protagonista. Corpo levemente maior que o padrão do site, como
+   pede a nota visual do cliente no roteiro.md. */
+[data-bloco='depoimentos'] .texto-depoimento p {
+  color: var(--texto-corpo);
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+@media (width >= 51.3125rem) {
+  [data-bloco='depoimentos'] .texto-depoimento p {
+    font-size: 19px;
+  }
+}
+
+/* Ênfase editorial de citação: o destaque é nosso, o texto é dela. Sem cor
+   diferente, sem fundo, sem itálico. O peso é declarado porque o <b> nasce em
+   700 no navegador. */
+[data-bloco='depoimentos'] .realce,
+[data-bloco='depoimentos'] .fonte {
+  color: var(--texto-titulo);
+  font-weight: 500;
+}
+
+/* A ASSINATURA. Grade de duas colunas para a foto acompanhar as duas linhas
+   de texto sem depender de altura fixa. */
+[data-bloco='depoimentos'] .assinatura-depoimento {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  align-items: start;
+  margin-top: auto;
+  padding-top: 28px;
+  column-gap: 14px;
+  row-gap: 3px;
+}
+
+/* O círculo é do CSS: a imagem chega quadrada (144x144). O object-fit impede
+   qualquer deformação se um dia entrar uma foto fora de esquadro. */
+[data-bloco='depoimentos'] .foto-depoimento {
+  grid-row: 1 / span 2;
+  box-shadow: 0 0 0 1px rgb(14 36 64 / 0.1);
+  border-radius: 50%;
+  width: 52px;
+  height: 52px;
+  object-fit: cover;
+}
+
+[data-bloco='depoimentos'] .nome-depoimento {
+  grid-column: 2;
+  grid-row: 1;
+  align-self: end;
+  color: var(--texto-titulo);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+/* Grafite a 80%, não 75%: a 75% a linha mede 4,13:1 sobre o Papel e reprova
+   no AA para texto normal de 11px. A 80% mede 4,66:1 e passa. A diferença
+   óptica entre as duas é nula; a de acessibilidade é passa ou não passa. */
+[data-bloco='depoimentos'] .origem-depoimento {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: start;
+  color: rgb(61 77 99 / 0.8);
+  font-size: 12px;
+  letter-spacing: 0.13em;
+  line-height: 1.45;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   SOBRE · bloco 3 da home, ancoragem do painel preso
+   Companheiro das regras de .sobre-preso no @layer components (por volta da
+   linha 1736). Esta mora FORA de camada de propósito: `justify-center` chega
+   por utilitário Tailwind, e no v4 a camada `utilities` vem depois de
+   `components`, então regra escrita lá perderia por mais específica que
+   fosse. Regra sem camada ganha de qualquer utilitário.
+   ============================================================ */
+
+/* MEDIDO em 390x844, com a seção no topo do trilho: o painel tem 764px de
+   altura interna, os três filhos somam 660px e os dois gaps somam 56px, o que
+   deixa 48px de sobra. Com `justify-content: center` essa sobra se divide em
+   duas e 24px viram ar ACIMA da headline, bem na emenda com a seção 2, que é
+   onde ela é mais visível: ali ela se soma aos 70px de padding inferior da
+   seção 2 e ao deslocamento inicial da animação de entrada.
+   Com `flex-start` a headline encosta no respiro de 40px e a sobra inteira
+   cai embaixo do CTA, onde ela é rodapé de painel e não separa duas seções.
+   Só até 820px: no desktop o painel é mais alto que o conteúdo por margem
+   maior e o centro continua sendo a leitura certa. */
+@media (width <= 820px) {
+  [data-bloco='sobre'] .sobre-preso {
+    justify-content: flex-start;
+  }
+}
+
+/* ============================================================
+   VENDA · bloco 6 · O HALO ATRÁS DO BARALHO (prompt 2.33)
+   Dois irmãos empilhados, cada um com um radial-gradient de UM tom só até o
+   transparente dele mesmo. Na troca de card o de baixo já está no tom novo e
+   o de cima faz fade-out: a única propriedade que anima é `opacity`. Nunca
+   `filter`, nunca `background`, nunca `width`.
+   A caixa sangra para fora da calha de propósito (o halo é ambiente, não
+   moldura); quem impede rolagem horizontal é o overflow-hidden da seção.
+   ============================================================ */
+.venda-halo {
+  position: absolute;
+  inset: -14% -9%;
+  z-index: 0;
+  /* Amplitude: sentido, não anunciado. Se sumir em tela, sobe daqui;
+     escurecer o fundo da seção está fora. */
+  opacity: 0.92;
+  pointer-events: none;
+}
+
+/* ============================================================
+   VENDA · bloco 6 · O FOCO DO QUADRO DO BARALHO
+   O quadro é focável (setas do teclado trocam o card) e é TRANSPARENTE. O foco
+   global do projeto é `box-shadow: 0 3px 0 0`, que num elemento SEM FUNDO não
+   vira sublinhado: vira um retângulo inteiro em Avanço pintado atrás do
+   conteúdo. Foi medido em tela e aparece como uma moldura azul em volta das
+   fotos.
+   A cota continua sendo a mesma cota de 3px em Avanço, e continua ANCORADA
+   (design.md): o que muda é o desenho, que passa a ser um pseudo-elemento
+   preso à base do quadro, em vez da sombra do elemento inteiro.
+   ============================================================ */
+.baralho-quadro:focus-visible {
+  box-shadow: none;
+}
+
+.baralho-quadro:focus-visible::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 96px;
+  height: 3px;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  background: var(--foco-teclado);
+}
+
+@keyframes venda-halo-saida {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.venda-halo-saida {
+  animation: venda-halo-saida 700ms cubic-bezier(0.33, 0, 0.2, 1) forwards;
+}
+
+/* Movimento reduzido: o crossfade é INSTANTÂNEO e o halo assume o estado
+   final (a camada de baixo, já no tom novo). A rede de segurança global
+   também zera a duração; esta regra torna o zero explícito. */
+@media (prefers-reduced-motion: reduce) {
+  .venda-halo-saida {
+    display: none;
+  }
+}
+
+/* ============================================================================
+   CARTÃO DE IDENTIDADE · cabeçalho da página SOBRE
+   ----------------------------------------------------------------------------
+   Base: 21st.dev 5717 ("Glassmorphism Profile Card", beratberkayg), adaptado.
+   O material é o da VITRINE da hero (--vitrine-fundo, --vitrine-borda,
+   --vitrine-fio, --vitrine-veu, raio 16px): é o mesmo vidro, o mesmo fio branco
+   e o mesmo raio, então o cartão amarra na hero sem copiar o fundo dela.
+
+   A GEOMETRIA, e é uma identidade só, igual à da vitrine:
+     quadro  = largura útil do cartão / 0,858   (a proporção do arquivo)
+     figura  = quadro / 0,93                    (a figura é maior que o quadro)
+     fora    = figura - quadro                  (o quanto a cabeça sai por cima)
+   Confira sempre: fora + quadro = figura. É esse "fora" que faz o recorte ler
+   como fotografia e não como adesivo colado, e é ele que dita a folga entre a
+   linha da licença e o topo do quadro (a cabeça ocupa essa folga).
+
+   O 0,93 é mais contido que o 0,62 da hero de propósito: lá o painel é quadrado
+   e o corpo termina na barba; aqui o quadro já é retrato inteiro e o transbordo
+   só precisa romper a borda, não recortar o busto.
+   ============================================================================ */
+@layer components {
+  .cartao-id {
+    --cartao-respiro: 24px;
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    margin-inline: auto;
+  }
+
+  @media (min-width: 1024px) {
+    .cartao-id {
+      --cartao-respiro: 28px;
+      max-width: 440px;
+    }
+  }
+
+  /* O halo QUIETO, por baixo do cartão. Existe porque o vidro da vitrine foi
+     calibrado para VÍDEO atrás: branco a 27,5% sobre Papel dá 4 níveis de
+     diferença, e o fio branco a 88% sobre Papel dá menos ainda. Sem uma cama de
+     luz atrás, o cartão inteiro fica sem aresta. Tingido em Avanço, difuso, e
+     sem sombra dura: quem descola o card é o halo. Este NÃO respira. */
+  .cartao-id-halo {
+    position: absolute;
+    inset: -30px;
+    z-index: 0;
+    border-radius: 44px;
+    /* Wash largo: a cama de luz que envolve o conjunto inteiro. */
+    background: rgb(42 109 214 / 0.13);
+    filter: blur(30px);
+    pointer-events: none;
+  }
+
+  /* Segunda camada, colada na silhueta do cartão. Um retângulo cheio e borrado
+     tem o pico de luz EXATAMENTE na aresta e cai para fora, que é o que faz o
+     fio branco de 88% ter contra o que se destacar. Um radial centrado não
+     serve: ele acende o meio, onde a foto já é opaca, e deixa as bordas no
+     Papel puro. MEDIDO antes: com halo radial o fio branco ficava a 3 níveis
+     de canal do fundo, ou seja aresta nenhuma. */
+  .cartao-id-halo::after {
+    content: "";
+    position: absolute;
+    inset: 16px;
+    border-radius: 28px;
+    background: rgb(42 109 214 / 0.17);
+    filter: blur(16px);
+  }
+
+  /* CONTÊINER DE CONSULTA, e não é enfeite de sintaxe: as cotas do quadro
+     (altura e transbordo) são DERIVADAS da largura útil, e uma porcentagem
+     dentro de custom property resolve contra a caixa de QUEM USA. Usada em
+     `height`, ela resolveria contra a altura, que aqui depende dela mesma:
+     medido, a figura saía 589px em vez de 477. O cqw é comprimento de verdade,
+     sempre contra a largura deste contêiner, então a identidade
+     "fora + quadro = figura" fecha em qualquer largura. */
+  .cartao-id-vidro {
+    container-type: inline-size;
+    position: relative;
+    z-index: 20;
+    padding: var(--cartao-respiro);
+    border: 2px solid var(--vitrine-borda);
+    border-radius: var(--vitrine-raio);
+    background: var(--vitrine-fundo);
+  }
+
+  /* O fio interno da vitrine, o mesmo recuo de 4px da hero. */
+  .cartao-id-vidro::after {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border: 1px solid var(--vitrine-fio);
+    border-radius: calc(var(--vitrine-raio) - 4px);
+    pointer-events: none;
+  }
+
+  .cartao-id-topo {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--texto-corpo);
+  }
+
+  .cartao-id-relogio {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--texto-titulo);
+  }
+
+  /* Largura reservada em algarismos tabulares: o slot nasce vazio (a hora só
+     existe depois da montagem) e não há salto quando ela chega. */
+  .cartao-id-hora {
+    min-width: 4.4ch;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.06em;
+  }
+
+  /* ---- O QUADRO DA FOTO ---------------------------------------------------
+     Sem overflow aqui: quem recorta é o invólucro, e só nos lados e embaixo. A
+     margem de cima é fora + 14px, então a cabeça ocupa a folga entre a linha da
+     licença e a borda do quadro em vez de deixar um vão vazio. */
+  .cartao-id-foto {
+    /* 100cqw é a largura útil do cartão (a caixa de conteúdo do vidro), já
+       descontados o padding e a borda. */
+    --cartao-quadro-altura: calc(100cqw / 0.858);
+    --cartao-figura-altura: calc(var(--cartao-quadro-altura) / 0.93);
+    --cartao-fora: calc(
+      var(--cartao-figura-altura) - var(--cartao-quadro-altura)
+    );
+    position: relative;
+    z-index: 1;
+    margin-top: calc(var(--cartao-fora) + 14px);
+    aspect-ratio: 858 / 1000;
+    width: 100%;
+  }
+
+  /* O CHÃO. Sem ele o vidro do cartão aparece ATRAVÉS da silhueta do recorte
+     (o arquivo tem fundo transparente) e a figura vira um vulto. Céu em cima,
+     Papel embaixo, a mesma atmosfera do fundo do hero. */
+  .cartao-id-chao {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    overflow: hidden;
+    border-radius: 12px;
+    background: linear-gradient(
+      to bottom,
+      var(--cor-ceu) 0%,
+      color-mix(in srgb, var(--cor-ceu) 55%, var(--cor-papel)) 52%,
+      var(--cor-papel) 100%
+    );
+  }
+
+  /* O brilho principal: nasce por trás dos OMBROS e é ele que põe o recorte no
+     espaço. Respira em ciclo longo, na mesma faixa de 14s do halo da hero, só
+     em transform e opacity. O repouso é o estado FINAL do ciclo, e é de
+     propósito: com movimento reduzido a animação some e ele fica exatamente
+     aqui, sem nenhum branch em JS. */
+  .cartao-id-brilho {
+    position: absolute;
+    inset: 0;
+    transform: scale(1.06);
+    opacity: 1;
+    background: radial-gradient(
+      52% 40% at 50% 63%,
+      rgb(42 109 214 / 0.34),
+      rgb(42 109 214 / 0.12) 55%,
+      rgb(42 109 214 / 0) 76%
+    );
+    animation: cartao-id-respira 14s ease-in-out infinite alternate;
+    will-change: transform, opacity;
+  }
+
+  /* O INVÓLUCRO. Mais alto que o quadro e sem recorte em cima: é por ali que a
+     cabeça sai. Os 40px de folga acima do topo da figura são a mesma margem de
+     segurança da hero, para o antisserrilhado do cabelo nunca encostar na
+     aresta do recorte. Recorta nos lados, porque a figura é mais larga que o
+     quadro, e é esse corte lateral que dá o efeito de vitrine. */
+  .cartao-id-recorte {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    height: calc(var(--cartao-figura-altura) + 40px);
+    overflow: hidden;
+    border-bottom-right-radius: 12px;
+    border-bottom-left-radius: 12px;
+    pointer-events: none;
+  }
+
+  /* Posicionada pela BASE, sem object-fit: ela não preenche caixa nenhuma. A
+     altura manda e a largura sai da proporção do arquivo, então o rosto nunca
+     é cortado. */
+  .cartao-id-recorte img {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    display: block;
+    width: auto;
+    max-width: none;
+    height: var(--cartao-figura-altura);
+    transform: translateX(-50%);
+  }
+
+  /* O VÉU. Cobre a área do quadro, nunca a cabeça (que está acima dele), e é o
+     que faz o corpo parecer estar ATRÁS do vidro enquanto a cabeça está na
+     frente. Rampa no topo pelo mesmo motivo da hero: sem ela nasce uma linha
+     horizontal dura em cima do colarinho. */
+  .cartao-id-veu {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    border-radius: 12px;
+    background: linear-gradient(
+      to bottom,
+      rgb(238 244 252 / 0) 0,
+      var(--vitrine-veu) 22%,
+      var(--vitrine-veu) 100%
+    );
+    pointer-events: none;
+  }
+
+  .cartao-id-nome {
+    position: relative;
+    z-index: 2;
+    margin-top: 20px;
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--texto-titulo);
+  }
+
+  .cartao-id-regiao {
+    position: relative;
+    z-index: 2;
+    margin-top: 2px;
+    font-size: 14.5px;
+    color: var(--texto-corpo);
+  }
+
+  /* A FAIXA DO PRÊMIO. Passa por baixo do cartão (z abaixo dele, recuada nos
+     lados e subida 14px) para ler como uma placa encaixada atrás. O padding de
+     cima devolve esses 14px, então o texto fica centrado na parte VISÍVEL. */
+  .cartao-id-faixa {
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: -14px;
+    margin-inline: 14px;
+    padding: 26px 20px 13px;
+    border-radius: 0 0 var(--vitrine-raio) var(--vitrine-raio);
+    background: var(--fundo-quente);
+    font-size: 15px;
+    line-height: 1.25;
+  }
+}
+
+/* Ciclo longo do brilho: 14s, alternado, só transform e opacity. */
+@keyframes cartao-id-respira {
+  from {
+    transform: scale(1);
+    opacity: 0.72;
+  }
+  to {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+}
+
+/* Movimento reduzido: o brilho PARA no estado final (o `to` do ciclo, que já é
+   o estilo de repouso do elemento). O relógio continua funcionando, porque
+   informação não é movimento, e a entrada do cartão não acontece (quem resolve
+   isso é o useReducedMotion dentro do componente). */
+@media (prefers-reduced-motion: reduce) {
+  .cartao-id-brilho {
+    animation: none;
+  }
+}
+
+/* A BARRA DE ENVIO do botão da landing do guia (formulario-final.tsx): um
+   traço fino que varre a base do botão enquanto `aria-busy` está ligado. Só
+   transform. Com movimento reduzido a barra fica parada, cheia. */
+@keyframes varredura {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [aria-busy='true']::after {
+    animation: none;
+    transform: scaleX(1);
+  }
+}

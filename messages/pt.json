@@ -1,0 +1,578 @@
+{
+  "nav": {
+    "menu": "Menu",
+    "abrirMenu": "Abrir menu",
+    "fecharMenu": "Fechar menu",
+    "buying": "Comprar",
+    "selling": "Vender",
+    "presales": "Pré-construção",
+    "about": "Sobre",
+    "contact": "Contato",
+    "whatsapp": "Falar no WhatsApp"
+  },
+  "flutuante": {
+    "rotulo": "Falar no WhatsApp"
+  },
+  "colecao": {
+    "anterior": "Card anterior",
+    "proximo": "Próximo card",
+    "card": "Card",
+    "de": "de",
+    "pausar": "Pausar rotação",
+    "retomar": "Retomar rotação"
+  },
+  "hero": {
+    "nome1": "LUIS",
+    "nome2": "ALVES",
+    "identificacao": "REALTOR® · Stonehaus Realty Corp. · Greater Vancouver",
+    "dicaRolagem": "rolar",
+    "kicker": "Luis Alves REALTOR®",
+    "titulo": "<ancora>Decisões</ancora> imobiliárias mais inteligentes em Greater Vancouver.",
+    "tituloLinha1": "<ancora>Decisões</ancora> mais inteligentes",
+    "tituloLinha2": "em Greater Vancouver.",
+    "apoio": "Conhecimento de mercado, negociação estratégica e atendimento pessoal, da primeira dúvida até a chave na mão.",
+    "regioes": "South Surrey · White Rock · Surrey · Langley · Coquitlam · Port Moody · Burnaby · New Westminster · Vancouver · Maple Ridge · North Vancouver",
+    "ctaBusca": "Buscar imóveis",
+    "ctaWhatsapp": "Falar no WhatsApp",
+    "ctaAgenda": "Agendar uma conversa",
+    "altFoto": "Luis Alves, REALTOR®"
+  },
+  "caminhos": {
+    "titulo": "Onde você está |agora|?",
+    "dica": "Toque para abrir",
+    "comprar": {
+      "titulo": "Quero |comprar|.",
+      "apoio": "Entenda o que cabe no seu orçamento e avance sem chutar.",
+      "cta": "Começar aqui"
+    },
+    "vender": {
+      "titulo": "Quero |vender|.",
+      "apoio": "Preço, preparação e negociação definidos antes do imóvel ir ao mercado.",
+      "cta": "Ver como funciona"
+    },
+    "primeiro": {
+      "titulo": "É meu |primeiro| imóvel.",
+      "apoio": "O valor real, as etapas de verdade e nenhuma surpresa no final.",
+      "cta": "Começar aqui"
+    }
+  },
+  "sobre": {
+    "fantasma": "SOBRE",
+    "titulo": "Você precisa <ancora>entender</ancora> o que está comprando, e não apenas gostar do que está vendo.",
+    "p1": "Minha carreira foi construída em vendas, negociação, análise de mercado e relacionamento próximo com clientes. O mercado imobiliário foi a evolução natural disso.",
+    "p2": "Antes de recomendar qualquer coisa, eu analiso os números, os comparáveis, o histórico do imóvel e o contexto do mercado. Depois eu explico o que encontrei e por que aquilo importa na sua situação.",
+    "p3": "Eu não pressiono ninguém a comprar ou vender. Meu papel é mostrar riscos, oportunidades e opções, e negociar bem quando você decidir avançar.",
+    "credibilidade": {
+      "numero": "100+",
+      "numeroRotulo": "famílias atendidas",
+      "premio": "Ruby Award 2025",
+      "premioRotulo": "Stonehaus Realty",
+      "regiao": "Greater Vancouver e Fraser Valley",
+      "idiomas": "Inglês e português"
+    },
+    "cta": "Mais sobre mim",
+    "altFoto": "Documentos de mercado e plantas na mesa de um consultor"
+  },
+  "destaques": {
+    "_reservado": "RESERVADO, não apagar. Este nó ficou sem consumidor vivo em 03/09/2026: ele pertence ao pacote guardado em _arquivo/ (a página /listings e o destaques.tsx) e é o que eles leem quando voltarem. Ver _arquivo/README.md.",
+    "titulo": "Imóveis que merecem um olhar mais atento.",
+    "apoio": "Uma seleção do mercado, com acesso à busca completa sempre que você quiser explorar por conta própria.",
+    "ctaBusca": "Ver todos os imóveis",
+    "ctaAlertas": "Receber alertas de novos imóveis"
+  },
+  "primeiroImovel": {
+    "titulo": "Quanto você realmente precisa para comprar em BC?",
+    "chips": {
+      "c1": "Entrada",
+      "c2": "Pré-aprovação",
+      "c3": "Custos de fechamento",
+      "c4": "Property Transfer Tax",
+      "c5": "Documentos de strata",
+      "c6": "Inspeção"
+    },
+    "texto1": "A maioria dos compradores de primeiro imóvel descobre metade disso, e quase sempre tarde.",
+    "texto2": "O Guia de Custos Reais, gratuito, mostra o valor completo e as etapas reais, na ordem em que elas acontecem.",
+    "cta": "Baixar o guia gratuito"
+  },
+  "venda": {
+    "titulo": "Vender começa muito antes de colocar a placa.",
+    "texto1": "Avaliação do imóvel, estratégia de preço baseada em comparáveis reais, preparação, marketing, negociação e acompanhamento até o fechamento.",
+    "texto2": "Você vai saber em que cada decisão foi baseada, da primeira estimativa até a assinatura final.",
+    "cta": "Avaliar meu imóvel",
+    "altFoto": "Casa residencial cercada de coníferas"
+  },
+  "preConstrucao": {
+    "titulo": "Pré-construção, analisada |antes| de você assumir o compromisso.",
+    "texto": "Estrutura de depósitos, prazos, regras de assignment, histórico da construtora, localização e o que acontece se os planos mudarem. Eu analiso as partes de uma pré-construção que não estão no folder.",
+    "cta": "Falar sobre pré-construção",
+    "palavra": "antes"
+  },
+  "processo": {
+    "titulo": "Como a gente trabalha junto.",
+    "apoio": "Cinco etapas, e em todas você sabe por que estamos fazendo aquilo.",
+    "rotuloEtapa": "Etapa",
+    "etapas": {
+      "e1": {
+        "titulo": "Conversa.",
+        "texto": "Seus objetivos, prioridades e tempo."
+      },
+      "e2": {
+        "titulo": "Preparação financeira.",
+        "texto": "Clareza sobre seu orçamento real, com mortgage broker quando fizer sentido."
+      },
+      "e3": {
+        "titulo": "Estratégia e busca.",
+        "texto": "Regiões, critérios, alertas e visitas."
+      },
+      "e4": {
+        "titulo": "Análise e oferta.",
+        "texto": "Comparáveis e valor primeiro, negociação depois."
+      },
+      "e5": {
+        "titulo": "Subjects e fechamento.",
+        "texto": "Inspeção, documentos de strata, advogado, completion e suporte depois das chaves."
+      }
+    },
+    "linhaFinal": "A venda segue a mesma lógica: avaliar, precificar, preparar, divulgar, negociar, fechar."
+  },
+  "depoimentos": {
+    "titulo": "O que os clientes dizem.",
+    "nota": "5,0",
+    "avaliacoes": "20 avaliações no Google",
+    "notaAcessivel": "{n} de 5 estrelas",
+    "origem": "via Google",
+    "itens": {
+      "d1": {
+        "nome": "Thiago Bazzi",
+        "foto": "/depoimentos/thiago-bazzi.webp",
+        "texto": "We've had some terrible experiences in the past with realtors who just wanted to sell something quickly and move on to the next customer, but <realce>with Luis it was a whole different story</realce>."
+      },
+      "d2": {
+        "nome": "Pablo Soler",
+        "foto": "/depoimentos/pablo-soler.webp",
+        "texto": "Luis became <realce>our first friend in Canada</realce>. His services are exceptional: we held several meetings before arriving in Canada where he thoroughly explained to us every single step we would be taking."
+      },
+      "d3": {
+        "nome": "Alex Macabu",
+        "foto": "/depoimentos/alex-macabu.webp",
+        "texto": "We came to Luis with the very challenging task to find us a home with all our requirements within a very narrow deadline […] Luis started as <realce>our REALtor but now he is our REALfriend</realce>!"
+      }
+    }
+  },
+  "regioes": {
+    "titulo": "Onde eu atuo.",
+    "apoio": "Greater Vancouver e Fraser Valley não são um mercado só. Cada cidade tem seu ritmo, seu estoque e seu perfil de comprador.",
+    "cidades": {
+      "c1": "South Surrey",
+      "c2": "White Rock",
+      "c3": "Surrey",
+      "c4": "Langley",
+      "c5": "Coquitlam",
+      "c6": "Port Coquitlam",
+      "c7": "Port Moody",
+      "c8": "Burnaby",
+      "c9": "New Westminster",
+      "c10": "Vancouver",
+      "c11": "Maple Ridge",
+      "c12": "North Vancouver"
+    }
+  },
+  "guia": {
+    "titulo": "Grátis: o Guia de Custos Reais em BC.",
+    "texto": "Todos os custos, todas as etapas e as perguntas a fazer antes de dar uma oferta. Enviado direto no seu e-mail.",
+    "campoNome": "Nome",
+    "campoEmail": "Email",
+    "botao": "Quero o guia",
+    "newsletter": "Quero receber também a atualização mensal do mercado, o que mudou e o que isso significa para quem compra ou vende.",
+    "_confirmacaoNota": "COPY PROVISORIA, PENDENTE. O roteiro.md nao entrega confirmacao no lugar para o bloco de captura da home; a linha abaixo e emprestada VERBATIM do H1 da pagina de obrigado (obrigado.titulo), que anuncia exatamente o mesmo desfecho. Trocar quando o cliente escrever a linha do bloco. Chave pendente: guia.confirmacao.",
+    "confirmacao": "Pronto. O guia está a caminho."
+  },
+  "faq": {
+    "titulo": "FAQ",
+    "itens": {
+      "q1": {
+        "pergunta": "Quanto dinheiro eu realmente preciso para comprar um imóvel em BC?",
+        "resposta": "Mais do que a entrada. Você também precisa considerar custos de fechamento, Property Transfer Tax, inspeção, honorários de advogado ou notário e, em strata, a taxa mensal desde o primeiro dia. O valor exato depende da faixa de preço e do tipo de imóvel, e a gente revisa isso junto antes de você começar a procurar. O guia gratuito traz a lista completa."
+      },
+      "q2": {
+        "pergunta": "É um bom momento para comprar ou vender?",
+        "resposta": "Isso depende muito mais da sua situação do que das manchetes. Seu financiamento, seu prazo, quanto tempo você pretende ficar no imóvel e o que existe disponível na sua faixa pesam mais do que o número geral do mercado. É exatamente para isso que serve a primeira conversa."
+      },
+      "q3": {
+        "pergunta": "Eu pago alguma coisa para trabalhar com você como comprador?",
+        "resposta": "Em uma compra residencial típica em BC, a comissão do agente do comprador é paga pelo lado do vendedor na transação. Eu explico exatamente como isso funciona no seu caso antes de começarmos, por escrito, para não haver surpresa."
+      },
+      "q4": {
+        "pergunta": "Você atende em português?",
+        "resposta": "Sim. Atendo em inglês e português, e todo o processo, incluindo documentos e contratos, pode ser explicado em qualquer um dos dois idiomas."
+      },
+      "q5": {
+        "pergunta": "Você atende só clientes brasileiros?",
+        "resposta": "Não. Atendo compradores e vendedores em toda a região de Greater Vancouver e Fraser Valley. O português é um diferencial, não o serviço."
+      },
+      "q6": {
+        "pergunta": "E se eu ainda não estiver pronto para comprar?",
+        "resposta": "Então é isso que vamos descobrir juntos, e essa é uma informação útil. Saber quais passos vêm primeiro vale mais do que começar a visitar imóveis cedo demais."
+      }
+    }
+  },
+  "ctaFinal": {
+    "titulo": "Vamos conversar antes de você decidir.",
+    "apoio": "Uma conversa curta já mostra em que ponto você está e qual é o próximo passo. Sem pressão, sem compromisso.",
+    "ctaWhatsapp": "Chamar no WhatsApp",
+    "ctaAgenda": "Agendar uma conversa",
+    "ctaMensagem": "Enviar mensagem"
+  },
+  "formulario": {
+    "_nota": "COPY PROVISORIA, PENDENTE. O roteiro.md nao entrega os estados de envio, de falha e de revisao de campos de nenhum dos cinco formularios. Estas tres linhas sao funcionais, escritas para a tela nunca ficar muda, e devem ser trocadas pela copy do cliente. Chaves pendentes: formulario.enviando, formulario.erroSistema, formulario.erroCampos.",
+    "enviando": "Enviando",
+    "erroSistema": "A mensagem não foi enviada. Você pode falar comigo direto por aqui.",
+    "erroCampos": "Confira os campos de nome e e-mail antes de enviar."
+  },
+  "rodape": {
+    "nome": "Luis Alves REALTOR®",
+    "corretora": "Stonehaus Realty Corp.",
+    "licenca": "Licence #190001",
+    "endereco1": "Suite A, 1126 Austin Avenue",
+    "endereco2": "Coquitlam, BC V3K 3P5",
+    "rotuloTelefone": "Telefone",
+    "rotuloWhatsapp": "WhatsApp",
+    "rotuloEmail": "E-mail",
+    "instagram": "Instagram @luisalvesrealestate",
+    "tiktok": "TikTok @soldbyluis",
+    "legal": "As informações deste site têm caráter informativo geral e não constituem orientação financeira, jurídica ou fiscal. Nada aqui representa garantia de valorização, retorno ou aprovação de financiamento.",
+    "privacidade": "Política de Privacidade",
+    "copyright": "© 2026 Luis Alves REALTOR®"
+  },
+  "paginaComprar": {
+    "titulo": "Comprar um imóvel em BC, com o <ancora>quadro</ancora> completo na sua frente.",
+    "intro": "A maioria dos compradores não precisa de mais anúncios. Precisa saber o que cabe no orçamento, quanto o imóvel realmente vale e o que acontece em cada etapa.",
+    "b1Titulo": "O que eu faço por quem compra.",
+    "b1Texto1": "Antes de olhar qualquer imóvel, a gente passa pelos seus números com um mortgage broker e coloca a pré-aprovação no papel. Depois eu explico o contrato de agenciamento e o formulário de disclosure, para você saber para quem eu trabalho antes de assinar qualquer coisa.",
+    "b1Texto2": "Daí em diante é critério, região, alerta e visita, e eu digo o que eu não compraria com a mesma frequência com que digo o que eu compraria. Quando um imóvel se sustenta, eu levanto os comparáveis e a gente fecha o número antes de eu escrever a oferta, com os subjects que protegem você.",
+    "b1Texto3": "Aceita a oferta, começa a parte que ninguém vê: inspeção, documentos de strata, aprovação final do financiamento, remoção dos subjects, depósito, advogado ou notário, Property Transfer Tax e completion. Onze etapas, e em todas você sabe em qual está.",
+    "custos": {
+      "c1": "Entrada",
+      "c2": "Pré-aprovação",
+      "c3": "Custos de fechamento",
+      "c4": "Property Transfer Tax",
+      "c5": "Taxas de strata",
+      "c6": "Inspeção",
+      "c7": "Advogado"
+    },
+    "b3Titulo": "Famílias trocando de imóvel.",
+    "b3Texto": "Vender e comprar ao mesmo tempo é um problema de logística antes de ser um problema de mercado. Prazo, financiamento e ordem das etapas planejados juntos.",
+    "b4Titulo": "Condos e strata.",
+    "b4Apoio": "Três documentos que dizem o que as fotos do anúncio nunca vão dizer.",
+    "docs": {
+      "d1": "Depreciation report",
+      "d2": "Atas de reunião",
+      "d3": "Contingency reserve fund"
+    },
+    "b5Titulo": "Comprar do exterior ou como recém-chegado.",
+    "b5Texto": "Sistema diferente, regras diferentes, mesmo objetivo. Eu explico como o processo funciona aqui e o que muda em relação ao que você já conhecia.",
+    "faq": {
+      "q1": {
+        "pergunta": "Quanto tempo leva, da primeira conversa até as chaves?",
+        "resposta": "A busca é a parte que varia, e depende dos seus critérios e do que existe na sua faixa. Da oferta aceita até o completion o prazo é curto e está escrito no contrato. Eu mostro as datas reais dos imóveis que a gente está olhando, não uma média."
+      },
+      "q2": {
+        "pergunta": "O que é um subject, e eu posso perder o depósito?",
+        "resposta": "Subjects são as condições escritas na sua oferta: financiamento, inspeção, documentos de strata. Enquanto eles existem, o contrato não é firme. Depois que saem, ele é, e o depósito está comprometido. Por isso ninguém remove um subject comigo antes de a razão dele estar respondida."
+      },
+      "q3": {
+        "pergunta": "E se a inspeção encontrar alguma coisa?",
+        "resposta": "É exatamente para isso que serve o período de subjects. Dependendo do que for, a gente renegocia, pede o reparo ou sai. Encontrar um problema dentro do prazo é a inspeção funcionando, não o negócio dando errado."
+      },
+      "q4": {
+        "pergunta": "Eu posso comprar em BC sem ser residente permanente?",
+        "resposta": "As regras disso mudaram mais de uma vez nos últimos anos, e valem de forma diferente conforme o seu status, o imóvel e a localização. Eu confiro o seu caso específico contra o que está em vigor antes de você gastar dinheiro com qualquer coisa, e coloco por escrito."
+      },
+      "q5": {
+        "pergunta": "Eu preciso usar um mortgage broker?",
+        "resposta": "Não, e você pode ir direto ao seu banco. Eu sugiro conversar com um broker porque ver mais de um credor costuma mudar o número com que você trabalha, e esse número decide tudo o que vem depois."
+      }
+    }
+  },
+  "paginaVender": {
+    "titulo": "Vender com estratégia, não apenas com um anúncio.",
+    "intro": "O preço pedido, a forma como o imóvel é apresentado e como a oferta é negociada definem o resultado. Os três são planejados antes do imóvel ir ao ar.",
+    "b1Titulo": "O processo.",
+    "passos": {
+      "p1": "Avaliação e estratégia de preço",
+      "p2": "Preparação e staging",
+      "p3": "Marketing e lançamento",
+      "p4": "Acompanhamento do mercado",
+      "p5": "Negociação das ofertas",
+      "p6": "Suporte até completion"
+    },
+    "b2Titulo": "Como eu defino o preço de um imóvel.",
+    "b2Texto": "Comparáveis, histórico do imóvel, estoque atual e quanto tempo imóveis parecidos estão levando para vender. Nunca um número tirado do nada.",
+    "b3Titulo": "Erros comuns de quem vende.",
+    "erros": {
+      "e1": {
+        "titulo": "Pedir o preço da avaliação mais otimista.",
+        "texto": "O número mais alto é o mais fácil de prometer e o mais difícil de conseguir. Imóvel que fica parado deixa de ser novidade e passa a ser negociado para baixo."
+      },
+      "e2": {
+        "titulo": "Ir ao ar antes de o imóvel estar pronto.",
+        "texto": "As duas primeiras semanas trazem o público mais qualificado que o anúncio vai ter. Fotos de um imóvel despreparado gastam esse público."
+      },
+      "e3": {
+        "titulo": "Tratar a fotografia como despesa.",
+        "texto": "O imóvel é visto num celular muito antes de ser visto pessoalmente."
+      },
+      "e4": {
+        "titulo": "Confundir movimento com resultado.",
+        "texto": "Visita sem oferta é informação, e a informação quase sempre é sobre o preço."
+      },
+      "e5": {
+        "titulo": "Negociar só o preço.",
+        "texto": "Datas, subjects, depósito e o que fica na casa mexem no negócio tanto quanto o número."
+      }
+    },
+    "campos": {
+      "nome": "Nome",
+      "email": "E-mail",
+      "telefone": "Telefone / WhatsApp",
+      "endereco": "Endereço do imóvel",
+      "tipo": "Tipo de imóvel",
+      "prazo": "Prazo pretendido",
+      "mensagem": "Mensagem (opcional)"
+    },
+    "_confirmacaoNota": "COPY PROVISORIA, PENDENTE. O roteiro.md nao entrega confirmacao para o formulario de avaliacao; a linha abaixo e emprestada VERBATIM do formulario de contato (paginaContato.confirmacao), que faz a mesma promessa: o Luis retorna pessoalmente. Nao afirma valor nem estimativa, como o cliente exigiu para esta pagina. Chave pendente: paginaVender.confirmacao.",
+    "confirmacao": "Recebi. Eu mesmo retorno, normalmente em poucas horas.",
+    "faq": {
+      "q1": {
+        "pergunta": "Quanto tempo vai levar para vender?",
+        "resposta": "Depende da faixa de preço, do tipo de imóvel e da preparação. Eu mostro quanto tempo imóveis comparáveis levaram de verdade na sua região, e a gente planeja contra isso, não contra a média do mercado."
+      },
+      "q2": {
+        "pergunta": "O que eu pago para vender?",
+        "resposta": "A comissão é acordada com você por escrito antes de qualquer coisa ir ao ar, e nunca é surpresa no fim. Fora ela entram advogado ou notário e, se houver financiamento, a baixa da hipoteca. Eu passo por tudo isso antes de você decidir."
+      },
+      "q3": {
+        "pergunta": "Vale a pena reformar antes de anunciar?",
+        "resposta": "Quase sempre não. O que se paga é menor do que as pessoas imaginam: limpeza, luz, pequenos reparos e tirar coisa de dentro. Eu digo quais voltam no preço e quais não voltam."
+      },
+      "q4": {
+        "pergunta": "Dá para vender e comprar ao mesmo tempo?",
+        "resposta": "Dá, e é um problema de logística antes de ser um problema de mercado. A ordem das datas, o financiamento e o que acontece se um lado atrasar são decididos juntos, no começo."
+      },
+      "q5": {
+        "pergunta": "E se não vender?",
+        "resposta": "A gente revisa preço, apresentação e momento, nessa ordem, e eu digo qual dos três é. Às vezes a resposta honesta é tirar do mercado e voltar depois, e eu digo isso também."
+      }
+    }
+  },
+  "paginaPresales": {
+    "titulo": "Pré-construção e novos empreendimentos, analisados com o mesmo rigor de um imóvel pronto.",
+    "intro": "Uma pré-construção é um contrato antes de ser um imóvel. Entender o contrato é o que protege você.",
+    "b1Titulo": "O que eu analiso antes de recomendar um empreendimento.",
+    "analise": {
+      "a1": "Estrutura de depósitos",
+      "a2": "Prazos e atrasos possíveis",
+      "a3": "Regras de assignment",
+      "a4": "Histórico da construtora",
+      "a5": "Localização e entorno futuro",
+      "a6": "Comparação com o mercado de imóveis prontos"
+    },
+    "b2Titulo": "Para quem a pré-construção faz sentido.",
+    "b2Texto": "Depende do seu prazo, do seu financiamento e de quanta flexibilidade você tem se a data de entrega mudar.",
+    "b3Titulo": "O que perguntar antes de assinar.",
+    "perguntas": {
+      "p1": "Qual é o cronograma completo de depósitos, e o que acontece se um atrasar?",
+      "p2": "Onde o meu depósito fica guardado até o completion, e quem guarda?",
+      "p3": "Qual é a data estimada de completion, e até onde o contrato pode adiá-la?",
+      "p4": "O contrato permite assignment, com que custo e com aprovação de quem?",
+      "p5": "O que exatamente está incluído, e o que é upgrade?",
+      "p6": "Quando começa o meu período de rescisão, e a partir de qual documento?"
+    },
+    "perguntasFecho": "Se a resposta para qualquer uma dessas não estiver por escrito, ela não é uma resposta.",
+    "cta": "Falar sobre um projeto específico",
+    "altFoto": "Guindaste sobre um prédio em construção ao amanhecer"
+  },
+  "paginaImoveis": {
+    "titulo": "Imóveis em Greater Vancouver e Fraser Valley.",
+    "soldTitulo": "Vendidos recentemente.",
+    "etiquetaSold": "Sold"
+  },
+  "paginaSobre": {
+    "titulo": "Eu prefiro explicar o risco a fechar o negócio.",
+    "p1": "Minha carreira foi construída em vendas, negociação, análise de mercado e relacionamento. O mercado imobiliário foi a evolução natural, e nunca foi sobre vender uma propriedade.",
+    "p2": "Já ajudei mais de 100 famílias com suas necessidades imobiliárias: compradores do primeiro imóvel, famílias em busca de mais espaço, vendedores e clientes avaliando pré-construção e investimento residencial.",
+    "p3": "Meu estilo é direto, pessoal e baseado em dados. Quero que meus clientes entendam não apenas o que estamos fazendo, mas também por que estamos fazendo daquele jeito.",
+    "p4": "Quando um imóvel não é uma boa decisão para alguém, eu digo. Isso já me custou negócios e me trouxe clientes que voltaram e indicaram amigos.",
+    "credoTitulo": "No que eu acredito",
+    "credo": {
+      "c1": "Uma boa decisão começa antes da primeira visita.",
+      "c2": "Clareza importa mais do que pressão.",
+      "c3": "Nem todo imóvel é uma boa oportunidade para todo comprador.",
+      "c4": "O momento certo de comprar ou vender depende da sua realidade, não das manchetes."
+    },
+    "manifesto": "Clareza importa mais do que pressão.",
+    "altFoto": "Luis Alves, REALTOR®",
+    "cartao": {
+      "copiarEmail": "Copiar e-mail",
+      "copiado": "Copiado"
+    }
+  },
+  "paginaContato": {
+    "titulo": "Me conta em que ponto você está.",
+    "apoio": "Se você já está pronto para avançar ou ainda está entendendo as coisas, a primeira conversa é a mesma.",
+    "campos": {
+      "nome": "Nome",
+      "email": "E-mail",
+      "telefone": "Telefone / WhatsApp",
+      "ajuda": "Como posso ajudar?",
+      "opcoes": {
+        "o1": "Comprar",
+        "o2": "Vender",
+        "o3": "Primeiro imóvel",
+        "o4": "Pré-construção",
+        "o5": "Outro"
+      },
+      "mensagem": "Mensagem (opcional)"
+    },
+    "confirmacao": "Recebi. Eu mesmo retorno, normalmente em poucas horas.",
+    "avisoDados": "Enviar este formulário é o seu consentimento para eu usar esses dados para te responder. Suas informações não são vendidas, alugadas nem trocadas. O resto está na <politica>Política de Privacidade</politica>.",
+    "ctaLigar": "Ligar"
+  },
+  "landing": {
+    "s1": {
+      "kicker": "GUIA GRATUITO · 38 PÁGINAS · GRANDE VANCOUVER E FRASER VALLEY",
+      "titulo": "Descubra o número real antes de assinar",
+      "subtitulo": "O statement of adjustments chega uma semana antes. Este guia chega antes dele.",
+      "v1": "Duas simulações completas, linha por linha, de uma compra e de uma venda reais",
+      "v2": "As isenções que valem até $50.000 e as três condições que fazem você perder cada uma",
+      "v3": "Um checklist de 12 perguntas para levar ao seu advogado, contador e credor",
+      "formTitulo": "Receba o guia agora",
+      "campoNome": "Nome",
+      "campoEmail": "E-mail",
+      "_placeholdersNota": "TEXTO DE INTERFACE, não copy do roteiro: os três placeholders que se alternam no campo de e-mail da hero (Placeholders And Vanish Input, 21st 1420). Os três dizem e-mail de alguma forma, de propósito, para o campo nunca ser confundido com uma busca. Irmã da convenção _reservado, porque JSON não tem comentário.",
+      "placeholders": {
+        "p1": "seu@email.com",
+        "p2": "onde o guia deve chegar",
+        "p3": "seu melhor e-mail"
+      },
+      "opcoes": {
+        "o1": "Estou comprando",
+        "o2": "Estou vendendo",
+        "o3": "Os dois ao mesmo tempo",
+        "o4": "Ainda pesquisando"
+      },
+      "_consentimentoNota": "TEXTO JURIDICO, nao copy de marketing. Encurtado em 04/09/2026, quando o consentimento de marketing virou OPCIONAL nesta landing: a pessoa pediu o guia, entregar o que ela pediu e a transacao, e a PIPA nao permite exigir consentimento alem do necessario para o servico pedido. A frase antiga dizia que a pessoa concordava em receber ESTE GUIA e as atualizacoes de mercado, o que deixou de ser verdade no momento em que a caixa pode ficar desmarcada, e copy que afirma o que nao acontece e defeito. Fica exatamente o que a CASL exige: quem esta enviando e o direito de cancelar. PENDE de revisao do Luis, junto com a Politica de Privacidade. Decisao registrada em funil-arquitetura.md.",
+      "consentimento": "Autorizo Luis Alves e Stonehaus Realty a me enviar comunicações ocasionais sobre o mercado imobiliário. Posso cancelar a qualquer momento.",
+      "botao": "Quero o guia",
+      "_continuarNota": "ROTULO ACESSIVEL APENAS, nunca renderizado como texto visivel. Ele nomeia o bloco de seta do passo 1, que AVANCA para o passo 2; nao envia. Ele emprestava landing.s1.botao, e isso mentia para o leitor de tela: o botao anunciava o envio do guia e so abria um passo. O botao de envio do passo 2 mantem landing.s1.botao. Irma da convencao _reservado, porque JSON nao tem comentario.",
+      "continuar": "Continuar",
+      "microcopy": "Chega no seu e-mail em menos de um minuto. Sem ligação, sem visita, sem agenda.",
+      "confianca": "Luis Alves · REALTOR® · Stonehaus Realty · Atendimento em português e inglês"
+    },
+    "s2": {
+      "kicker": "O QUE TEM DENTRO",
+      "titulo": "Três coisas do guia que a maioria das pessoas descobre tarde demais",
+      "b1Numero": "$8.000",
+      "b1Texto": "A isenção de primeiro comprador zera o Property Transfer Tax até $500.000 e vale $8.000 de desconto até $835.000. Entre $835.000 e $860.000 ela some progressivamente. Acima disso, nada. O guia mostra as cinco condições pessoais e a condição do imóvel que precisam ser atendidas ao mesmo tempo, e é comum atender todas menos uma.",
+      "b2Numero": "$50.000",
+      "b2Texto": "Desde março de 2026 existe um rebate federal de GST para primeiro comprador de imóvel novo que devolve até $50.000. Ele é recente, muita gente ainda não sabe que existe, e o guia explica quem se qualifica, o que conta como “primeiro comprador” nessa regra específica, e a diferença entre o builder creditar no fechamento e você pedir direto à CRA.",
+      "b3Numero": "730 dias",
+      "b3Texto": "Vender antes de 730 dias de posse pode gerar o BC home flipping tax, e ele não é protegido pela isenção de residência principal. Alcança quem morou na própria casa. A contagem inclui contrato de presale, começa antes de 2025 e a declaração é separada, com prazo de 90 dias. O guia explica as quatro situações em que ele pega gente que não é especulador nenhum.",
+      "simulacao": "E as duas contas completas. No exemplo do comprador, um condo de $780.000 em Surrey exige $11.250 em dinheiro além da entrada, na semana do fechamento. No exemplo do vendedor, as linhas que não são comissão somam quase $12.000, e a maior delas não é o advogado nem a mudança. É a penalidade da hipoteca.",
+      "cta": "Baixar o guia completo"
+    },
+    "s3": {
+      "kicker": "QUEM ESCREVEU",
+      "titulo": "Luis Alves",
+      "linha": "REALTOR® pela Stonehaus Realty, atuando na Grande Vancouver e no Fraser Valley. Atendimento em português e em inglês.",
+      "corpo": "Eu trabalho com dois tipos de cliente: quem está comprando pela primeira vez e não quer errar, e quem já tem imóvel e está fazendo uma transição em que as duas pontas precisam se encaixar. Nos dois casos a primeira coisa que eu faço é a mesma. Sento com a pessoa e monto o número cheio, antes de qualquer visita. Este guia é essa conversa, por escrito.",
+      "passosTitulo": "Depois do download",
+      "p1": "Você recebe o guia por e-mail e lê no seu tempo. Não tem sequência de vendas disfarçada de conteúdo.",
+      "p2": "Se quiser a versão da conta com os seus números, me responde o e-mail ou manda CUSTO no direct. São quatro perguntas curtas.",
+      "p3": "Eu monto a sua simulação e te mando. A partir daí você decide se quer conversar sobre estratégia ou se quer só ficar com a conta. As duas respostas estão certas.",
+      "legal": "Luis Alves, REALTOR®, Stonehaus Realty. Material informativo, edição de agosto de 2026. Não constitui aconselhamento jurídico, contábil, tributário ou de financiamento. Regras e valores estão sujeitos a alteração. Confirme sua situação específica com seu advogado ou notário, contador e credor. Ao enviar seus dados você concorda em receber o guia e comunicações ocasionais, e pode cancelar a qualquer momento.",
+      "legalPrivacidade": "Política de privacidade."
+    }
+  },
+  "obrigado": {
+    "titulo": "Pronto. O guia está a caminho.",
+    "corpo": "Deve chegar em menos de um minuto. Se não aparecer, olhe em promoções ou spam e marque como não é spam, porque assim as próximas chegam na caixa principal.",
+    "botao": "Baixar agora",
+    "secundario": "Quer a conta com os seus números? Manda CUSTO no direct."
+  },
+  "naoEncontrada": {
+    "titulo": "Esta página não existe.",
+    "voltar": "Voltar para a home"
+  },
+  "notas": {
+    "nomeAntes": "Segunda",
+    "nomeAncora": "Opinião",
+    "apoio": "Notas de Luis Alves, REALTOR®, a cada duas semanas. Um número, de onde ele vem, e o que perguntar antes de assinar.",
+    "recente": "Nota mais recente",
+    "lerNota": "Ler a nota",
+    "indiceTitulo": "Todas as notas",
+    "vazio": "A primeira nota está a caminho.",
+    "filtros": {
+      "rotulo": "Filtrar notas",
+      "todas": "Todas",
+      "buying": "Comprar",
+      "selling": "Vender",
+      "presale": "Pré-construção",
+      "market": "Mercado",
+      "notes": "Notas",
+      "outroIdioma": "In English"
+    },
+    "minutos": "{n} min",
+    "leitura": "{n} min de leitura",
+    "serie": "N.º",
+    "ficha": {
+      "medido": "Medido em",
+      "fonte": "Fonte",
+      "validade": "Vale para",
+      "atualizado": "Revisado em"
+    },
+    "pergunte": "Dúvidas sobre este número?",
+    "pergunteLink": "Pergunte ao Luís no WhatsApp",
+    "pergunteMensagem": "Oi, Luís, li sua nota \"{titulo}\" e tenho uma dúvida.",
+    "nesteTexto": "Nesta nota",
+    "notaDoLuis": "Nota do Luís",
+    "falta": "faltam {n} min",
+    "lido": "Lida",
+    "assinaturaNome": "Luis Alves, REALTOR®",
+    "assinaturaCorretora": "Stonehaus Realty Corp. · Greater Vancouver",
+    "proxima": "Próxima",
+    "outroIdioma": "Read in English",
+    "rascunho": "Rascunho, não publicado. Visível só neste endereço.",
+    "capaLeitura": "De leitura",
+    "inscricao": {
+      "kicker": "Segunda Opinião",
+      "titulo": "O próximo número, |medido|, a cada duas semanas",
+      "apoio": "Uma nota do Luís no seu e-mail. Cancele quando quiser.",
+      "nome": "Nome",
+      "email": "E-mail",
+      "consentimento": "Autorizo Luis Alves e a Stonehaus Realty a me enviar a Segunda Opinião, mais ou menos a cada duas semanas. Posso cancelar quando quiser.",
+      "botao": "Quero receber a próxima",
+      "enviando": "Enviando",
+      "sucessoTitulo": "Pronto, você está na lista.",
+      "sucessoTexto": "A próxima nota chega no seu e-mail. Se cair em Promoções, arraste uma vez para a caixa principal e as próximas vão junto.",
+      "erroCampos": "Confira seu nome e e-mail, e marque a caixa para concordar.",
+      "erroSistema": "Algo falhou do nosso lado. Tente de novo em um minuto, ou fale com o Luís no WhatsApp."
+    },
+    "faixa": {
+      "titulo": "Receba a próxima nota por e-mail",
+      "apoio": "Mais ou menos a cada duas semanas. Cancele quando quiser."
+    },
+    "paginaInscricao": {
+      "kicker": "Por e-mail",
+      "texto": "A cada duas semanas, um número que muda uma decisão imobiliária em Greater Vancouver: de onde ele vem, quando foi medido, e o que perguntar sobre ele antes de assinar.",
+      "ultima": "A nota mais recente"
+    },
+    "meta": {
+      "titulo": "Segunda Opinião | Notas de Luis Alves REALTOR®",
+      "descricao": "Números do mercado imobiliário de Greater Vancouver, com fonte e data. A cada duas semanas, por Luis Alves REALTOR®.",
+      "inscricaoTitulo": "Assine a Segunda Opinião | Luis Alves REALTOR®",
+      "inscricaoDescricao": "Uma nota a cada duas semanas: um número do mercado de Greater Vancouver, a fonte dele e o que perguntar antes de assinar."
+    },
+    "rodapeLink": "Segunda Opinião"
+  }
+}
