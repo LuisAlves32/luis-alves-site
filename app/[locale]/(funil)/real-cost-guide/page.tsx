@@ -70,9 +70,12 @@ function RodapeLegal({locale}: {locale: Locale}) {
       <div className="conteudo">
         <p className="max-w-[95ch] text-[13px] leading-relaxed text-papel/70">
           {t('legal')}{' '}
+          {/* whitespace-nowrap: o link é UM bloco. A cola de órfãs junta as duas
+              últimas palavras DENTRO dele, então a quebra caía no meio do link e
+              "de privacidade." ficava sozinho na última linha (PT, 390px). */}
           <Link
             href="/privacy-policy"
-            className="alvo-44 underline decoration-papel/30 underline-offset-4 transition-colors duration-200 hover:text-papel"
+            className="alvo-44 whitespace-nowrap underline decoration-papel/30 underline-offset-4 transition-colors duration-200 hover:text-papel"
           >
             {t('legalPrivacidade')}
           </Link>

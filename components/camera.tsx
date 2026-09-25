@@ -6,6 +6,7 @@ import {ScrollTrigger} from 'gsap/ScrollTrigger';
 import {usePathname} from 'next/navigation';
 import {useEffect, useRef, useState} from 'react';
 import {moverNotas} from '@/components/camera-notas';
+import {aoMedirEnergia} from '@/lib/energia';
 
 /* =============================================================================
    A CÂMERA  ·  Passe 3, parte A  ·  camadas de manhã e entradas
@@ -228,6 +229,8 @@ export function Camera() {
             ...document.querySelectorAll<HTMLElement>('[data-camada]')
           ].filter((el) => !temDono(el));
 
+          const trilhos: gsap.core.Tween[] = [];
+
           for (const el of blocos) {
             const camada = el.getAttribute('data-camada');
             if (camada !== 'fundo' && camada !== 'meio') continue;
@@ -237,7 +240,7 @@ export function Camera() {
             const secao = el.closest('[data-bloco]') ?? el.parentElement;
             if (!secao) continue;
 
-            gsap.fromTo(
+            trilhos.push(gsap.fromTo(
               el,
               {y: -percurso / 2},
               {
@@ -250,8 +253,23 @@ export function Camera() {
                   scrub: true
                 }
               }
-            );
+            ));
           }
+
+          // ENERGIA BAIXA (lib/energia.ts): com o iPhone no Modo de Pouca Energia o
+          // JavaScript só ganha ~30 quadros por segundo, e o parallax, que é escrito
+          // por quadro, anda aos degraus contra a rolagem. Nesse caso ele sai e as
+          // camadas voltam ao meio do percurso, que é a composição aprovada. A cota,
+          // as entradas e a respiração ficam: é peso que se corta, não a vida.
+          const desistirDaEnergia = aoMedirEnergia((baixa) => {
+            if (!baixa) return;
+            for (const trilho of trilhos) {
+              const alvos = trilho.targets();
+              trilho.scrollTrigger?.kill();
+              trilho.kill();
+              gsap.set(alvos, {clearProps: 'transform'});
+            }
+          });
 
           /* ------------------------------------------------------------------
              A RESPIRAÇÃO DO PAPEL (caligrafia 3)
@@ -449,6 +467,7 @@ export function Camera() {
           const limparNotas = moverNotas({desktop: Boolean(contexto.conditions?.desktop)});
 
           return () => {
+            desistirDaEnergia();
             limparNotas();
             limparRespiracao?.();
           };
