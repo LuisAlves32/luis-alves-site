@@ -1,7 +1,8 @@
 'use client';
 
 import {useEffect, useId, useRef, useState} from 'react';
-import {motion, useReducedMotion} from 'framer-motion';
+import {motion} from 'framer-motion';
+import {useReducedMotion} from '@/lib/movimento-reduzido';
 import {useTranslations} from 'next-intl';
 import {PERFIS} from '@/lib/formularios';
 import {FormularioEnvio} from '@/components/ui/formulario-envio';

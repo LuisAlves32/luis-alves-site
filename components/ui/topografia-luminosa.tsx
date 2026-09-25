@@ -3,7 +3,7 @@
 'use client';
 
 import * as React from 'react';
-import {useReducedMotion} from 'framer-motion';
+import {useReducedMotion} from '@/lib/movimento-reduzido';
 import {cn} from '@/lib/utils';
 
 /* Origem: 21st.dev, "Luminous Topography" de rmahammad (demo 23412), do

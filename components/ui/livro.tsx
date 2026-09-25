@@ -38,14 +38,8 @@
    POSSE DO MOVIMENTO: o Framer Motion daqui de dentro. */
 
 import {useCallback, useEffect, useRef} from 'react';
-import {
-  animate,
-  motion,
-  useMotionValue,
-  useReducedMotion,
-  useScroll,
-  useTransform
-} from 'framer-motion';
+import {animate, motion, useMotionValue, useScroll, useTransform} from 'framer-motion';
+import {useReducedMotion} from '@/lib/movimento-reduzido';
 
 // Mesmo limiar de variante de mídia do resto do site (hero, processo).
 const LIMIAR_MOBILE = 820;
@@ -508,7 +502,9 @@ export function Livro({
 
         <div className="guia-livro-paginas" />
 
-        <div className="guia-livro-dorso">
+        {/* A lombada é DESENHO do objeto (título impresso, 9px, vertical): fora do leitor de
+            tela, que já leu o título no texto da seção (prova no aparelho, 25/09/2026). */}
+        <div className="guia-livro-dorso" aria-hidden="true">
           <span className="guia-livro-dorso-titulo">{titulo}</span>
         </div>
 

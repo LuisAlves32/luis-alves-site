@@ -1,6 +1,7 @@
 'use client';
 
 import 'lenis/dist/lenis.css';
+import {MotionConfig} from 'framer-motion';
 import gsap from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
@@ -76,5 +77,8 @@ export function MotionProvider({children}: {children: React.ReactNode}) {
     };
   }, []);
 
-  return <>{children}</>;
+  // `reducedMotion="user"`: para quem pediu menos movimento no aparelho, o Framer das seções do
+  // catálogo não anima deslocamento nem escala, só opacidade. Complementa o gancho de
+  // lib/movimento-reduzido.ts, que na hidratação usa o valor do servidor (25/09/2026).
+  return <MotionConfig reducedMotion="user">{children}</MotionConfig>;
 }

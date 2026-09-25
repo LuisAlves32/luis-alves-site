@@ -4,7 +4,8 @@
 
 import type {CSSProperties, KeyboardEvent, ReactNode} from 'react';
 import {useCallback, useEffect, useId, useRef, useState} from 'react';
-import {animate, motion, useMotionValue, useReducedMotion} from 'framer-motion';
+import {animate, motion, useMotionValue} from 'framer-motion';
+import {useReducedMotion} from '@/lib/movimento-reduzido';
 
 /* ==========================================================================
    FILME DE MINIATURAS

@@ -3893,3 +3893,40 @@ html[data-respiracao='ativa'] [data-fundo] {
     transform: scaleX(1);
   }
 }
+
+/* ============================================================
+   ALVO DE TOQUE ESTENDIDO · .alvo-44 (prova no aparelho, 25/09/2026)
+   Link de texto solto (rodapé legal, "Privacy policy", "Ask Luis on
+   WhatsApp") media 16 a 19px de altura. Uma área invisível por cima leva
+   o toque a 44px sem mexer em linha, espaço ou desenho. Só em link que
+   mora sozinho ou no fim de frase: link no MEIO de parágrafo corrido não
+   usa, porque a área invadiria a linha de cima e a de baixo.
+   ============================================================ */
+@layer components {
+  .alvo-44 {
+    position: relative;
+  }
+
+  .alvo-44::after {
+    content: '';
+    position: absolute;
+    inset: -14px -4px;
+  }
+}
+
+/* ============================================================
+   PALAVRA MAIOR QUE A COLUNA, SÓ NA TELA MAIS ESTREITA (25/09/2026)
+   Medido pelo auditor da prova no aparelho em 320px: "empreendimentos,"
+   (h1 de /pt/pre-construcao) tem 280px a 32px numa coluna de 272px e
+   invadia a margem. Diminuir a fonte para caber é proibido (regra das
+   órfãs); a ferramenta para palavra que não cabe é a hifenização, pelo
+   dicionário do idioma do <html>. Abaixo de 360px e só em título: acima
+   disso nenhuma palavra do site passa da coluna, e o desenho não muda.
+   ============================================================ */
+@media (max-width: 359px) {
+  h1,
+  h2,
+  h3 {
+    hyphens: auto;
+  }
+}

@@ -2,7 +2,8 @@
 // Licença: MIT, Copyright (c) 2024 Eduardo Calvo. Créditos completos em CREDITOS.md.
 'use client';
 
-import {motion, useInView, useReducedMotion} from 'framer-motion';
+import {motion, useInView} from 'framer-motion';
+import {useReducedMotion} from '@/lib/movimento-reduzido';
 import {useRef} from 'react';
 
 /* Origem: 21st.dev, "Soft Blur In" de educalvolpz (demo 19835), escolhido

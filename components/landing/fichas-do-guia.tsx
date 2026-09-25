@@ -2,7 +2,8 @@
 
 import {useRef} from 'react';
 import Image from 'next/image';
-import {motion, useReducedMotion, useScroll, useTransform} from 'framer-motion';
+import {motion, useScroll, useTransform} from 'framer-motion';
+import {useReducedMotion} from '@/lib/movimento-reduzido';
 import {useTranslations} from 'next-intl';
 import {Ficha, FichasEmpilhadas} from '@/components/ui/fichas-empilhadas';
 import {NumeroQueAparece} from '@/components/ui/numero-que-aparece';

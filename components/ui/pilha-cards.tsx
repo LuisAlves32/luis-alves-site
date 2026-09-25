@@ -3,7 +3,8 @@
 'use client';
 
 import {useCallback, useRef, useState} from 'react';
-import {motion, useReducedMotion} from 'framer-motion';
+import {motion} from 'framer-motion';
+import {useReducedMotion} from '@/lib/movimento-reduzido';
 
 // Origem: 21st.dev, "Scrollable Card Stack" de educalvolpz (demo 25296),
 // escolhido pelo diretor para as coleções da home (Passe 2). A seção que usa

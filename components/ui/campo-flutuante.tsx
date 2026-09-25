@@ -3,7 +3,8 @@
 'use client';
 
 import {useId, useState, type ReactNode, type Ref} from 'react';
-import {motion, useReducedMotion} from 'framer-motion';
+import {motion} from 'framer-motion';
+import {useReducedMotion} from '@/lib/movimento-reduzido';
 import {cn} from '@/lib/utils';
 
 /* Origem: 21st.dev, "Floating Label" de ddoemonn (demo 23566), escolhido

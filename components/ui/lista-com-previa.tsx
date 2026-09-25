@@ -2,7 +2,8 @@
 // Licença: MIT, Copyright (c) 2024 Eduardo Calvo (educlopez/smoothui). Créditos completos em CREDITOS.md.
 'use client';
 
-import {AnimatePresence, motion, useMotionValue, useReducedMotion, useSpring} from 'framer-motion';
+import {AnimatePresence, motion, useMotionValue, useSpring} from 'framer-motion';
+import {useReducedMotion} from '@/lib/movimento-reduzido';
 import type {FocusEvent, PointerEvent, ReactNode} from 'react';
 import {useCallback, useEffect, useRef, useState, useSyncExternalStore} from 'react';
 import {cn} from '@/lib/utils';

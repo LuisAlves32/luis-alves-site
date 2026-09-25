@@ -1,7 +1,8 @@
 'use client';
 
 import {useLayoutEffect, useRef, useState, type ReactNode} from 'react';
-import {motion, useMotionValueEvent, useReducedMotion, useScroll, useSpring, useTransform} from 'framer-motion';
+import {motion, useMotionValueEvent, useScroll, useSpring, useTransform} from 'framer-motion';
+import {useReducedMotion} from '@/lib/movimento-reduzido';
 import {cn} from '@/lib/utils';
 
 /* O FIO DO PERCURSO: os três passos de "Depois do download" da landing do guia

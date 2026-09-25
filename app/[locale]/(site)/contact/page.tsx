@@ -184,7 +184,7 @@ function ConteudoContato({locale}: {locale: Locale}) {
             <p className="text-sm">
               {t.rich('avisoDados', {
                 politica: (parte) => (
-                  <Link href="/privacy-policy" className={linkNoTexto}>
+                  <Link href="/privacy-policy" className={`${linkNoTexto} alvo-44`}>
                     {parte}
                   </Link>
                 )

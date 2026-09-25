@@ -1,6 +1,7 @@
 'use client';
 
-import {motion, useReducedMotion} from 'framer-motion';
+import {motion} from 'framer-motion';
+import {useReducedMotion} from '@/lib/movimento-reduzido';
 import {cn} from '@/lib/utils';
 
 /* TEXTO QUE SE REVELA PALAVRA A PALAVRA, uma vez, quando entra na tela.

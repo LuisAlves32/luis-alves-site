@@ -3,14 +3,8 @@
 'use client';
 
 import {createContext, useContext, useRef, type HTMLAttributes, type PropsWithChildren} from 'react';
-import {
-  motion,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-  type MotionValue,
-  type UseScrollOptions
-} from 'framer-motion';
+import {motion, useScroll, useTransform, type MotionValue, type UseScrollOptions} from 'framer-motion';
+import {useReducedMotion} from '@/lib/movimento-reduzido';
 import {cn} from '@/lib/utils';
 
 /* Origem: 21st.dev, "Stacking Cards" de danielpetho (fancycomponents, demo

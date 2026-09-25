@@ -10,6 +10,7 @@ import {
   type HTMLMotionProps,
   type MotionValue
 } from 'framer-motion';
+import {useReducedMotion} from '@/lib/movimento-reduzido';
 import {cn} from '@/lib/utils';
 
 /* Origem: 21st.dev, "Text Scroll Read" de youcefbnm (demo 19275), escolhido
@@ -71,8 +72,8 @@ export function TextoQueAcendeEnvelope({
 
 export function TextoRecortado({className, style, ...props}: HTMLMotionProps<'span'>) {
   const {progresso} = useContexto();
-  const reduzido =
-    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Hidratação segura (lib/movimento-reduzido.ts), no lugar do matchMedia lido na renderização.
+  const reduzido = useReducedMotion();
   const backgroundPositionX = useTransform(progresso, [0, 1], ['100%', '0%']);
   return (
     <motion.span

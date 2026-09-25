@@ -41,7 +41,8 @@
    ========================================================================== */
 
 import {useState} from 'react';
-import {LayoutGroup, motion, useReducedMotion} from 'framer-motion';
+import {LayoutGroup, motion} from 'framer-motion';
+import {useReducedMotion} from '@/lib/movimento-reduzido';
 import {useTranslations} from 'next-intl';
 
 const ETAPAS = [

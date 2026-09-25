@@ -5,7 +5,7 @@
 import {useEffect, useRef, useState, type ReactNode} from 'react';
 import gsap from 'gsap';
 import {ScrollTrigger} from 'gsap/ScrollTrigger';
-import {useReducedMotion} from 'framer-motion';
+import {useReducedMotion} from '@/lib/movimento-reduzido';
 import {FundoDeVideo} from '@/components/ui/fundo-de-video';
 import {useTecladoDoCampo} from '@/components/landing/teclado-do-campo';
 

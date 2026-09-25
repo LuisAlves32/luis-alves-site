@@ -2,7 +2,8 @@
 // Licença: MIT, Copyright (c) 2026 ozzy (ddoemonn/interior). Créditos completos em CREDITOS.md.
 'use client';
 
-import {motion, useReducedMotion} from 'framer-motion';
+import {motion} from 'framer-motion';
+import {useReducedMotion} from '@/lib/movimento-reduzido';
 import {useEffect, useRef, useState, type ReactNode} from 'react';
 
 /* Origem: 21st.dev, "Reading Progress" de ddoemonn (demo 23553), escolhido para a RÉGUA

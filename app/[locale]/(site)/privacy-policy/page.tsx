@@ -40,10 +40,17 @@ export async function generateMetadata({
  * O `**negrito**` do .md, que marca as partes juridicamente importantes.
  * Um `<strong>` de verdade, e não `font-bold`: aqui o peso É semântica.
  */
+/* O TETO DA POLÍTICA é maior que o do corpo, e é MEDIDO (25/09/2026, auditor da prova no
+   aparelho): em 320px o parágrafo da corretora terminava com o e-mail sozinho, porque
+   "to ricky@stonehausrealty.ca." tem 28 caracteres e o teto do corpo é 24 (o PT, "para ...",
+   tem 30). O texto aqui é corpo a ~15px numa coluna de 288px no mínimo: 30 caracteres cabem com
+   folga (~225px). Só esta página: endereço longo no fim de frase é coisa de documento jurídico. */
+const TETO_DA_POLITICA = Math.max(TETO_CORPO, 30);
+
 function negrito(texto: string) {
   /* O acabamento das órfãs (24/09/2026): este documento vem do .md, não das mensagens, e
      por isso não passava pela cola do i18n/request.ts. A cola é aplicada aqui, na leitura. */
-  return colarUltimasPalavrasEm(texto, TETO_CORPO).split('**').map((parte, i) =>
+  return colarUltimasPalavrasEm(texto, TETO_DA_POLITICA).split('**').map((parte, i) =>
     i % 2 === 1 ? (
       <strong key={i} className="font-semibold text-tinta">
         {parte}

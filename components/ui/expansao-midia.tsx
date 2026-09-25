@@ -3,14 +3,8 @@
 'use client';
 
 import {useEffect, useRef} from 'react';
-import {
-  motion,
-  useMotionTemplate,
-  useMotionValue,
-  useReducedMotion,
-  useScroll,
-  useTransform
-} from 'framer-motion';
+import {motion, useMotionTemplate, useMotionValue, useScroll, useTransform} from 'framer-motion';
+import {useReducedMotion} from '@/lib/movimento-reduzido';
 import {useMediaQuery, VideoAmbient} from '@/components/video-ambient';
 
 // Origem: 21st.dev, "Scroll media expansion hero" de arunachalam (demo 1932),

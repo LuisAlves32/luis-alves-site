@@ -4,7 +4,8 @@
 
 import * as React from 'react';
 import Image from 'next/image';
-import {motion, useMotionValue, useReducedMotion, useSpring, useTransform} from 'framer-motion';
+import {motion, useMotionValue, useSpring, useTransform} from 'framer-motion';
+import {useReducedMotion} from '@/lib/movimento-reduzido';
 import {cn} from '@/lib/utils';
 
 /* Origem: 21st.dev, "Parallax Card" de ravikatiyar162 (demo 7765), escolhido

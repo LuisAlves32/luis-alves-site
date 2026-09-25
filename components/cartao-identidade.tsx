@@ -3,7 +3,8 @@
 'use client';
 
 import {useCallback, useEffect, useRef, useState} from 'react';
-import {motion, useReducedMotion} from 'framer-motion';
+import {motion} from 'framer-motion';
+import {useReducedMotion} from '@/lib/movimento-reduzido';
 import {useTranslations} from 'next-intl';
 import type {Locale} from '@/i18n/routing';
 import {EMAIL_CONTATO, linkWhatsApp} from '@/lib/links';

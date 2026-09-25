@@ -176,7 +176,7 @@ export default async function PaginaNota({params}: {params: Params}) {
 
         <p className="mt-4 mb-10 text-[15px] font-medium text-tinta">
           {t('pergunte')}{' '}
-          <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="font-semibold text-avanco underline decoration-lapis underline-offset-4 hover:text-avanco-escuro hover:decoration-avanco">
+          <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="alvo-44 font-semibold text-avanco underline decoration-lapis underline-offset-4 hover:text-avanco-escuro hover:decoration-avanco">
             {t('pergunteLink')}
           </a>
         </p>
@@ -231,7 +231,7 @@ export default async function PaginaNota({params}: {params: Params}) {
 
           <p className="mt-6 text-[15px] font-medium text-tinta">
             {t('pergunte')}{' '}
-            <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="font-semibold text-avanco underline decoration-lapis underline-offset-4 hover:text-avanco-escuro hover:decoration-avanco">
+            <a href={whatsapp} target="_blank" rel="noopener noreferrer" className="alvo-44 font-semibold text-avanco underline decoration-lapis underline-offset-4 hover:text-avanco-escuro hover:decoration-avanco">
               {t('pergunteLink')}
             </a>
           </p>

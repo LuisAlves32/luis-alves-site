@@ -46,7 +46,8 @@
 import {useRef, useState} from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import {LayoutGroup, motion, useReducedMotion} from 'framer-motion';
+import {LayoutGroup, motion} from 'framer-motion';
+import {useReducedMotion} from '@/lib/movimento-reduzido';
 import {useLocale, useTranslations} from 'next-intl';
 import {getPathname} from '@/i18n/navigation';
 import type {AppPathname, Locale} from '@/i18n/routing';

@@ -2,7 +2,8 @@
 // Licença: MIT, Copyright (c) 2026 ozzy (ddoemonn/interior). Créditos completos em CREDITOS.md.
 'use client';
 
-import {motion, useReducedMotion} from 'framer-motion';
+import {motion} from 'framer-motion';
+import {useReducedMotion} from '@/lib/movimento-reduzido';
 import {useCallback, useEffect, useId, useMemo, useRef, useState, useSyncExternalStore, type KeyboardEvent, type ReactNode} from 'react';
 import {ListaComPrevia} from '@/components/ui/lista-com-previa';
 import './notas.css';

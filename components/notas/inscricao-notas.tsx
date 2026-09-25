@@ -1,6 +1,7 @@
 'use client';
 
-import {motion, useReducedMotion} from 'framer-motion';
+import {motion} from 'framer-motion';
+import {useReducedMotion} from '@/lib/movimento-reduzido';
 import {useId, useState, type FormEvent} from 'react';
 import {useLocale, useTranslations} from 'next-intl';
 import {CampoFlutuante} from '@/components/ui/campo-flutuante';

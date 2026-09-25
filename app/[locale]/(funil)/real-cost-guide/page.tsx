@@ -72,7 +72,7 @@ function RodapeLegal({locale}: {locale: Locale}) {
           {t('legal')}{' '}
           <Link
             href="/privacy-policy"
-            className="underline decoration-papel/30 underline-offset-4 transition-colors duration-200 hover:text-papel"
+            className="alvo-44 underline decoration-papel/30 underline-offset-4 transition-colors duration-200 hover:text-papel"
           >
             {t('legalPrivacidade')}
           </Link>

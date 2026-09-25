@@ -50,7 +50,10 @@ export function Footer({locale}: {locale: Locale}) {
         data-camada="frente"
         className="conteudo pb-[calc(env(safe-area-inset-bottom)+7rem)] pt-16 md:pb-24 lg:pt-20"
       >
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+        {/* Quatro colunas só a partir de `xl` (1280px), MEDIDO em 25/09/2026: em 1024px cada
+            coluna tinha ~206px e o e-mail (~228px) e o Instagram passavam da coluna. É o mesmo
+            degrau em que o menu completo aparece (navbar.tsx). */}
+        <div className="grid gap-10 sm:grid-cols-2 xl:grid-cols-4">
           <div className="text-[15px] leading-relaxed">
             <p className="font-semibold text-white">{t('nome')}</p>
             {/* Compliance: Stonehaus Realty Corp. legível, nunca em corpo minúsculo */}
@@ -158,7 +161,7 @@ export function Footer({locale}: {locale: Locale}) {
             <span className="whitespace-nowrap">
               <Link
                 href="/privacy-policy"
-                className={`${linkClaro} underline decoration-papel/30 underline-offset-4`}
+                className={`${linkClaro} alvo-44 underline decoration-papel/30 underline-offset-4`}
               >
                 {t('privacidade')}
               </Link>{' '}

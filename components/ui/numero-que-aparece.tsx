@@ -13,6 +13,7 @@ import {
   type MotionValue,
   type TargetAndTransition
 } from 'framer-motion';
+import {useReducedMotion} from '@/lib/movimento-reduzido';
 import {cn} from '@/lib/utils';
 
 /* Origem: 21st.dev, "Count Up" de unlumen (demo 20068), escolhido pelo
@@ -184,8 +185,9 @@ export function NumeroQueAparece({
   aoTerminar
 }: Props) {
   const ref = React.useRef<HTMLSpanElement>(null);
-  const reduzido =
-    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Hidratação segura (lib/movimento-reduzido.ts): ler o matchMedia aqui na renderização dava
+  // um HTML no servidor e outro no navegador, e o React descartava a árvore (#418).
+  const reduzido = useReducedMotion();
   // Com movimento reduzido o valor inicial já é o alvo: sem mola, sem efeito.
   const inicial = reduzido ? ate : direcao === 'down' ? ate : de;
   const valorMotion = useMotionValue(inicial);
