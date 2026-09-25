@@ -1335,6 +1335,28 @@ html[data-respiracao='ativa'] [data-fundo] {
     );
   }
 
+  /* O MOTOR DE CSS DO TOQUE (25/09/2026, ver o topo do hero-dois-atos.tsx). No
+     iPhone a passagem anda no compositor, e recorte animado não compõe: a
+     cápsula fica com o recorte PARADO acima e apaga por opacidade, enquanto
+     estas cópias inteiras (card, figura e véu do ato 2, sem recorte nenhum)
+     acendem por baixo dela. Fora do motor de CSS elas não existem. Os
+     quadros-chave são escritos pelo componente, a partir da medição. */
+  .hero2 .hero2-inteiro {
+    display: none;
+    clip-path: none;
+    opacity: 0;
+  }
+
+  .hero2[data-passagem="css"] .hero2-inteiro {
+    display: block;
+  }
+
+  /* O halo só acende quando a cápsula já cedeu: sem recorte, como no motor de
+     JS do toque. */
+  .hero2[data-passagem="css"] .hero2-halo {
+    clip-path: none;
+  }
+
   .hero2-identificacao {
     position: absolute;
     inset-inline: 0;

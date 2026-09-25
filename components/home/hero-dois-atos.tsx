@@ -15,9 +15,20 @@ import {linkWhatsApp} from '@/lib/links';
 // viaja para a posição do ato 2 e a headline se revela linha a linha por
 // máscara. ATO 2: a hero funcional completa, e a rolagem segue normal.
 //
-// POSSE: data-owner="autoral". Hoje a passagem é scroll listener + rAF; no
-// Passe 3 vira ScrollTrigger com scrub SEM MUDAR O DESENHO (as mesmas faixas
-// de progresso viram os mesmos pontos do scrub).
+// POSSE: data-owner="autoral". A passagem tem DOIS MOTORES e UMA conta só, a
+// função estado(p):
+//   . no computador, scroll listener + rAF escrevendo o estado a cada quadro;
+//   . no TOQUE (25/09/2026), animação de CSS ligada à rolagem
+//     (animation-timeline: scroll()), com os quadros-chave AMOSTRADOS do mesmo
+//     estado(p) e reescritos só quando a medição muda. Motivo medido no iPhone
+//     do Gabriel: no Safari do iOS a rolagem roda no compositor e o JavaScript
+//     chega atrasado, então tudo que o JS escreve em função da rolagem anda aos
+//     degraus. Desde o Safari 26.4 a animação ligada à rolagem roda no
+//     compositor, fora da thread principal. Só transform e opacity nesse motor:
+//     a abertura da cápsula, que era recorte animado, vira troca de opacidade
+//     entre a cápsula (recorte PARADO) e as cópias inteiras do card, do véu e
+//     da figura (.hero2-inteiro).
+//   ?passagem=js e ?passagem=css forçam um motor, para comparar no aparelho.
 //
 // TRAVAS desta seção: nenhuma camada entre o vídeo e o olho (sem véu, sem
 // gradiente, sem filtro, sem blend); só transform, opacity, filter e
@@ -180,6 +191,17 @@ const TOPO_PALCO = 0.41;
 // exatamente o centroY medido.
 const ORIGEM_VIAGEM_MOBILE = 0.41;
 
+// A TROCA DO MOTOR DE CSS: a cápsula (recorte parado) cede para o card, o véu e a
+// figura inteiros nesta faixa do progresso, enquanto o conjunto ainda cresce. A
+// figura contida só sai DEPOIS de a inteira estar opaca por baixo dela: se as duas
+// trocassem juntas, o corpo dele ficaria translúcido no meio da passagem.
+const TROCA_INICIO = 0.1;
+const TROCA_FIM = 0.5;
+const FIGURA_CONTIDA_FIM = 0.62;
+// Quadros-chave por trilho no motor de CSS: um a cada 2,5% da passagem, ligados
+// em linha reta. As curvas suaves do estado(p) ficam desenhadas por eles.
+const PASSOS_DA_PASSAGEM = 40;
+
 type ConexaoDeRede = {saveData?: boolean; effectiveType?: string};
 
 function trava(valor: number, minimo: number, maximo: number) {
@@ -248,13 +270,15 @@ export function HeroDoisAtos({locale}: {locale: Locale}) {
     // coincide, então a figura é tudo que existe acima da base do painel).
     // offsetHeight ignora transform, então as duas medidas são as de layout.
     const vitrine = busca('.hero2-vitrine');
-    const involucro = busca('.hero2-figura');
-    const figura = busca<HTMLImageElement>('.hero2-figura img');
+    // As peças da CÁPSULA. As cópias .hero2-inteiro existem só para o motor de
+    // CSS e nunca são tocadas pelo JS.
+    const involucro = busca('.hero2-figura:not(.hero2-inteiro)');
+    const figura = busca<HTMLImageElement>('.hero2-figura:not(.hero2-inteiro) img');
     const halo = busca('.hero2-halo');
-    const painel = busca('.hero2-painel');
+    const painel = busca('.hero2-painel:not(.hero2-inteiro)');
     // O véu entrou na lista no prompt 2.34: ele é decorativo do card e leva o
     // mesmo recorte, senão vaza para fora da cápsula no ato 1.
-    const veu = busca('.hero2-veu');
+    const veu = busca('.hero2-veu:not(.hero2-inteiro)');
     // A régua existe só para resolver --vitrine-ato1-largura em px: o valor do
     // token é um clamp(), e getComputedStyle devolveria a string.
     const regua = busca('.hero2-regua');
@@ -278,6 +302,17 @@ export function HeroDoisAtos({locale}: {locale: Locale}) {
     let ato2Ativo: boolean | null = null;
     // Aparelho de toque: a passagem corta o PESO (desfoque do nome, recorte do halo).
     const toque = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+
+    // O MOTOR DA PASSAGEM. CSS ligado à rolagem no toque, onde o navegador souber
+    // fazer (Safari 26+, Chrome 115+); JS por quadro no resto. O parâmetro da URL
+    // força um dos dois, e é assim que se compara no aparelho.
+    const suportaTrilhoCss =
+      typeof CSS !== 'undefined' &&
+      CSS.supports('animation-timeline: scroll()') &&
+      CSS.supports('animation-range: 0px 1px');
+    const motorPedido = new URLSearchParams(window.location.search).get('passagem');
+    const motorCss =
+      suportaTrilhoCss && (motorPedido === 'css' || (motorPedido !== 'js' && toque));
 
     const preferenciaMovimento = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -661,33 +696,36 @@ export function HeroDoisAtos({locale}: {locale: Locale}) {
     }
 
     // ---- A PASSAGEM ------------------------------------------------------
-    function desenhar(p: number) {
-      const alturaViewport = alturaPalco();
-      const mobile = window.innerWidth <= LIMIAR_MOBILE;
+    // A geometria de uma pintura, lida UMA vez (o motor de CSS amostra o estado
+    // 41 vezes seguidas e não precisa reler o palco em cada uma).
+    type Geometria = {alturaViewport: number; mobile: boolean};
+    const geometria = (): Geometria => ({
+      alturaViewport: alturaPalco(),
+      mobile: window.innerWidth <= LIMIAR_MOBILE
+    });
+    // Como um número vira texto: cru no JS (o ato 2 precisa sair idêntico ao de
+    // sempre, sem arredondamento), curto nos quadros-chave do CSS.
+    type Formato = (valor: number) => string;
+    const cru: Formato = (valor) => `${valor}`;
+    const curto: Formato = (valor) => `${+valor.toFixed(3)}`;
 
-      // o nome se dissolve subindo. O DESFOQUE só com ponteiro fino: no toque ele era o
-      // quadro mais caro da passagem (25/09/2026, iPhone travando só aqui): um blur de
-      // até 16px refeito a cada quadro sobre um nome de ~1170x500 pixels na densidade 3.
-      // No celular corta-se PESO, não movimento: o nome sobe, encolhe e some igual.
+    // O ESTADO DA PASSAGEM num progresso p. É a ÚNICA conta da passagem: o motor
+    // de JS escreve o resultado a cada quadro e o motor de CSS o amostra em
+    // quadros-chave. Mexer num tempo ou numa faixa aqui muda os dois.
+    function estado(p: number, g: Geometria, f: Formato) {
+      // o nome se dissolve subindo
       const saida = suave(faixa(p, 0, 0.36));
-      nome.style.opacity = `${1 - saida}`;
-      if (!toque) nome.style.filter = `blur(${saida * 16}px)`;
-      nome.style.transform = `translateY(calc(-50% - ${saida * 54}px)) scale(${1 - saida * 0.06})`;
-
       // identificação e dica saem antes de todo o resto
       const saidaCredito = suave(faixa(p, 0, 0.2));
-      identificacao.style.opacity = `${1 - saidaCredito}`;
-      identificacao.style.transform = `translateY(${saidaCredito * 18}px)`;
-      dica.style.opacity = `${1 - saidaCredito}`;
 
       // a vitrine viaja para a posição do ato 2. Painel, invólucro, figura e
       // véu andam JUNTOS, como um conjunto só: a caixa que escala é a do
       // painel e os outros três vivem dentro dela, então a relação entre eles
       // não muda no meio do caminho. Só transform.
       const viagem = suave(faixa(p, 0.06, 0.78));
-      const dx = mobile ? 0 : medida.dx * viagem;
-      const alvoY = mobile
-        ? medida.centroY - alturaViewport * ORIGEM_VIAGEM_MOBILE
+      const dx = g.mobile ? 0 : medida.dx * viagem;
+      const alvoY = g.mobile
+        ? medida.centroY - g.alturaViewport * ORIGEM_VIAGEM_MOBILE
         : medida.dy;
       // A viagem vertical NASCE na compensação do crescimento do ato 1 e morre
       // em zero no ato 2 (folha 2.30, item 1.2), em vez de nascer em zero. É
@@ -696,7 +734,78 @@ export function HeroDoisAtos({locale}: {locale: Locale}) {
       const dy = medida.compensaY + (alvoY - medida.compensaY) * viagem;
       const escala =
         medida.escalaInicio + (medida.escalaFim - medida.escalaInicio) * viagem;
-      vitrine.style.transform = `translate(-50%, -50%) translate(${dx}px, ${dy}px) scale(${escala})`;
+
+      return {
+        viagem,
+        nomeOpacidade: 1 - saida,
+        nomeDesfoque: saida * 16,
+        nome: `translateY(-50%) translateY(${f(-saida * 54)}px) scale(${f(1 - saida * 0.06)})`,
+        creditoOpacidade: 1 - saidaCredito,
+        credito: `translateY(${f(saidaCredito * 18)}px)`,
+        vitrine: `translate(-50%, -50%) translate(${f(dx)}px, ${f(dy)}px) scale(${f(escala)})`,
+        // A figura NASCE SUBINDO: 5% da própria altura para baixo no ato 1, zero no
+        // ato 2. No ato 2 isto é exatamente o translateX(-50%) do CSS.
+        figura: `translateX(-50%) translateY(${f(
+          (1 - viagem) * medida.alturaFigura * FIGURA_DESCE_ATO1
+        )}px)`,
+        // O PAINEL fica opaco no MESMO progresso. No ato 1 ele está cravado
+        // entre LUIS e ALVES, e opaco lia como caixa branca por cima das letras;
+        // a 0,55 o nome se lê ATRAVÉS dele.
+        painel: PAINEL_OPACIDADE_ATO1 + (1 - PAINEL_OPACIDADE_ATO1) * viagem,
+        // o halo entra por OPACIDADE, girando. Faixa própria e mais tarde que a
+        // do conjunto, para ele não acender enquanto o nome ainda está na tela.
+        halo: suave(faixa(p, 0.3, 0.86)) * HALO_OPACIDADE,
+        // Só o motor de CSS usa: a cápsula cedendo para as cópias inteiras.
+        troca: suave(faixa(p, TROCA_INICIO, TROCA_FIM)),
+        figuraContida: 1 - faixa(p, TROCA_FIM, FIGURA_CONTIDA_FIM),
+        // a headline se revela linha a linha por máscara
+        linhas: linhas.map((_, indice) => {
+          const q = suave(faixa(p, 0.14 + indice * 0.05, 0.5 + indice * 0.05));
+          return {opacidade: q, transform: `translateY(${f((1 - q) * ESCONDIDO)}%)`};
+        }),
+        // apoio, botões, cidades e kicker entram em cascata
+        cascata: cascata.map((_, indice) => {
+          const q = suave(faixa(p, 0.38 + indice * 0.045, 0.72 + indice * 0.045));
+          return {opacidade: q, transform: `translateY(${f((1 - q) * 16)}px)`};
+        })
+      };
+    }
+    type EstadoDaPassagem = ReturnType<typeof estado>;
+
+    // O bloco só fica clicável (e alcançável pelo teclado) quando já está
+    // visível: botão invisível recebendo foco é armadilha.
+    // Só quando o estado MUDA: regravar o atributo a cada quadro era mutação de DOM por
+    // quadro, que obriga o navegador a recalcular estilo no meio da rolagem.
+    function ativarAto2(p: number) {
+      const ativo = p > 0.7;
+      if (ativo === ato2Ativo) return;
+      ato2Ativo = ativo;
+      ato2.style.pointerEvents = ativo ? 'auto' : 'none';
+      for (const alvo of focaveis) {
+        if (ativo) alvo.removeAttribute('tabindex');
+        else alvo.setAttribute('tabindex', '-1');
+      }
+    }
+
+    // O MOTOR DE JS: escreve o estado a cada quadro, mais o recorte animado da
+    // cápsula, que só existe aqui.
+    function desenhar(p: number) {
+      const e = estado(p, geometria(), cru);
+      const viagem = e.viagem;
+
+      // O DESFOQUE só com ponteiro fino: no toque ele era o quadro mais caro da
+      // passagem (25/09/2026, iPhone travando só aqui): um blur de até 16px refeito a
+      // cada quadro sobre um nome de ~1170x500 pixels na densidade 3. No celular
+      // corta-se PESO, não movimento: o nome sobe, encolhe e some igual.
+      nome.style.opacity = `${e.nomeOpacidade}`;
+      if (!toque) nome.style.filter = `blur(${e.nomeDesfoque}px)`;
+      nome.style.transform = e.nome;
+
+      identificacao.style.opacity = `${e.creditoOpacidade}`;
+      identificacao.style.transform = e.credito;
+      dica.style.opacity = `${e.creditoOpacidade}`;
+
+      vitrine.style.transform = e.vitrine;
 
       // ---- A ABERTURA DA CÁPSULA (prompt 2.34) --------------------------
       // A caixa do conjunto NÃO muda de tamanho em nenhum quadro: continua
@@ -799,52 +908,134 @@ export function HeroDoisAtos({locale}: {locale: Locale}) {
             entre(Rcap, 0),
             entre(Rcap, 0)
           );
-      // E ela NASCE SUBINDO: 5% da própria altura para baixo no ato 1, zero no
-      // ato 2. Só transform, e na IMAGEM, porque o recorte precisa ficar
-      // parado no invólucro. No ato 2 isto é exatamente o translateX(-50%) do
-      // CSS, sem nada somado.
-      figura.style.transform = `translateX(-50%) translateY(${(
-        (1 - viagem) *
-        medida.alturaFigura *
-        FIGURA_DESCE_ATO1
-      ).toFixed(2)}px)`;
+      // Só transform, e na IMAGEM, porque o recorte precisa ficar parado no
+      // invólucro.
+      figura.style.transform = e.figura;
+      painel.style.opacity = `${e.painel}`;
+      halo.style.opacity = `${e.halo}`;
 
-      // O PAINEL fica opaco no MESMO progresso. No ato 1 ele está cravado
-      // entre LUIS e ALVES, e opaco lia como caixa branca por cima das letras;
-      // a 0,55 o nome se lê ATRAVÉS dele. Só opacity.
-      painel.style.opacity = `${
-        PAINEL_OPACIDADE_ATO1 + (1 - PAINEL_OPACIDADE_ATO1) * viagem
-      }`;
-
-      // o halo entra por OPACIDADE, girando. Faixa própria e mais tarde que a
-      // do conjunto, para ele não acender enquanto o nome ainda está na tela.
-      halo.style.opacity = `${suave(faixa(p, 0.3, 0.86)) * HALO_OPACIDADE}`;
-
-      // a headline se revela linha a linha por máscara
       linhas.forEach((linha, indice) => {
-        const q = suave(faixa(p, 0.14 + indice * 0.05, 0.5 + indice * 0.05));
-        linha.style.transform = `translateY(${(1 - q) * ESCONDIDO}%)`;
-        linha.style.opacity = `${q}`;
+        linha.style.transform = e.linhas[indice].transform;
+        linha.style.opacity = `${e.linhas[indice].opacidade}`;
       });
-      // apoio, botões, cidades e kicker entram em cascata
       cascata.forEach((elemento, indice) => {
-        const q = suave(faixa(p, 0.38 + indice * 0.045, 0.72 + indice * 0.045));
-        elemento.style.opacity = `${q}`;
-        elemento.style.transform = `translateY(${(1 - q) * 16}px)`;
+        elemento.style.opacity = `${e.cascata[indice].opacidade}`;
+        elemento.style.transform = e.cascata[indice].transform;
       });
 
-      // O bloco só fica clicável (e alcançável pelo teclado) quando já está
-      // visível: botão invisível recebendo foco é armadilha.
-      // Só quando o estado MUDA: regravar o atributo a cada quadro era mutação de DOM por
-      // quadro, que obriga o navegador a recalcular estilo no meio da rolagem.
-      const ativo = p > 0.7;
-      if (ativo !== ato2Ativo) {
-        ato2Ativo = ativo;
-        ato2.style.pointerEvents = ativo ? 'auto' : 'none';
-        for (const alvo of focaveis) {
-          if (ativo) alvo.removeAttribute('tabindex');
-          else alvo.setAttribute('tabindex', '-1');
-        }
+      ativarAto2(p);
+    }
+
+    // ---- O MOTOR DE CSS (toque) -------------------------------------------
+    // Os quadros-chave nascem do MESMO estado(p), amostrado a cada 2,5% da
+    // passagem, e só são reescritos quando a medição muda (resize de verdade,
+    // fontes, orientação). Durante a rolagem o JavaScript não escreve NADA na
+    // passagem: quem anda é o compositor.
+    let folha: HTMLStyleElement | null = null;
+
+    function gerarPassagem() {
+      const g = geometria();
+      const amostras = Array.from({length: PASSOS_DA_PASSAGEM + 1}, (_, indice) =>
+        estado(indice / PASSOS_DA_PASSAGEM, g, curto)
+      );
+      // O trilho é o MESMO do motor de JS: do topo da seção até 0,9 palco abaixo.
+      const inicio = secao.getBoundingClientRect().top + window.scrollY;
+      const fim = inicio + 0.9 * g.alturaViewport;
+      const ultimo = PASSOS_DA_PASSAGEM;
+      let css = '';
+
+      const trilho = (
+        seletor: string,
+        nomeDaAnimacao: string,
+        quadro: (e: EstadoDaPassagem) => string
+      ) => {
+        const quadros = amostras.map(quadro);
+        // Quadro igual ao vizinho dos dois lados não muda nada: sai.
+        const passos = quadros
+          .map((q, indice) =>
+            indice === 0 ||
+            indice === ultimo ||
+            q !== quadros[indice - 1] ||
+            q !== quadros[indice + 1]
+              ? `${+((indice * 100) / ultimo).toFixed(2)}%{${q}}`
+              : ''
+          )
+          .join('');
+        css +=
+          `@keyframes ${nomeDaAnimacao}{${passos}}` +
+          `.hero2[data-passagem="css"] ${seletor}{` +
+          `animation-name:${nomeDaAnimacao};` +
+          'animation-duration:1ms;animation-duration:auto;' +
+          'animation-timing-function:linear;animation-fill-mode:both;' +
+          'animation-timeline:scroll(root block);' +
+          `animation-range:${inicio.toFixed(1)}px ${fim.toFixed(1)}px}`;
+      };
+
+      trilho('.hero2-nome', 'hero2-p-nome', (e) =>
+        `opacity:${curto(e.nomeOpacidade)};transform:${e.nome}`
+      );
+      trilho('.hero2-identificacao', 'hero2-p-credito', (e) =>
+        `opacity:${curto(e.creditoOpacidade)};transform:${e.credito}`
+      );
+      trilho('.hero2-dica', 'hero2-p-dica', (e) => `opacity:${curto(e.creditoOpacidade)}`);
+      trilho('.hero2-vitrine', 'hero2-p-vitrine', (e) => `transform:${e.vitrine}`);
+      trilho('.hero2-figura img', 'hero2-p-figura', (e) => `transform:${e.figura}`);
+      trilho('.hero2-halo', 'hero2-p-halo', (e) => `opacity:${curto(e.halo)}`);
+      // A CÁPSULA cede para as cópias inteiras. Painel e véu trocam em cruz; a
+      // figura contida fica opaca por cima até a inteira estar toda acesa.
+      trilho('.hero2-painel:not(.hero2-inteiro)', 'hero2-p-painel', (e) =>
+        `opacity:${curto(e.painel * (1 - e.troca))}`
+      );
+      trilho('.hero2-painel.hero2-inteiro', 'hero2-p-painel-inteiro', (e) =>
+        `opacity:${curto(e.painel * e.troca)}`
+      );
+      trilho('.hero2-veu:not(.hero2-inteiro)', 'hero2-p-veu', (e) =>
+        `opacity:${curto(1 - e.troca)}`
+      );
+      trilho('.hero2-veu.hero2-inteiro', 'hero2-p-veu-inteiro', (e) =>
+        `opacity:${curto(e.troca)}`
+      );
+      trilho('.hero2-figura:not(.hero2-inteiro)', 'hero2-p-figura-contida', (e) =>
+        `opacity:${curto(e.figuraContida)}`
+      );
+      trilho('.hero2-figura.hero2-inteiro', 'hero2-p-figura-inteira', (e) =>
+        `opacity:${curto(e.troca)}`
+      );
+      linhas.forEach((_, indice) =>
+        trilho(`.hero2-linha:nth-child(${indice + 1}) > i`, `hero2-p-linha-${indice}`, (e) =>
+          `opacity:${curto(e.linhas[indice].opacidade)};transform:${e.linhas[indice].transform}`
+        )
+      );
+      ['.hero2-sub', '.hero2-botoes', '.hero2-cidades', '.hero2-kicker'].forEach(
+        (seletor, indice) =>
+          trilho(seletor, `hero2-p-cascata-${indice}`, (e) =>
+            `opacity:${curto(e.cascata[indice].opacidade)};transform:${e.cascata[indice].transform}`
+          )
+      );
+
+      if (!folha) {
+        folha = document.createElement('style');
+        folha.dataset.hero2Passagem = '';
+        document.head.append(folha);
+      }
+      folha.textContent = css;
+    }
+
+    // No motor de CSS a rolagem só precisa saber de UMA coisa: quando o ato 2
+    // fica clicável. Nada é escrito a não ser nessa troca.
+    function aoRolarNoTrilho() {
+      ativarAto2(progresso());
+    }
+
+    // Uma pintura fora da rolagem (armar, resize, fontes).
+    function pintar() {
+      if (preferenciaMovimento.matches) {
+        desenhar(1);
+      } else if (motorCss) {
+        gerarPassagem();
+        ativarAto2(progresso());
+      } else {
+        desenhar(progresso());
       }
     }
 
@@ -901,7 +1092,7 @@ export function HeroDoisAtos({locale}: {locale: Locale}) {
       ultimaLargura = window.innerWidth;
       ultimaAlturaPalco = alturaPalco();
       medir();
-      desenhar(preferenciaMovimento.matches ? 1 : progresso());
+      pintar();
       if (videoLigado) escolherFonte();
     }
 
@@ -937,18 +1128,23 @@ export function HeroDoisAtos({locale}: {locale: Locale}) {
 
       if (preferenciaMovimento.matches) {
         // Movimento reduzido: estado FINAL, nada de passagem e nada de vídeo.
-        desenhar(1);
+        secao.dataset.passagem = 'js';
+        pintar();
         return;
       }
 
-      desenhar(progresso());
-      window.addEventListener('scroll', aoRolar, {passive: true});
+      secao.dataset.passagem = motorCss ? 'css' : 'js';
+      pintar();
+      window.addEventListener('scroll', motorCss ? aoRolarNoTrilho : aoRolar, {
+        passive: true
+      });
       if (document.readyState === 'complete') agendarVideo();
       else window.addEventListener('load', agendarVideo, {once: true});
     }
 
     function desarmar() {
       window.removeEventListener('scroll', aoRolar);
+      window.removeEventListener('scroll', aoRolarNoTrilho);
       window.removeEventListener('load', agendarVideo);
       video.removeEventListener('canplay', aoPoderTocar);
       if (ocioso !== undefined) window.cancelIdleCallback?.(ocioso);
@@ -1003,6 +1199,8 @@ export function HeroDoisAtos({locale}: {locale: Locale}) {
       // na medição). Então ela sai daqui na desmontagem, senão a medida de uma
       // hero que não existe mais fica pendurada no documento inteiro.
       document.documentElement.style.removeProperty('--hero-nome-altura');
+      // A folha do motor de CSS também mora fora da árvore (no <head>).
+      folha?.remove();
     };
   }, []);
 
@@ -1160,6 +1358,21 @@ export function HeroDoisAtos({locale}: {locale: Locale}) {
               <i />
             </div>
             <div className="hero2-painel" aria-hidden="true" />
+            {/* AS CÓPIAS INTEIRAS (.hero2-inteiro) existem só no motor de CSS do
+                toque: são o card, a figura e o véu do ato 2, sem recorte, que
+                acendem por opacidade enquanto a cápsula apaga. Fora dele ficam
+                em display:none. A figura inteira vem ANTES da contida no DOM
+                para ficar por BAIXO dela: o corpo nunca fica translúcido. */}
+            <div className="hero2-painel hero2-inteiro" aria-hidden="true" />
+            <div className="hero2-figura hero2-inteiro" aria-hidden="true">
+              <picture>
+                <source
+                  media={`(max-width: ${LIMIAR_MOBILE}px)`}
+                  srcSet={RETRATO_MOBILE}
+                />
+                <img src={RETRATO_DESKTOP} alt="" decoding="async" />
+              </picture>
+            </div>
             <div className="hero2-figura">
               <picture>
                 <source
@@ -1175,6 +1388,7 @@ export function HeroDoisAtos({locale}: {locale: Locale}) {
               </picture>
             </div>
             <div className="hero2-veu" aria-hidden="true" />
+            <div className="hero2-veu hero2-inteiro" aria-hidden="true" />
           </div>
         </div>
       </div>
