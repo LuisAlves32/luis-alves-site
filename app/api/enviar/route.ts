@@ -28,7 +28,7 @@ import {
   FREIO_JANELA_MS,
   FREIO_LIMITE,
   OBRIGATORIOS,
-  PISO_TEMPO_MS,
+  pisoDoFormulario,
   TETO_CAMPANHA,
   TETO_ORIGEM,
   VALORES_ACEITOS,
@@ -162,7 +162,7 @@ export async function POST(req: NextRequest) {
       console.warn(
         `[${formulario}] iniciadoEm no futuro (${decorrido} ms): relogio do visitante adiantado. Envio aceito de proposito.`
       );
-    } else if (decorrido < PISO_TEMPO_MS) {
+    } else if (decorrido < pisoDoFormulario(formulario)) {
       console.info(
         `[${formulario}] descartado=piso-de-tempo decorrido=${decorrido}ms origem=${origem}`
       );

@@ -130,6 +130,15 @@ export const CAMPO_ARMADILHA = 'empresa';
  */
 export const PISO_TEMPO_MS = 4000;
 
+/**
+ * A NEWSLETTER tem piso menor (25/09/2026, medido): são dois campos e uma caixa, e com o
+ * preenchimento automático do navegador uma pessoa de verdade enviou em 3,6 s e foi descartada
+ * em silêncio, vendo "sucesso" na tela. O robô continua barrado pela armadilha e pelo freio por IP.
+ */
+export const PISOS_POR_FORMULARIO: Partial<Record<TipoFormulario, number>> = {newsletter: 1500};
+export const pisoDoFormulario = (formulario: TipoFormulario) =>
+  PISOS_POR_FORMULARIO[formulario] ?? PISO_TEMPO_MS;
+
 /** Freio por IP: cinco envios por dez minutos. */
 export const FREIO_LIMITE = 5;
 export const FREIO_JANELA_MS = 10 * 60 * 1000;
