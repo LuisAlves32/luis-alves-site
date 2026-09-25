@@ -3950,3 +3950,15 @@ video::-webkit-media-controls-panel,
 video::-webkit-media-controls-overlay-play-button {
   display: none !important;
 }
+
+/* ============================================================
+   HERO NO TOQUE: sem reserva para o desfoque do nome (25/09/2026)
+   No toque o nome sai sem blur (hero-dois-atos.tsx, desenhar): o
+   will-change não reserva mais camada de filtro para um nome de
+   ~1170x500 pixels na densidade 3.
+   ============================================================ */
+@media (hover: none) and (pointer: coarse) {
+  .hero2-nome {
+    will-change: transform, opacity;
+  }
+}

@@ -273,6 +273,11 @@ export function HeroDoisAtos({locale}: {locale: Locale}) {
       busca('.hero2-kicker')
     ];
     const focaveis = [...ato2.querySelectorAll<HTMLElement>('a[href]')];
+    // Estado anterior do ato 2 (clicável ou não): começa indefinido para o primeiro
+    // desenho sempre aplicar.
+    let ato2Ativo: boolean | null = null;
+    // Aparelho de toque: a passagem corta o PESO (desfoque do nome, recorte do halo).
+    const toque = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
 
     const preferenciaMovimento = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -660,10 +665,13 @@ export function HeroDoisAtos({locale}: {locale: Locale}) {
       const alturaViewport = alturaPalco();
       const mobile = window.innerWidth <= LIMIAR_MOBILE;
 
-      // o nome se dissolve subindo
+      // o nome se dissolve subindo. O DESFOQUE só com ponteiro fino: no toque ele era o
+      // quadro mais caro da passagem (25/09/2026, iPhone travando só aqui): um blur de
+      // até 16px refeito a cada quadro sobre um nome de ~1170x500 pixels na densidade 3.
+      // No celular corta-se PESO, não movimento: o nome sobe, encolhe e some igual.
       const saida = suave(faixa(p, 0, 0.36));
       nome.style.opacity = `${1 - saida}`;
-      nome.style.filter = `blur(${saida * 16}px)`;
+      if (!toque) nome.style.filter = `blur(${saida * 16}px)`;
       nome.style.transform = `translateY(calc(-50% - ${saida * 54}px)) scale(${1 - saida * 0.06})`;
 
       // identificação e dica saem antes de todo o resto
@@ -758,8 +766,12 @@ export function HeroDoisAtos({locale}: {locale: Locale}) {
       // clip-path é aplicado DEPOIS do filter, então um inset(0) cortaria o
       // desfoque e o halo do ato 2 mudaria. Meio lado de folga cobre com
       // sobra os ~3 sigma do blur (13% do lado).
+      // NO TOQUE O HALO NÃO GANHA RECORTE ANIMADO (25/09/2026): recorte que muda a cada
+      // quadro sobre um brilho com desfoque de ~25px obrigava o Safari a repintar o halo
+      // inteiro por quadro. Ele só acende a partir de p=0,3 (faixa da opacidade, abaixo),
+      // quando a cápsula já está se abrindo, então sem o recorte a diferença é mínima.
       const folgaHalo = -medida.lado * 0.5;
-      halo.style.clipPath = noAto2
+      halo.style.clipPath = noAto2 || toque
         ? 'none'
         : recorte(
             entre(medida.haloDesvio - fora, folgaHalo),
@@ -823,11 +835,16 @@ export function HeroDoisAtos({locale}: {locale: Locale}) {
 
       // O bloco só fica clicável (e alcançável pelo teclado) quando já está
       // visível: botão invisível recebendo foco é armadilha.
+      // Só quando o estado MUDA: regravar o atributo a cada quadro era mutação de DOM por
+      // quadro, que obriga o navegador a recalcular estilo no meio da rolagem.
       const ativo = p > 0.7;
-      ato2.style.pointerEvents = ativo ? 'auto' : 'none';
-      for (const alvo of focaveis) {
-        if (ativo) alvo.removeAttribute('tabindex');
-        else alvo.setAttribute('tabindex', '-1');
+      if (ativo !== ato2Ativo) {
+        ato2Ativo = ativo;
+        ato2.style.pointerEvents = ativo ? 'auto' : 'none';
+        for (const alvo of focaveis) {
+          if (ativo) alvo.removeAttribute('tabindex');
+          else alvo.setAttribute('tabindex', '-1');
+        }
       }
     }
 
