@@ -3930,3 +3930,23 @@ html[data-respiracao='ativa'] [data-fundo] {
     hyphens: auto;
   }
 }
+
+/* ============================================================
+   O BOTÃO DE PLAY DO iOS NUNCA APARECE (25/09/2026)
+   No Modo de Pouca Energia (e quando o aparelho economiza dados) o iOS
+   RECUSA a reprodução automática e desenha o próprio botão de play por
+   cima do vídeo parado (print do Gabriel, iPhone, seção "Onde eu atuo").
+   Todo vídeo deste site é ambiente, mudo e sem controle: parado, ele vale
+   como FOTO (o pôster ou a imagem de base por baixo), nunca como convite
+   a tocar. Os `play()` já tratam a recusa em silêncio; isto tira o botão.
+   ============================================================ */
+video::-webkit-media-controls-start-playback-button {
+  display: none !important;
+  -webkit-appearance: none;
+}
+
+video::-webkit-media-controls,
+video::-webkit-media-controls-panel,
+video::-webkit-media-controls-overlay-play-button {
+  display: none !important;
+}
