@@ -15,9 +15,9 @@ import {block, mark} from '@keystatic/core/content-components';
  *
  * O REPOSITÓRIO fica escrito aqui, e não numa variável: esta configuração também roda no
  * NAVEGADOR, e variável sem `NEXT_PUBLIC_` não chega lá (lição da Cora, 23/09/2026).
- * TROCAR NA TRANSFERÊNCIA para o repositório na conta do Luís.
+ * Trocado em 25/09/2026 para o repositório PÚBLICO na conta do Luís.
  */
-const REPOSITORIO = 'uolivergab/luis-alves-site';
+const REPOSITORIO = 'LuisAlves32/luis-alves-site';
 
 /** As categorias, e cada uma tem a FORMA da cota da capa (design-blog.md, 5.1). */
 export const CATEGORIAS = [
@@ -29,8 +29,10 @@ export const CATEGORIAS = [
 ] as const;
 
 export default config({
+  // `NEXT_PUBLIC_PAINEL_GITHUB=1` no `.env.local` liga o modo GitHub no computador: é SÓ para o
+  // assistente do Keystatic criar o app do GitHub (ele não aparece no modo local). Depois, tirar.
   storage:
-    process.env.NODE_ENV === 'production'
+    process.env.NODE_ENV === 'production' || process.env.NEXT_PUBLIC_PAINEL_GITHUB === '1'
       ? {kind: 'github', repo: REPOSITORIO}
       : {kind: 'local'},
   ui: {brand: {name: 'Second Opinion'}},
