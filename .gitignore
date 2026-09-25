@@ -62,3 +62,4 @@ next-env.d.ts
 # O e-book NÃO vai para o repositório público: mora no Blob da Vercel (GUIA_PDF_URL_EN/PT).
 # A cópia local em public/guia/ continua servindo o desenvolvimento (lib/guia-pdf.ts).
 /public/guia/*.pdf
+/_para-o-blob/
