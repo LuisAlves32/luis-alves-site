@@ -57,5 +57,6 @@ export const config = {
   // chegam aqui pela regra de rota do next.config.ts. Sem esta exclusão, o next-intl trataria /homes/silverbrook
   // como página deste site e responderia 404 antes da regra (15/09/2026).
   // `keystatic` é o painel do blog (Second Opinion): ferramenta, não página, fora do idioma (24/09/2026).
-  matcher: '/((?!api|trpc|_next|_vercel|homes|keystatic|.*\\..*).*)'
+  // `guia-do-painel` é o guia dele, uma página estática em public/ (25/09/2026).
+  matcher: '/((?!api|trpc|_next|_vercel|homes|keystatic|guia-do-painel|.*\\..*).*)'
 };

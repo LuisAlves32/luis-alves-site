@@ -39,6 +39,9 @@ const nextConfig: NextConfig = {
         source: '/guia/:arquivo(.*\\.pdf)',
         headers: [{key: 'X-Robots-Tag', value: 'noindex, nofollow'}]
       },
+      // O guia do painel é para o Luís, não para a busca.
+      {source: '/guia-do-painel', headers: [{key: 'X-Robots-Tag', value: 'noindex, nofollow'}]},
+      {source: '/guia-do-painel/:path*', headers: [{key: 'X-Robots-Tag', value: 'noindex, nofollow'}]},
       {
         // O ENDEREÇO DE TESTE FORA DA BUSCA, por HOST (Passe 4, peça do acervo
         // `passe-4-a-praca`). O `.vercel.app` responde 200 e serve o site inteiro:
@@ -105,6 +108,9 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return {
       beforeFiles: [
+        // O guia do painel para o Luís (25/09/2026): página estática gerada por
+        // scripts/gera-guia-do-painel.mjs, fora do roteamento de idioma (proxy.ts) e com noindex.
+        {source: '/guia-do-painel', destination: '/guia-do-painel/index.html'},
         {source: '/homes', destination: 'https://homes-luis-alves.vercel.app/homes'},
         {source: '/homes/:caminho*', destination: 'https://homes-luis-alves.vercel.app/homes/:caminho*'}
       ],
