@@ -3,7 +3,7 @@ import {useTranslations} from 'next-intl';
 import {setRequestLocale} from 'next-intl/server';
 import {Link} from '@/i18n/navigation';
 import type {Locale} from '@/i18n/routing';
-import {alternatesPara} from '@/lib/seo';
+import {alternatesPara, siteUrl} from '@/lib/seo';
 import {LogoHorizontal} from '@/components/ui/logo';
 import {PeleLanding} from '@/components/landing/pele';
 import {HeroDaManha} from '@/components/landing/hero-da-manha';
@@ -44,10 +44,22 @@ const META = {
 export async function generateMetadata({params}: {params: Promise<{locale: string}>}): Promise<Metadata> {
   const {locale} = await params;
   const l = locale as Locale;
+  // A capa de compartilhamento da landing (Passe 4), na pele do funil e com a capa real
+  // do guia: é o que aparece no anúncio, na bio e no WhatsApp.
+  const imagem = {url: `${siteUrl}/api/compartilhar/guia/${l}`, width: 1200, height: 630, alt: META[l].title};
   return {
     title: META[l].title,
     description: META[l].description,
-    alternates: alternatesPara('/real-cost-guide', l)
+    alternates: alternatesPara('/real-cost-guide', l),
+    openGraph: {
+      type: 'website',
+      siteName: 'Luis Alves REALTOR®',
+      locale: l === 'pt' ? 'pt_BR' : 'en_CA',
+      title: META[l].title,
+      description: META[l].description,
+      images: [imagem]
+    },
+    twitter: {card: 'summary_large_image', images: [imagem.url]}
   };
 }
 

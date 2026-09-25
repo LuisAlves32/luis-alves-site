@@ -23,7 +23,7 @@ const ROBOS_DE_IA = [
 
 // `/api/` recebe pedido, não tem o que indexar. As EXCEÇÕES são as capas de
 // compartilhamento: `/api/capa/` (das notas, e a `image` do BlogPosting) e
-// `/api/compartilhar/` (a do site). Robô de prévia de link precisa buscá-las.
+// `/api/compartilhar/` (a do site e a da landing do guia). Robô de prévia de link precisa buscá-las.
 // `/keystatic` é o painel do Luís.
 const LIBERADO = ['/', '/api/capa/', '/api/compartilhar/'];
 
