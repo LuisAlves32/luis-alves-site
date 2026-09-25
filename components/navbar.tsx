@@ -13,9 +13,27 @@ const ITENS = [
   {href: '/buying', chave: 'buying'},
   {href: '/selling', chave: 'selling'},
   {href: '/presales', chave: 'presales'},
+  // O blog no menu de cima (25/09/2026), com o NOME da publicação e não "Blog": é o
+  // "Journal" das referências, uma publicação do Luís. Antes do About, porque o
+  // conteúdo vem antes de quem o escreve.
+  {href: '/notes', chave: 'notes'},
   {href: '/about', chave: 'about'},
   {href: '/contact', chave: 'contact'}
 ] as const;
+
+/* O MENU COMPLETO SÓ A PARTIR DE `xl` (1280px), e é MEDIDO (25/09/2026): com o blog, a
+   barra em PT pede 1080px sem quebrar linha (logo 133, itens 556, idioma e WhatsApp 279,
+   vãos e calhas 112). Em `lg` (1024px) sobram 1009px, e "Pré-construção", "Segunda
+   Opinião" e o botão do WhatsApp quebravam em duas linhas. Entre 1024 e 1279 vale o menu
+   recolhido, o mesmo do celular. Item novo no menu: medir de novo em PT. */
+
+/* A seção fica marcada também dentro dela: numa nota (`/notes/[slug]`) o item do blog
+   continua aceso. `aria-current="page"` só na página exata; dentro da seção, "true". */
+function estadoDoItem(pathname: string, href: string) {
+  if (pathname === href) return 'page' as const;
+  if (href !== '/' && pathname.startsWith(`${href}/`)) return 'true' as const;
+  return undefined;
+}
 
 
 function SeletorIdioma({
@@ -98,14 +116,15 @@ export function Navbar() {
           <LogoHorizontal className="h-8 w-auto text-tinta" />
         </Link>
 
-        <nav aria-label={t('menu')} className="hidden items-center gap-6 lg:flex">
+        <nav aria-label={t('menu')} className="hidden items-center gap-6 xl:flex">
           {ITENS.map((item) => {
-            const ativo = pathname === item.href;
+            const estado = estadoDoItem(pathname, item.href);
+            const ativo = estado !== undefined;
             return (
               <Link
                 key={item.chave}
                 href={item.href}
-                aria-current={ativo ? 'page' : undefined}
+                aria-current={estado}
                 className={`inline-flex min-h-11 min-w-11 items-center justify-center text-[14.5px] font-medium transition-colors duration-200 ${
                   ativo ? 'text-tinta' : 'text-grafite hover:text-tinta'
                 }`}
@@ -116,7 +135,7 @@ export function Navbar() {
           })}
         </nav>
 
-        <div className="hidden items-center gap-5 lg:flex">
+        <div className="hidden items-center gap-5 xl:flex">
           <SeletorIdioma />
           <a
             href={linkWhatsApp('hero', locale)}
@@ -133,7 +152,7 @@ export function Navbar() {
           onClick={() => setAberto(true)}
           aria-expanded={aberto}
           aria-label={t('abrirMenu')}
-          className="-mr-2 flex size-11 items-center justify-center text-tinta lg:hidden"
+          className="-mr-2 flex size-11 items-center justify-center text-tinta xl:hidden"
         >
           <Menu strokeWidth={1.5} className="size-6" />
         </button>
@@ -144,7 +163,7 @@ export function Navbar() {
           role="dialog"
           aria-modal="true"
           aria-label={t('menu')}
-          className="fixed inset-0 z-50 flex flex-col overflow-y-auto bg-tinta px-6 pb-[calc(24px+env(safe-area-inset-bottom))] pt-3 lg:hidden"
+          className="fixed inset-0 z-50 flex flex-col overflow-y-auto bg-tinta px-6 pb-[calc(24px+env(safe-area-inset-bottom))] pt-3 xl:hidden"
         >
           <div className="flex h-13 items-center justify-end">
             <button
@@ -159,13 +178,14 @@ export function Navbar() {
 
           <nav aria-label={t('menu')} className="mt-6 flex flex-col gap-1.5">
             {ITENS.map((item) => {
-              const ativo = pathname === item.href;
+              const estado = estadoDoItem(pathname, item.href);
+              const ativo = estado !== undefined;
               return (
                 <Link
                   key={item.chave}
                   href={item.href}
                   onClick={() => setAberto(false)}
-                  aria-current={ativo ? 'page' : undefined}
+                  aria-current={estado}
                   className={`rounded-[12px] px-4 py-3 text-[28px] font-semibold leading-tight tracking-[-0.02em] transition-colors duration-200 ${
                     ativo ? 'bg-papel text-tinta' : 'text-papel hover:text-white'
                   }`}
