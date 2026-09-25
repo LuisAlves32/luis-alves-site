@@ -5,6 +5,10 @@ import type {AppPathname, Locale} from '@/i18n/routing';
 export const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
 
+// O `@id` do negócio nos dados estruturados (lib/dados-estruturados.ts). Mora aqui
+// porque o blog (lib/notas-schema.ts) também aponta para ele como empregador do Luís.
+export const ID_DO_AGENTE = `${siteUrl}/#agente`;
+
 // hreflang por página com x-default apontando para o EN (exigência do roteiro.md).
 // Toda página nova chama alternatesPara no seu generateMetadata.
 export function alternatesPara(

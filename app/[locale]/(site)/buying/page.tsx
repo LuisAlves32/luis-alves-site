@@ -4,6 +4,8 @@ import {setRequestLocale} from 'next-intl/server';
 import {Link} from '@/i18n/navigation';
 import type {Locale} from '@/i18n/routing';
 import {alternatesPara} from '@/lib/seo';
+import {grafoDoFaq} from '@/lib/dados-estruturados';
+import {jsonLd} from '@/lib/notas-schema';
 import {Barra} from '@/components/ui/assinatura';
 import {botaoPrimario, Seta} from '@/components/ui/botoes';
 import {Calha} from '@/components/ui/calha';
@@ -178,5 +180,14 @@ export default async function PaginaComprar({
 }) {
   const {locale} = await params;
   setRequestLocale(locale);
-  return <ConteudoComprar locale={locale as Locale} />;
+  const l = locale as Locale;
+  // Passe 4: a FAQ desta página em linguagem de máquina, com o MESMO nó e os
+  // MESMOS itens que o <Faq> desenha.
+  const faq = await grafoDoFaq(l, '/buying', 'paginaComprar.faq', ['q1', 'q2', 'q3', 'q4', 'q5']);
+  return (
+    <>
+      <ConteudoComprar locale={l} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(faq)} />
+    </>
+  );
 }

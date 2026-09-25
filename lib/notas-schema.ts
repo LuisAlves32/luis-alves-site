@@ -1,14 +1,14 @@
 import 'server-only';
 import {getPathname} from '@/i18n/navigation';
-import {siteUrl} from '@/lib/seo';
+import {ID_DO_AGENTE, siteUrl} from '@/lib/seo';
 import type {Nota} from '@/lib/notas';
 
 /**
  * OS DADOS ESTRUTURADOS DO SECOND OPINION (skill seo-e-medicao), fonte única do blog.
  *
  * `Blog` na listagem e `BlogPosting` em cada nota. O autor é o Luís, com o `@id` da
- * pessoa: quando o Passe 4 do site criar o JSON-LD da página About (o RealEstateAgent),
- * ele usa o MESMO `@id` e os dois se reconhecem. Nada de avaliação ou estrela aqui.
+ * pessoa: o grafo do site (lib/dados-estruturados.ts, Passe 4) usa o MESMO `@id` e os
+ * dois se reconhecem. Nada de avaliação ou estrela aqui.
  */
 
 export const ID_DO_LUIS = `${siteUrl}/about#luis-alves`;
@@ -21,7 +21,8 @@ const autor = {
   '@id': ID_DO_LUIS,
   name: 'Luis Alves',
   jobTitle: 'REALTOR®',
-  worksFor: {'@type': 'RealEstateAgent', name: 'Stonehaus Realty Corp.'},
+  // O negócio do grafo do site (lib/dados-estruturados.ts), que liga à Stonehaus.
+  worksFor: {'@id': ID_DO_AGENTE},
   url: `${siteUrl}/about`
 };
 

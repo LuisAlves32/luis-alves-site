@@ -2,6 +2,8 @@ import type {Metadata} from 'next';
 import {setRequestLocale} from 'next-intl/server';
 import type {Locale} from '@/i18n/routing';
 import {alternatesPara} from '@/lib/seo';
+import {grafoDoFaq} from '@/lib/dados-estruturados';
+import {jsonLd} from '@/lib/notas-schema';
 import {HeroDoisAtos} from '@/components/home/hero-dois-atos';
 import {TresCaminhos} from '@/components/home/tres-caminhos';
 import {SobreLuis} from '@/components/home/sobre-luis';
@@ -96,6 +98,14 @@ export default async function Home({
       <Regioes />
       <GuiaNewsletter />
       <Faq />
+      {/* Passe 4: a mesma FAQ em linguagem de máquina. A lista repete o padrão do
+          <Faq> porque constante de arquivo 'use client' chega undefined aqui. */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={jsonLd(
+          await grafoDoFaq(l, '/', 'faq.itens', ['q1', 'q2', 'q3', 'q4', 'q5', 'q6'])
+        )}
+      />
       <CtaFinal locale={l} />
     </main>
   );

@@ -36,6 +36,7 @@ import {
   FORMULARIOS,
   type CampoDeFormulario
 } from '@/lib/formularios';
+import {EVENTOS, marca} from '@/lib/estatistica';
 import {
   EMAIL_CONTATO,
   WHATSAPP_DISPLAY,
@@ -227,12 +228,15 @@ export function FormularioEnvio({
       });
 
       if (resposta.ok) {
+        // O EVENTO DE CONVERSÃO é AQUI, com a rota já confirmando, e NUNCA na
+        // página de obrigado (roteiro.md: quem fecha a aba antes do
+        // redirecionamento também converteu). `marca` é muda sem o script: o
+        // envio nunca depende da estatística.
+        marca(EVENTOS.formulario, {
+          tipo,
+          pagina: window.location.pathname + (ancora ? `#${ancora}` : '')
+        });
         if (sucesso.modo === 'redireciona') {
-          // TODO(evento-conversao): o disparo do evento de conversão é AQUI, no
-          // envio, e NUNCA na página de obrigado (roteiro.md: quem fecha a aba
-          // antes do redirecionamento também converteu). Nenhuma camada de
-          // estatística é instalada nesta rodada, porque isso é o Passe 4, e o
-          // envio nunca pode passar a depender do script de analytics.
           setEstado('sucesso');
           router.push(sucesso.para);
           return;

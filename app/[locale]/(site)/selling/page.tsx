@@ -3,6 +3,8 @@ import {useTranslations} from 'next-intl';
 import {setRequestLocale} from 'next-intl/server';
 import type {Locale} from '@/i18n/routing';
 import {alternatesPara} from '@/lib/seo';
+import {grafoDoFaq} from '@/lib/dados-estruturados';
+import {jsonLd} from '@/lib/notas-schema';
 import {Barra} from '@/components/ui/assinatura';
 import {Calha} from '@/components/ui/calha';
 import {botaoPrimario} from '@/components/ui/botoes';
@@ -237,5 +239,14 @@ export default async function PaginaVender({
 }) {
   const {locale} = await params;
   setRequestLocale(locale);
-  return <ConteudoVender locale={locale as Locale} />;
+  const l = locale as Locale;
+  // Passe 4: a FAQ desta página em linguagem de máquina, com o MESMO nó e os
+  // MESMOS itens que o <Faq> desenha.
+  const faq = await grafoDoFaq(l, '/selling', 'paginaVender.faq', ['q1', 'q2', 'q3', 'q4', 'q5']);
+  return (
+    <>
+      <ConteudoVender locale={l} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(faq)} />
+    </>
+  );
 }

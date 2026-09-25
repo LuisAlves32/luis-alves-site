@@ -1,9 +1,13 @@
+import type {Metadata} from 'next';
 import {Instrument_Serif, Inter} from 'next/font/google';
 import {Camera} from '@/components/camera';
 import {Footer} from '@/components/footer';
 import {Navbar} from '@/components/navbar';
 import {WhatsappFlutuante} from '@/components/whatsapp-flutuante';
 import type {Locale} from '@/i18n/routing';
+import {grafoDoSite} from '@/lib/dados-estruturados';
+import {jsonLd} from '@/lib/notas-schema';
+import {siteUrl} from '@/lib/seo';
 
 /* AS FONTES DO SITE MORAM AQUI, e não no layout do locale (mudança de
    06/09/2026). O layout de cima cobre os DOIS grupos de rota, então declarar
@@ -28,6 +32,29 @@ const instrumentSerif = Instrument_Serif({
   variable: '--font-serifa',
   display: 'swap'
 });
+
+/* A CAPA DE COMPARTILHAMENTO de todas as páginas do site (Passe 4). As páginas só
+   declaram título, descrição e alternates, então este `openGraph` chega a todas elas;
+   a nota do blog declara o próprio e substitui este inteiro (a mesclagem do Next é
+   rasa), que é o que se quer: cada nota tem a capa da cota. O título e a descrição do
+   cartão ficam com os da página (o `<title>` é o que o WhatsApp lê sem og:title). */
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{locale: string}>;
+}): Promise<Metadata> {
+  const {locale} = await params;
+  const imagem = {url: `${siteUrl}/api/compartilhar/${locale}`, width: 1200, height: 630, alt: 'Luis Alves, REALTOR®'};
+  return {
+    openGraph: {
+      type: 'website',
+      siteName: 'Luis Alves REALTOR®',
+      locale: locale === 'pt' ? 'pt_BR' : 'en_CA',
+      images: [imagem]
+    },
+    twitter: {card: 'summary_large_image', images: [imagem.url]}
+  };
+}
 
 // Chrome do SITE: navbar, rodapé e botão flutuante em todas as páginas
 // institucionais. A landing do ebook vive no grupo (funil), sem este chrome,
@@ -69,6 +96,9 @@ export default async function LayoutSite({
             "try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches){var h=document.documentElement;h.setAttribute('data-camera','espera');setTimeout(function(){h.removeAttribute('data-camera')},3000)}}catch(e){}"
         }}
       />
+      {/* Passe 4: quem é o Luís em linguagem de máquina (lib/dados-estruturados.ts). No HTML
+          cru, renderizado no servidor, para o robô que não executa JavaScript. */}
+      <script type="application/ld+json" dangerouslySetInnerHTML={jsonLd(await grafoDoSite(l))} />
       <Navbar />
       {children}
       <Footer locale={l} />

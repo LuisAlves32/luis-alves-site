@@ -2,6 +2,7 @@ import type {Metadata, Viewport} from 'next';
 import {hasLocale, NextIntlClientProvider} from 'next-intl';
 import {setRequestLocale} from 'next-intl/server';
 import {notFound} from 'next/navigation';
+import {Estatistica} from '@/components/estatistica';
 import {MotionProvider} from '@/components/motion-provider';
 import {routing} from '@/i18n/routing';
 import {siteUrl} from '@/lib/seo';
@@ -62,6 +63,9 @@ export default async function LocaleLayout({
         <NextIntlClientProvider>
           <MotionProvider>{children}</MotionProvider>
         </NextIntlClientProvider>
+        {/* Passe 4: estatística sem cookie e os cliques de contato. Aqui, e não no
+            grupo (site), porque a conversão principal (o guia) mora no funil. */}
+        <Estatistica />
       </body>
     </html>
   );

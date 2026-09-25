@@ -38,6 +38,19 @@ const nextConfig: NextConfig = {
         // guia e amanhã o que vier, sem precisar mexer aqui de novo.
         source: '/guia/:arquivo(.*\\.pdf)',
         headers: [{key: 'X-Robots-Tag', value: 'noindex, nofollow'}]
+      },
+      {
+        // O ENDEREÇO DE TESTE FORA DA BUSCA, por HOST (Passe 4, peça do acervo
+        // `passe-4-a-praca`). O `.vercel.app` responde 200 e serve o site inteiro:
+        // sem isto ele vira conteúdo duplicado do luisrealtor.ca. Por cabeçalho
+        // e não por `meta`, porque a meta obrigaria a página a saber o host e
+        // mataria a pré-renderização de todas as rotas. NÃO redirecionar o
+        // `.vercel.app` para o domínio: é a prévia de cada implantação.
+        // `index: false` cravado no código seria a bomba-relógio: no dia do
+        // domínio o site continuaria fora do Google e ninguém lembraria.
+        source: '/:path*',
+        has: [{type: 'host', value: '(?<previa>.*\\.vercel\\.app)'}],
+        headers: [{key: 'X-Robots-Tag', value: 'noindex, nofollow'}]
       }
     ];
   },

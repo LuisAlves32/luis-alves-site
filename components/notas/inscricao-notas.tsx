@@ -5,6 +5,7 @@ import {useId, useState, type FormEvent} from 'react';
 import {useLocale, useTranslations} from 'next-intl';
 import {CampoFlutuante} from '@/components/ui/campo-flutuante';
 import {botaoPrimario, Seta} from '@/components/ui/botoes';
+import {EVENTOS, marca} from '@/lib/estatistica';
 import {CAMPO_ARMADILHA} from '@/lib/formularios';
 import {WHATSAPP_NUMERO} from '@/lib/links';
 import {colarUltimasPalavrasEm} from '@/lib/tipografia-notas';
@@ -69,8 +70,11 @@ export function InscricaoNotas({variante = 'bloco'}: {variante?: 'bloco' | 'faix
           consentTexto: t('inscricao.consentimento').replace(/ /g, ' ')
         })
       });
-      if (resposta.ok) setEstado('sucesso');
-      else setEstado(resposta.status === 400 ? 'erro-campos' : 'erro-sistema');
+      if (resposta.ok) {
+        // Passe 4: a inscrição conta quando a rota confirma. Muda sem o script.
+        marca(EVENTOS.newsletter, {pagina: window.location.pathname, lugar: variante});
+        setEstado('sucesso');
+      } else setEstado(resposta.status === 400 ? 'erro-campos' : 'erro-sistema');
     } catch {
       setEstado('erro-sistema');
     }
