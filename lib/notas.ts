@@ -136,6 +136,13 @@ const todas = cache(async (): Promise<Nota[]> => {
 /** As notas PUBLICADAS ("Pronto para publicar"): índice, sitemap e feed. */
 export const notasPublicadas = cache(async (): Promise<Nota[]> => (await todas()).filter((n) => n.pronta));
 
+/**
+ * TODAS as notas, rascunho inclusive, para a página da nota gerar no BUILD. O rascunho não pode
+ * ficar para ser montado na hora do pedido: a função da Vercel não leva `content/notas/` junto, e
+ * ele dava 404 no ar (medido em 25/09/2026 com a primeira nota salva pelo Luís no painel).
+ */
+export const todasAsNotas = todas;
+
 /** Uma nota pelo slug, rascunho inclusive: o rascunho abre pelo endereço, com noindex, para revisão. */
 export const notaPorSlug = cache(async (slug: string): Promise<Nota | null> => {
   return (await todas()).find((n) => n.slug === slug) ?? null;

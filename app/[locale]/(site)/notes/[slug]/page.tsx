@@ -5,7 +5,7 @@ import {getTranslations, setRequestLocale} from 'next-intl/server';
 import {getPathname, Link} from '@/i18n/navigation';
 import {siteUrl} from '@/lib/seo';
 import {WHATSAPP_NUMERO} from '@/lib/links';
-import {lerCorpo, notaPorSlug, notasPublicadas, traducaoDe, type Nota} from '@/lib/notas';
+import {lerCorpo, notaPorSlug, notasPublicadas, todasAsNotas, traducaoDe, type Nota} from '@/lib/notas';
 import {dataDaNota, mesDaNota, serieDaNota} from '@/lib/notas-formato';
 import {CapaCota} from '@/components/notas/capa-cota';
 import {CorpoNota} from '@/components/notas/corpo-nota';
@@ -23,8 +23,10 @@ import {colarUltimasPalavrasEm} from '@/lib/tipografia-notas';
 
 type Params = Promise<{locale: string; slug: string}>;
 
+// Rascunho INCLUSIVE (ver `todasAsNotas`): montado na hora do pedido, ele dava 404 no ar. Ele
+// continua com noindex e fora do índice, do sitemap e do feed.
 export async function generateStaticParams() {
-  return (await notasPublicadas()).map((n) => ({locale: n.idioma, slug: n.slug}));
+  return (await todasAsNotas()).map((n) => ({locale: n.idioma, slug: n.slug}));
 }
 
 function enderecoAbsoluto(n: Nota): string {
