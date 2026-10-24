@@ -14,22 +14,22 @@ const ITENS = [
   {href: '/selling', chave: 'selling'},
   {href: '/presales', chave: 'presales'},
   {href: '/listings', chave: 'listings'},
-  // O blog no menu de cima (25/09/2026), com o NOME da publica��o e n�o "Blog": � o
-  // "Journal" das refer�ncias, uma publica��o do Lu�s. Antes do About, porque o
-  // conte�do vem antes de quem o escreve.
+  // O blog no menu de cima (25/09/2026), com o NOME da publicação e não "Blog": é o
+  // "Journal" das referências, uma publicação do Luís. Antes do About, porque o
+  // conteúdo vem antes de quem o escreve.
   {href: '/notes', chave: 'notes'},
   {href: '/about', chave: 'about'},
   {href: '/contact', chave: 'contact'}
 ] as const;
 
-/* O MENU COMPLETO S� A PARTIR DE `xl` (1280px), e � MEDIDO (25/09/2026): com o blog, a
+/* O MENU COMPLETO SÓ A PARTIR DE `xl` (1280px), e é MEDIDO (25/09/2026): com o blog, a
    barra em PT pede 1080px sem quebrar linha (logo 133, itens 556, idioma e WhatsApp 279,
-   v�os e calhas 112). Em `lg` (1024px) sobram 1009px, e "Pr�-constru��o", "Segunda
-   Opini�o" e o bot�o do WhatsApp quebravam em duas linhas. Entre 1024 e 1279 vale o menu
+   vãos e calhas 112). Em `lg` (1024px) sobram 1009px, e "Pré-construção", "Segunda
+   Opinião" e o botão do WhatsApp quebravam em duas linhas. Entre 1024 e 1279 vale o menu
    recolhido, o mesmo do celular. Item novo no menu: medir de novo em PT. */
 
-/* A se��o fica marcada tamb�m dentro dela: numa nota (`/notes/[slug]`) o item do blog
-   continua aceso. `aria-current="page"` s� na p�gina exata; dentro da se��o, "true". */
+/* A seção fica marcada também dentro dela: numa nota (`/notes/[slug]`) o item do blog
+   continua aceso. `aria-current="page"` só na página exata; dentro da seção, "true". */
 function estadoDoItem(pathname: string, href: string) {
   if (pathname === href) return 'page' as const;
   if (href !== '/' && pathname.startsWith(`${href}/`)) return 'true' as const;
@@ -46,8 +46,8 @@ function SeletorIdioma({
 }) {
   const locale = useLocale();
   const caminho = usePathname();
-  // Uma NOTA do blog mora num idioma s� (a tradu��o, quando existe, tem o pr�prio
-  // link dentro da nota): trocar de idioma numa nota leva ao �ndice do outro idioma.
+  // Uma NOTA do blog mora num idioma só (a tradução, quando existe, tem o próprio
+  // link dentro da nota): trocar de idioma numa nota leva ao índice do outro idioma.
   const pathname = caminho === '/notes/[slug]' ? '/notes' : caminho;
   const ativo = sobreTinta ? 'font-semibold text-papel' : 'font-semibold text-tinta';
   const inativo = sobreTinta
@@ -79,13 +79,13 @@ function SeletorIdioma({
   );
 }
 
-// Navbar do Passe 1: EST�TICA (a camaleoa de rolagem � do Passe 3).
-// Na HOME ela fica SOBREPOSTA � hero, transparente sobre o v�deo (estado topo
+// Navbar do Passe 1: ESTÁTICA (a camaleoa de rolagem é do Passe 3).
+// Na HOME ela fica SOBREPOSTA à hero, transparente sobre o vídeo (estado topo
 // do design.md), porque o fundo vivo precisa dos 100svh inteiros. Para isso
-// sai do fluxo e vira sticky DENTRO de um inv�lucro da altura da hero: assim
+// sai do fluxo e vira sticky DENTRO de um invólucro da altura da hero: assim
 // ela acompanha os dois atos e, quando a hero acaba, rola embora junto, como
-// nas outras p�ginas. Continua fora do <main>, ent�o o landmark de banner n�o
-// se perde. Nas demais p�ginas nada muda.
+// nas outras páginas. Continua fora do <main>, então o landmark de banner não
+// se perde. Nas demais páginas nada muda.
 export function Navbar() {
   const t = useTranslations('nav');
   const locale = useLocale() as Locale;
@@ -93,7 +93,7 @@ export function Navbar() {
   const [aberto, setAberto] = useState(false);
   const sobreposta = pathname === '/';
 
-  // Trava a rolagem enquanto o overlay tinta est� aberto.
+  // Trava a rolagem enquanto o overlay tinta está aberto.
   useEffect(() => {
     if (!aberto) return;
     const html = document.documentElement;
@@ -113,7 +113,7 @@ export function Navbar() {
       }
     >
       <div className="conteudo flex h-16 items-center justify-between gap-6">
-        <Link href="/" aria-label="Luis Alves REALTOR�" className="inline-flex min-h-11 shrink-0 items-center">
+        <Link href="/" aria-label="Luis Alves REALTOR®" className="inline-flex min-h-11 shrink-0 items-center">
           <LogoHorizontal className="h-8 w-auto text-tinta" />
         </Link>
 
@@ -215,9 +215,9 @@ export function Navbar() {
 
   if (!sobreposta) return cabecalho;
 
-  // Inv�lucro fora do fluxo, do topo do documento at� o fim da hero: � ele que
-  // limita at� onde o sticky gruda. pointer-events s� na barra, sen�o a �rea
-  // vazia do inv�lucro comeria os cliques da hero inteira.
+  // Invólucro fora do fluxo, do topo do documento até o fim da hero: é ele que
+  // limita até onde o sticky gruda. pointer-events só na barra, senão a área
+  // vazia do invólucro comeria os cliques da hero inteira.
   return (
     <div
       className="pointer-events-none absolute inset-x-0 top-0 z-50"
