@@ -13,6 +13,7 @@ const ITENS = [
   {href: '/buying', chave: 'buying'},
   {href: '/selling', chave: 'selling'},
   {href: '/presales', chave: 'presales'},
+  {href: '/listings', chave: 'listings'},
   // O blog no menu de cima (25/09/2026), com o NOME da publicação e não "Blog": é o
   // "Journal" das referências, uma publicação do Luís. Antes do About, porque o
   // conteúdo vem antes de quem o escreve.

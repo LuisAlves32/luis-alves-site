@@ -8,6 +8,7 @@ import {HeroDoisAtos} from '@/components/home/hero-dois-atos';
 import {TresCaminhos} from '@/components/home/tres-caminhos';
 import {SobreLuis} from '@/components/home/sobre-luis';
 import {VendidosHome} from '@/components/home/vendidos-home';
+import {ImoveisAtivosHome} from '@/components/home/imoveis-ativos-home';
 import {Venda} from '@/components/home/venda';
 import {CenaAntes} from '@/components/cena-antes';
 import {Processo} from '@/components/home/processo';
@@ -89,6 +90,7 @@ export default async function Home({
     <main>
       <HeroDoisAtos locale={l} />
       <TresCaminhos />
+      <ImoveisAtivosHome />
       <SobreLuis />
       <VendidosHome />
       <Venda locale={l} />

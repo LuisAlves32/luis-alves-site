@@ -6,6 +6,7 @@
     "buying": "Comprar",
     "selling": "Vender",
     "presales": "Pré-construção",
+    "listings": "Imóveis",
     "notes": "Segunda Opinião",
     "about": "Sobre",
     "contact": "Contato",
@@ -80,6 +81,55 @@
     "apoio": "Uma seleção do mercado, com acesso à busca completa sempre que você quiser explorar por conta própria.",
     "ctaBusca": "Ver todos os imóveis",
     "ctaAlertas": "Receber alertas de novos imóveis"
+  },
+  "imoveisHome": {
+    "kicker": "Imóveis ativos",
+    "titulo": "Disponíveis Agora",
+    "texto": "Imóveis que estou representando neste momento, prontos para você conhecer.",
+    "cta": "Ver Todos os Imóveis"
+  },
+  "paginaImoveis": {
+    "kicker": "Representados por Luis Alves",
+    "titulo": "Imóveis à Venda",
+    "soldTitulo": "Vendidos recentemente.",
+    "etiquetaSold": "Vendido",
+    "subtitulo": "Imóveis disponíveis na Grande Vancouver e no Fraser Valley",
+    "intro": "Cada imóvel desta página é representado por mim. Veja os detalhes, faça o tour 3D ou baixe o brochure. Se algum chamar sua atenção, fale comigo e eu te mostro tudo, em português ou inglês.",
+    "ver": "Ver Imóvel",
+    "contato": "Falar com Luis",
+    "fechamentoTitulo": "Procurando algo diferente?",
+    "fechamentoTexto": "Novas oportunidades aparecem com frequência, e algumas nem chegam ao mercado aberto. Fale comigo e você fica sabendo primeiro.",
+    "vazio": "No momento, não há imóveis ativos. Novas oportunidades aparecem com frequência, e algumas nem chegam ao mercado aberto. Fale comigo e você fica sabendo primeiro.",
+    "meta": {
+      "titulo": "Imóveis à Venda | Luis Alves REALTOR®",
+      "descricao": "Conheça os imóveis representados por Luis Alves na Grande Vancouver e no Fraser Valley, com fotos, detalhes, tours e brochures."
+    },
+    "itens": {
+      "madrona": {
+        "tipo": "Casa independente",
+        "titulo": "2258 Madrona Place, South Surrey",
+        "preco": "CA$2,250,000",
+        "dados": "5 quartos · 6 banheiros · 4.598 sq ft",
+        "texto": "Casa de 2011 com quintal paisagístico pensado para receber: cozinha externa, hot tub e fire pit.",
+        "alt": "Fachada do 2258 Madrona Place ao pôr do sol"
+      },
+      "silverbrook": {
+        "tipo": "Townhomes",
+        "titulo": "Silverbrook, Willoughby",
+        "preco": "A partir de CA$849,900 + GST",
+        "dados": "3 quartos · 2,5 banheiros · 1.421–1.468 sq ft",
+        "texto": "Townhomes contemporâneos em Langley, com área externa privativa, garagem lado a lado em plantas selecionadas e serviços do dia a dia por perto.",
+        "alt": "Fileira de townhomes do Silverbrook sob céu aberto"
+      },
+      "band": {
+        "tipo": "Assignment privado",
+        "titulo": "BAND, West Coquitlam",
+        "preco": "CA$785,000",
+        "dados": "2 quartos · 2 banheiros · 921 sq ft",
+        "texto": "Assignment privado em torre próximo à Burquitlam Station, com vista para as montanhas, varanda de 119 sq ft e amenidades de resort.",
+        "alt": "Sala do BAND com janelas do chão ao teto e vista para as montanhas"
+      }
+    }
   },
   "primeiroImovel": {
     "titulo": "Quanto você realmente precisa para comprar em BC?",
@@ -392,11 +442,6 @@
     "perguntasFecho": "Se a resposta para qualquer uma dessas não estiver por escrito, ela não é uma resposta.",
     "cta": "Falar sobre um projeto específico",
     "altFoto": "Guindaste sobre um prédio em construção ao amanhecer"
-  },
-  "paginaImoveis": {
-    "titulo": "Imóveis em Greater Vancouver e Fraser Valley.",
-    "soldTitulo": "Vendidos recentemente.",
-    "etiquetaSold": "Sold"
   },
   "paginaSobre": {
     "titulo": "Eu prefiro explicar o risco a fechar o negócio.",
