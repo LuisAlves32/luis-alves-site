@@ -80,23 +80,8 @@ const nextConfig: NextConfig = {
       // um link com /en cairia no 404 em vez de na landing.
       {source: '/en/first-home-guide', destination: '/real-cost-guide', permanent: true},
 
-      // A página de IMÓVEIS saiu do site no 2.39 e está guardada em
-      // _arquivo/listings/ (ver _arquivo/README.md). Ela dependia da
-      // integração MLS/IDX da Stonehaus, que segue pendente, e por isso vivia
-      // de listing esquelético. O site já esteve em produção, então a URL pode
-      // ter sido aberta ou indexada: as três grafias caem na home em vez do
-      // 404. A PT vai para /pt, e não para /, para não trocar o idioma de quem
-      // clicou (mesmo critério dos três redirects do guia acima).
-      {source: '/listings', destination: '/', permanent: true},
-      {source: '/pt/imoveis', destination: '/pt', permanent: true},
-      {source: '/en/listings', destination: '/', permanent: true},
-      // As DUAS grafias cruzadas também existiam, e isto foi MEDIDO com a rota
-      // viva /buying como controle: /comprar responde 307 para /buying, e
-      // /pt/buying responde 307 para /pt/comprar. Ou seja, o next-intl servia
-      // QUATRO formas por rota, não três, então sem estas duas linhas as duas
-      // últimas grafias de imóveis cairiam em 404.
-      {source: '/imoveis', destination: '/', permanent: true},
-      {source: '/pt/listings', destination: '/pt', permanent: true}
+      // A página de imóveis voltou com três listings reais. O next-intl cuida
+      // das grafias localizadas; nenhum redirect pode interceptar a rota viva.
     ];
   },
 
