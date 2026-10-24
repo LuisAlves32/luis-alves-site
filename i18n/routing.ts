@@ -10,6 +10,7 @@ export const routing = defineRouting({
     '/buying': {en: '/buying', pt: '/comprar'},
     '/selling': {en: '/selling', pt: '/vender'},
     '/presales': {en: '/presales', pt: '/pre-construcao'},
+    '/listings': {en: '/listings', pt: '/imoveis'},
     '/about': {en: '/about', pt: '/sobre'},
     '/contact': {en: '/contact', pt: '/contato'},
     '/real-cost-guide': {en: '/real-cost-guide', pt: '/guia-custo-real'},
