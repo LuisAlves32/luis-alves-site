@@ -16,6 +16,7 @@ const NAVEGACAO = [
   {href: '/buying', chave: 'buying'},
   {href: '/selling', chave: 'selling'},
   {href: '/presales', chave: 'presales'},
+  {href: '/listings', chave: 'listings'},
   {href: '/about', chave: 'about'},
   {href: '/contact', chave: 'contact'}
 ] as const;
