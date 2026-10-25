@@ -4,19 +4,19 @@ import {ArrowUpRight} from 'lucide-react';
 const IMOVEIS = [
   {
     id: 'madrona',
-    imagem: '/homes/_next/static/immutable/media/hero-desktop.26klxl7i6brq-.jpg',
+    imagem: '/homes/capas/2258-madrona-place',
     href: '/homes/2258-madrona-place',
     foco: '50% 50%'
   },
   {
     id: 'silverbrook',
-    imagem: '/homes/_next/static/immutable/media/hero-desktop.2mpfwccs05eu4.jpg',
+    imagem: '/homes/capas/silverbrook',
     href: '/homes/silverbrook',
     foco: '50% 55%'
   },
   {
     id: 'band',
-    imagem: '/homes/_next/static/immutable/media/hero-desktop.44ironup93hez.jpg',
+    imagem: '/homes/capas/band',
     href: '/homes/band',
     foco: '50% 48%'
   }
