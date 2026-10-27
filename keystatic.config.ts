@@ -64,12 +64,12 @@ export default config({
           defaultValue: false
         }),
         /* A PUBLICAÇÃO PROGRAMADA (27/10/2026). Quem publica é a tarefa do GitHub
-           (`.github/workflows/publicar-notas-programadas.yml`), uma vez por dia no fim da tarde de
-           Vancouver: ela marca "Pronto para publicar" nas notas com esta caixa cuja data chegou. */
+           (`.github/workflows/publicar-notas-programadas.yml`), toda manhã de Vancouver (antes da
+           newsletter das terças, às 13h30 de Brasília): ela marca "Pronto para publicar" nas notas com esta caixa cuja data chegou. */
         publicarNaData: fields.checkbox({
           label: 'Publicar sozinha na data',
           description:
-            'Para deixar a nota programada: marque esta caixa, deixe "Pronto para publicar" DESMARCADO e escolha a "Data de publicação". No dia, no fim da tarde de Vancouver, a nota entra no site sozinha.',
+            'Para deixar a nota programada: marque esta caixa, deixe "Pronto para publicar" DESMARCADO e escolha a "Data de publicação". No dia, de manhã (horário de Vancouver), a nota entra no site sozinha.',
           defaultValue: false
         }),
         idioma: fields.select({
