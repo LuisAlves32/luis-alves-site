@@ -483,6 +483,11 @@
   .corpo-nota strong { color: var(--cor-tinta); }
   .corpo-nota a {
     color: var(--cor-tinta);
+    /* A linha precisa ser LIGADA: o preflight do Tailwind deixa o link com text-decoration
+       herdado (none), e só a cor da linha não desenhava nada. O link lia como texto comum, só
+       um tom mais escuro: cor como único sinal (medido em 27/10/2026, no primeiro link do blog). */
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
     text-decoration-color: var(--cor-avanco);
     text-underline-offset: 3px;
   }

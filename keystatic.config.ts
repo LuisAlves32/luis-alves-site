@@ -63,6 +63,15 @@ export default config({
             'Desmarcado, a nota fica salva mas NÃO aparece no site, no Google nem no e-mail dos inscritos. Marque só quando o texto estiver revisado: marcada, ela sai no e-mail da manhã seguinte e e-mail não tem volta.',
           defaultValue: false
         }),
+        /* A PUBLICAÇÃO PROGRAMADA (27/10/2026). Quem publica é a tarefa do GitHub
+           (`.github/workflows/publicar-notas-programadas.yml`), uma vez por dia no fim da tarde de
+           Vancouver: ela marca "Pronto para publicar" nas notas com esta caixa cuja data chegou. */
+        publicarNaData: fields.checkbox({
+          label: 'Publicar sozinha na data',
+          description:
+            'Para deixar a nota programada: marque esta caixa, deixe "Pronto para publicar" DESMARCADO e escolha a "Data de publicação". No dia, no fim da tarde de Vancouver, a nota entra no site sozinha.',
+          defaultValue: false
+        }),
         idioma: fields.select({
           label: 'Idioma da nota',
           description: 'O idioma em que a nota foi escrita.',

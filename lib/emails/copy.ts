@@ -155,15 +155,17 @@ export const NEWSLETTER = {
   en: {
     botao: 'Read the full note',
     fonte: 'Source',
-    motivo:
-      'You are receiving this email because you subscribed to the Second Opinion at luisrealtor.ca.',
+    /* O motivo vale para as DUAS origens da base (27/10/2026): quem se inscreveu pelo site e a
+       lista de newsletter que o Luís já tinha no Mailchimp, importada no Resend. "Inscreveu-se na
+       Second Opinion em luisrealtor.ca" era falso para a segunda, e a CASL pede motivo verdadeiro. */
+    motivo: 'You are receiving this email because you subscribed to Luis Alves’s newsletter.',
     acao: 'To stop receiving it, unsubscribe here.',
     ancora: 'unsubscribe here'
   },
   pt: {
     botao: 'Ler a nota inteira',
     fonte: 'Fonte',
-    motivo: 'Você recebe este e-mail porque se inscreveu na Segunda Opinião em luisrealtor.ca.',
+    motivo: 'Você recebe este e-mail porque se inscreveu na newsletter de Luis Alves.',
     acao: 'Para deixar de receber, cancele aqui.',
     ancora: 'cancele aqui'
   }
