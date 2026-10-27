@@ -1,0 +1,47 @@
+# A PUBLICAÇÃO PROGRAMADA DO BLOG (27/10/2026). Ver scripts/publicar-notas-programadas.mjs.
+#
+# Roda duas vezes por dia, às 14h e às 15h UTC (11h e 12h em Brasília, começo da manhã em
+# Vancouver), antes da newsletter das terças, que sai às 13h30 de Brasília: o agendamento do
+# GitHub pode atrasar, e a segunda volta cobre o atraso da primeira. Rodar duas vezes não publica
+# duas vezes: a nota já pronta é ignorada.
+# O commit desta tarefa dispara o deploy da Vercel como qualquer commit do painel.
+
+name: Publicar notas programadas
+
+on:
+  schedule:
+    - cron: '0 14 * * *'
+    - cron: '0 15 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: publicar-notas-programadas
+  cancel-in-progress: false
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Marcar como prontas as notas cuja data chegou
+        run: node scripts/publicar-notas-programadas.mjs
+
+      - name: Gravar e publicar
+        run: |
+          if git diff --quiet -- content/notas; then
+            echo "Nada para publicar hoje."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add content/notas
+          git commit -m "blog: publica as notas programadas para hoje"
+          git push
