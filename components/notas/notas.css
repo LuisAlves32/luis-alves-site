@@ -270,6 +270,32 @@
     text-wrap: balance;
   }
 
+  /* A capa pobre em MINIATURA (capa-cota.tsx): a cota mede o título. A linha passa 16px de
+     cada lado e as chamadas sobem só até o vão acima dela, sem riscar o texto. O título tem
+     teto de 3 linhas: a capa tem altura fixa e nenhum título pode estourá-la. */
+  .capa-cota[data-forma='leitura'][data-tamanho='previa'] .capa-medida {
+    grid-template-columns: auto;
+  }
+  .capa-cota[data-forma='leitura'][data-tamanho='previa'] .capa-titulo {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    max-width: 220px;
+    font-size: 1.2rem;
+    text-align: center;
+  }
+  .capa-cota[data-forma='leitura'][data-tamanho='previa'] .cota-linha {
+    width: calc(100% + 32px);
+    margin-top: 16px;
+  }
+  .capa-cota[data-forma='leitura'][data-tamanho='previa'] .cota-linha [data-cota-peca='chamada'] {
+    height: 26px;
+  }
+  .capa-cota[data-forma='leitura'][data-tamanho='previa'] .capa-rotulo {
+    margin-top: 14px;
+  }
+
   /* ---------- o índice do dossiê ---------- */
   .indice-notas {
     list-style: none;

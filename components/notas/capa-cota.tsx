@@ -104,6 +104,19 @@ export function CapaCota({
             </div>
             {legenda ? <p className="capa-rotulo">{legenda}</p> : null}
           </>
+        ) : forma === 'leitura' && tamanho === 'previa' ? (
+          // A capa pobre em miniatura (prévia do índice e da inscrição): o tempo e o título
+          // lado a lado não cabem em 300px, e a linha do índice já diz o tempo. Aqui a cota
+          // mede o TÍTULO, e o tempo desce para o rótulo. Vale para qualquer título.
+          <div className="cota-bloco">
+            <div className="cota-par">
+              <p className="capa-titulo">{titulo}</p>
+              <Linha />
+            </div>
+            <p className="capa-rotulo">
+              {minutosTexto} {rotuloLeitura}
+            </p>
+          </div>
         ) : (
           <>
             <div className="cota-bloco">
