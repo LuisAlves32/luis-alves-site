@@ -105,6 +105,14 @@
       "descricao": "Conheça os imóveis representados por Luis Alves na Grande Vancouver e no Fraser Valley, com fotos, detalhes, tours e brochures."
     },
     "itens": {
+      "headwaters": {
+        "tipo": "Apartamento",
+        "titulo": "#202 · 15428 31 Avenue, South Surrey",
+        "preco": "CA,900",
+        "dados": "2 quartos · 2 banheiros · 945 pés²",
+        "texto": "Dois quartos, duas suítes e 945 pés² (cerca de 88 m²) com vista para as árvores. Ele foi reformado em 2018 para ser o apartamento decorado da segunda fase do condomínio.",
+        "alt": "Cozinha e sala integradas no Headwaters Club, South Surrey"
+      },
       "madrona": {
         "tipo": "Casa independente",
         "titulo": "2258 Madrona Place, South Surrey",
