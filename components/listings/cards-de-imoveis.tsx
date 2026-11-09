@@ -3,6 +3,12 @@ import {ArrowUpRight} from 'lucide-react';
 
 const IMOVEIS = [
   {
+    id: 'headwaters',
+    imagem: '/homes/capas/202-15428-31-avenue',
+    href: '/homes/202-15428-31-avenue',
+    foco: '50% 55%'
+  },
+  {
     id: 'madrona',
     imagem: '/homes/capas/2258-madrona-place',
     href: '/homes/2258-madrona-place',
@@ -22,11 +28,19 @@ const IMOVEIS = [
   }
 ] as const;
 
+/* A grade segue a CONTAGEM: com quatro imóveis, três colunas deixariam um card sozinho na última linha.
+   Quatro vira 2 x 2 na página e quatro lado a lado na home (o card compacto não leva texto). */
+const QUATRO = IMOVEIS.length % 4 === 0;
+const COLUNAS = {
+  compacto: QUATRO ? 'lg:grid-cols-2 xl:grid-cols-4' : 'lg:grid-cols-3',
+  pagina: QUATRO ? 'md:grid-cols-2' : 'md:grid-cols-2 xl:grid-cols-3'
+};
+
 export function CardsDeImoveis({compacto = false}: {compacto?: boolean}) {
   const t = useTranslations('paginaImoveis');
 
   return (
-    <div className={`grid grid-cols-1 gap-6 ${compacto ? 'lg:grid-cols-3' : 'md:grid-cols-2 xl:grid-cols-3'}`}>
+    <div className={`grid grid-cols-1 gap-6 ${COLUNAS[compacto ? 'compacto' : 'pagina']}`}>
       {IMOVEIS.map((imovel) => (
         <article key={imovel.id} className="group overflow-hidden rounded-[var(--card-raio)] border border-lapis bg-papel">
           <a href={imovel.href} className="block" aria-label={`${t(`itens.${imovel.id}.titulo`)} — ${t('ver')}`}>
